@@ -1,0 +1,19 @@
+# Model per role for the document-review task (review_task.py). Only clinician and grader are
+# used; the rest are filled because every config assigns every role.
+# OpenAI only (the clinical lead, 9 Nov): the clinician is the feasibility flagship; the grader as before.
+roles:
+  clinician:
+    model: openai/gpt-6-astra
+    reasoning_effort: high
+  patient:
+    model: openai/gpt-6-luna
+    reasoning_effort: low
+  carer:
+    model: openai/gpt-6-luna
+    reasoning_effort: low
+  checker:
+    model: openai/gpt-6-luna
+    reasoning_effort: medium
+  grader:
+    model: openai/gpt-6.1-sol
+    reasoning_effort: high

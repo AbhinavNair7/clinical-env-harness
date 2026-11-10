@@ -1,0 +1,1073 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case writer</title>
+<!-- Case-writing form (see DESIGN.md and docs/case-writing-guide.md). Self-contained and
+     offline: no network requests. Work is kept in this browser's localStorage and exported as
+     Markdown with the form data embedded, so a downloaded draft can be opened again here. -->
+<style>
+:root {
+  --paper: #f6f5f0; --ink: #1c1f1e; --muted: #575d59; --line: #d8d4c8;
+  --surface: #ffffff; --accent: #1d5c58; --warn: #8f3518; --field-line: #8c8a80;
+  --serif: "Iowan Old Style", "Charter", "Palatino Linotype", Georgia, serif;
+  --ui: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: auto; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.55 var(--ui); }
+a { color: var(--accent); }
+.top {
+  position: sticky; top: 0; z-index: 5; display: flex; gap: 12px; align-items: center;
+  justify-content: space-between; padding: 10px 24px; background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+.brand { font-family: var(--serif); font-size: 15px; }
+.brand b { font-weight: 600; }
+.actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.small { font-size: 13px; }
+.failed { color: var(--warn); }
+.muted { color: var(--muted); }
+.shell { display: grid; grid-template-columns: 220px minmax(0, 1fr); max-width: 1320px; margin: 0 auto; }
+.rail {
+  position: sticky; top: 57px; align-self: start; height: calc(100vh - 57px); overflow: auto;
+  padding: 24px 16px; border-right: 1px solid var(--line);
+}
+.rail ol { list-style: none; margin: 0; padding: 0; }
+.rail a {
+  display: flex; gap: 10px; align-items: center; padding: 6px 8px; border-radius: 6px;
+  color: var(--ink); text-decoration: none; font-size: 13px;
+}
+.rail a:hover { background: #ecebe4; }
+.dot { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--muted); flex: none; }
+.dot.on { background: var(--accent); border-color: var(--accent); }
+.dot.bad { background: var(--warn); border-color: var(--warn); border-radius: 1px; }
+main { min-width: 0; }
+section { padding: 40px 32px; border-bottom: 1px solid var(--line); scroll-margin-top: 60px; }
+section > h2 { font: 400 24px/1.15 var(--serif); margin: 0 0 6px; }
+.lede { color: var(--muted); font-size: 13px; margin: 0 0 20px; max-width: 70ch; }
+.spread { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 40px; }
+.margin { border-left: 1px solid var(--line); padding-left: 24px; font-family: var(--serif); }
+.margin > summary { list-style: none; font: 600 13px/1.4 var(--ui); color: var(--muted); margin-bottom: 8px; cursor: default; }
+.margin > summary::-webkit-details-marker { display: none; }
+.note { font-size: 15px; line-height: 1.5; }
+.note p { margin: 0 0 10px; }
+.note dl { margin: 0; }
+.note dt { font: 600 13px/1.4 var(--ui); color: var(--muted); margin-top: 10px; }
+.note dd { margin: 2px 0 0; }
+.note ul, .note ol { margin: 4px 0 10px; padding-left: 18px; }
+.note li { margin-bottom: 4px; }
+.tag { font: 600 13px/1 var(--ui); color: var(--muted); }
+.tag.w { color: var(--warn); }
+.field { margin-bottom: 16px; }
+label, legend, .label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+.hint { color: var(--muted); font-size: 13px; margin: 0 0 6px; max-width: 64ch; }
+input[type=text], input[type=number], textarea, select {
+  width: 100%; font: inherit; color: inherit; background: var(--surface);
+  border: 1px solid var(--field-line); border-radius: 6px; padding: 8px 10px; min-height: 40px;
+}
+textarea { resize: vertical; overflow: hidden; line-height: 1.5; }
+::placeholder { color: #6b706c; }
+input:focus, textarea:focus, select:focus { border-color: var(--accent); outline: 2px solid var(--accent); outline-offset: 0; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+fieldset { border: 0; padding: 0; margin: 0 0 16px; min-width: 0; }
+.opts { display: flex; flex-direction: column; gap: 6px; }
+.opts.inline { flex-direction: row; flex-wrap: wrap; gap: 6px 18px; }
+.opt { display: flex; gap: 8px; align-items: flex-start; font-weight: 400; font-size: 15px; margin: 0; cursor: pointer; }
+.opt input { margin: 4px 0 0; width: 16px; height: 16px; accent-color: var(--accent); flex: none; }
+.opt small { display: block; color: var(--muted); font-size: 13px; }
+button, .btn {
+  font: inherit; font-size: 13px; min-height: 36px; padding: 6px 12px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink); border-radius: 6px; cursor: pointer;
+  text-decoration: none; display: inline-flex; align-items: center;
+}
+button:hover, .btn:hover { border-color: var(--muted); }
+.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.primary:hover { border-color: var(--ink); }
+.add { border-style: dashed; background: transparent; margin-top: 4px; }
+.del { background: transparent; border-color: transparent; color: var(--muted); }
+.del:hover { color: var(--warn); border-color: transparent; text-decoration: underline; }
+.rows { display: flex; flex-direction: column; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: start; padding: 10px 0; border-top: 1px dashed var(--line); }
+.row:first-child { border-top: 0; padding-top: 0; }
+.cols { display: grid; gap: 8px; align-items: start; }
+.cols.c-acc { grid-template-columns: minmax(0, 1fr) 150px; }
+.cols.c4 { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+.cols.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cols.c-who { grid-template-columns: minmax(0, 1fr) 130px; }
+.cols.c-meta { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin-top: 6px; }
+.cols.c-item { grid-template-columns: minmax(0, 1fr) 110px 120px; }
+.cols.c-exam { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+.cols.c-hist { grid-template-columns: 1fr 1fr; }
+.carer-off .cols.c-hist { grid-template-columns: 1fr; }
+.cols.obs { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+.cols .field { margin-bottom: 0; }
+.sub { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 8px; }
+.sub:first-child { border-top: 0; padding-top: 0; margin-top: 0; }
+h3 { font: 600 15px/1.3 var(--serif); margin: 0 0 10px; }
+.vhead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.carer-off .needs-carer { display: none; }
+.checks { list-style: none; padding: 0; margin: 0 0 20px; }
+.checks li { padding: 6px 0 6px 22px; position: relative; border-top: 1px solid var(--line); }
+.checks li::before { content: ""; position: absolute; left: 2px; top: 13px; width: 8px; height: 8px; border-radius: 50%; }
+.checks .error::before { background: var(--warn); }
+.checks .warn::before { border: 1.5px solid var(--warn); }
+.checks .info::before { border: 1.5px solid var(--muted); }
+.checks .ok::before { background: var(--accent); }
+.checks .error { color: var(--warn); }
+.checks a { color: inherit; }
+pre.out {
+  white-space: pre-wrap; word-break: break-word; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 6px; padding: 16px; font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+  max-height: 60vh; overflow: auto; margin: 0;
+}
+.bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.privacy { border-left: 3px solid var(--warn); padding: 8px 12px; background: var(--surface); font-size: 13px; margin: 0 0 20px; max-width: 70ch; }
+@media (max-width: 999px) {
+  .top { position: static; padding: 8px 16px; flex-wrap: wrap; }
+  section { scroll-margin-top: 0; }
+  .shell { grid-template-columns: 1fr; }
+  .rail { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line); padding: 8px 16px; overflow-x: auto; }
+  .rail ol { display: flex; gap: 2px; white-space: nowrap; }
+  section { padding: 28px 16px; }
+  .spread { grid-template-columns: 1fr; gap: 16px; }
+  .margin { order: -1; border-left: 0; padding: 0 0 12px; border-bottom: 1px solid var(--line); }
+  .margin > summary { cursor: pointer; color: var(--accent); min-height: 44px; display: flex; align-items: center; }
+  .cols.c3 { grid-template-columns: 1fr 1fr; }
+  button, .btn { min-height: 44px; }
+  input[type=text], textarea, select { font-size: 16px; min-height: 44px; }
+  .rail a { min-height: 44px; }
+  .opt { min-height: 44px; align-items: center; }
+  .opt input { margin: 0; }
+}
+@media (max-width: 520px) {
+  .cols.c-acc, .cols.c-who, .cols.c3, .cols.c-exam, .cols.c-hist { grid-template-columns: 1fr; }
+  .cols.c-item { grid-template-columns: 1fr 1fr; }
+  .cols.c-item > :first-child { grid-column: 1 / -1; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><b>Case writer</b> <span class="small muted" id="caseName"></span></div>
+  <div class="actions">
+    <span id="saveState" class="small muted"></span>
+    <button type="button" data-action="open">Open a draft</button>
+    <input type="file" id="fileInput" accept=".md,.json,.txt,text/markdown,application/json" hidden>
+    <button type="button" data-action="edith">Load Edith</button>
+    <button type="button" data-action="new">New case</button>
+    <a class="btn" href="#export">Checks and export</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="rail" aria-label="Sections"><ol id="nav"></ol></nav>
+  <main id="main"><noscript><p style="padding:40px 32px">This form needs JavaScript turned on. Nothing is sent anywhere.</p></noscript></main>
+</div>
+<script>
+"use strict";
+
+// ---------- Vocabulary. Trait, source, accuracy, setting, stage, kind, interjection and
+// messiness values are the enum values in src/clinical_env/case_schema.py (a test checks this);
+// truth headings and action/detect are form labels the agent maps when converting. ----------
+const PERSON_TRAITS = [
+  ["denies_minimises", "Denies or minimises", "falls, alcohol, not coping"],
+  ["tangents", "Goes off on tangents", ""],
+  ["poor_recall", "Poor recall", "vague or wrong medicine names, times and dates"],
+];
+const CARER_TRAITS = PERSON_TRAITS.concat([["carer_dominates", "Dominates", "answers for the patient or contradicts them"]]);
+const RECORD_TRAITS = [
+  ["contradicts_other_records", "Contradicts another record"],
+  ["contradicts_itself", "Contradicts itself"],
+  ["miscoded", "Miscoded, or a wrong diagnosis carried forward"],
+  ["long_noisy", "Long or noisy"],
+  ["outdated_entries", "Outdated entries (a stopped medicine still listed)"],
+];
+const SOURCES = [
+  ["patient", "Patient"], ["carer", "Carer"], ["gp_record", "GP record"],
+  ["care_agency_notes", "Care agency notes"], ["discharge_summary", "Discharge summary"],
+  ["pharmacy_record", "Pharmacy or dosette"], ["ambulance_report", "Ambulance report"],
+];
+const RECORDS = new Set(["gp_record", "care_agency_notes", "discharge_summary", "pharmacy_record", "ambulance_report"]);
+const ACCURACY = [["true", "True"], ["wrong", "Wrong"], ["outdated", "Out of date"]];
+const HOW = [["volunteered", "Says it unprompted"], ["if_asked", "Only if asked"]];
+const TRUTH = [
+  ["function", "Function and ADLs", "Washing, dressing, meals, continence: what they actually manage."],
+  ["mobility", "Mobility and aids", "How they walk, which aids they use (and which sit folded in the hall)."],
+  ["falls", "Falls", "Every fall, when, and who knows about it."],
+  ["meds", "Medicines actually taken", "What goes in, not what is prescribed. Who gives anything outside the blister pack."],
+  ["care", "Care actually delivered", "Calls, their length and timing, compared with what was commissioned."],
+  ["risks", "Risks", "Anything that could go badly: postural drop, no way to call for help, hazards, carer strain."],
+  ["background", "Background", "Past history, social life, drink and smoking, what they want."],
+];
+const HISTORY = [
+  ["washing", "Washing and dressing"], ["toileting", "Toileting and continence"],
+  ["stairs", "Stairs and mobility"], ["meals", "Meals and shopping"], ["help", "Help they get"],
+  ["medicines", "Medicines"], ["memory", "Memory"], ["mood", "Mood and sleep"],
+  ["alcohol", "Alcohol and smoking"], ["pain", "Pain"], ["wants", "What they want from the visit"],
+];
+const SETTINGS = [["home_visit", "Home visit"], ["clinic", "Surgery"], ["phone", "Phone"]];
+const OBS = [["pulse", "Pulse"], ["bp", "BP"], ["temp", "Temperature"], ["rr", "Resp. rate"], ["sats", "O₂ sats"]];
+const STAGES = [["intake", "Intake"], ["triage", "Triage"], ["history", "History"], ["records", "Records"],
+  ["examination", "Examination"], ["plan", "Plan"], ["follow_up", "Follow-up"]];
+const KINDS = [["must_do", "Must do"], ["must_not_do", "Must not do"], ["red_flag", "Red flag"]];
+const CTYPES = [["action", "Action (needed whatever the sources say)"], ["detect", "Detect (exists only because sources disagree)"]];
+const INTERJECT = [["always", "Always"], ["sometimes", "Sometimes"], ["never", "Never"]];
+const MESSINESS = [
+  ["mild", "Mild", "One stale entry; everyone mostly honest. A nearly clean case."],
+  ["moderate", "Moderate", "A few sources disagree and one person plays things down."],
+  ["high", "High", "A confidently wrong carer, records that contradict themselves; little can be taken at face value."],
+];
+
+// ---------- Blank state and row factories ----------
+const NEW = {
+  line: () => ({ text: "", acc: "", when: "", how: "" }),
+  hidden: () => ({ fact: "", who: "", reveal: "", when: "" }),
+  event: () => ({ text: "" }),
+  exam: () => ({ label: "", finding: "" }),
+  crit: () => ({ what: "", kind: "", visit: "", type: "", stage: "" }),
+  item: () => ({ text: "", visit: "", weight: "" }),
+  visit: () => ({ day: "", setting: "", present: [], reason: "", changed: [NEW.event()],
+    obs: Object.fromEntries(OBS.map(([k]) => [k, ""])), exams: [NEW.exam()] }),
+};
+function blank() {
+  const v1 = NEW.visit(); v1.day = "0";
+  return {
+    version: 1, title: "", messiness: "", tests: "",
+    patient: { name: "", age: "", living: "", conditions: "", cognition: "", speech: "", agenda: "", interjection: "", traits: [] },
+    carer: { present: "", name: "", age: "", relationship: "", how_often: "", believes: "", agenda: "", speech: "", interjection: "", traits: [] },
+    truth: Object.fromEntries(TRUTH.map(([k]) => [k, ""])),
+    sources: Object.fromEntries(SOURCES.map(([k]) => [k, { lines: [NEW.line()], traits: [], notes: "" }])),
+    history: Object.fromEntries(HISTORY.map(([k]) => [k, { patient: "", carer: "" }])),
+    outside_pack: "", herrings: "",
+    hidden: [NEW.hidden()],
+    visits: [v1, NEW.visit()],
+    criticals: [NEW.crit(), NEW.crit()],
+    must_do: [NEW.item()], must_not: [NEW.item()], red_flags: [NEW.item()],
+    twin: "",
+  };
+}
+
+// ---------- Edith Marsh, the worked example (from cases/dev/edith_marsh.yaml) ----------
+const EDITH = (() => {
+  const s = blank();
+  s.title = "Edith Marsh - falls, a dosette nobody updated and a daughter who says she is fine";
+  s.messiness = "moderate";
+  s.tests = "Furosemide was stopped at discharge but the dosette still has it. Visit 2 tests whether the GP checks that the visit-1 change actually happened.";
+  s.patient = {
+    name: "Edith Marsh", age: "84",
+    living: "Lives alone in a two-storey terraced house; bedroom and toilet upstairs. Care agency twice daily; daughter on Sundays.",
+    conditions: "Mild Alzheimer's disease, hypertension, CKD 3a, glaucoma, knee osteoarthritis. Admitted 3 weeks before visit 1 after a fall with a postural drop.",
+    cognition: "Mild Alzheimer's. Forgets recent events, including falls, but covers well socially.",
+    speech: "Warm and chatty; wanders off topic; calls people \"love\" now and then. Calls furosemide \"my water tablet\" and doesn't know the other names.",
+    agenda: "Wants to stay in her own home and not be a bother. Plays down problems.",
+    interjection: "sometimes", traits: ["denies_minimises", "tangents", "poor_recall"],
+  };
+  s.carer = {
+    present: "yes", name: "Janet Price", age: "56", relationship: "Daughter",
+    how_often: "Sundays only; works full time.",
+    believes: "Mum is managing fine, and the hospital and pharmacy sorted the tablets.",
+    agenda: "Wants her mother to stay at home. Defensive if a care home is mentioned; feels guilty.",
+    speech: "Brisk and plain-spoken, no pet names, a little defensive, speaks for her mother.",
+    interjection: "always", traits: ["carer_dominates", "denies_minimises"],
+  };
+  s.truth = {
+    function: "Washes and dresses with prompting from the morning carer. Has stopped using the cooker and skips lunch. Occasional urinary incontinence she hides.",
+    mobility: "Stick and furniture-walking indoors. The frame from discharge is folded in the hallway, unused. Unsteady on turning; stairs slowly with the rail.",
+    falls: "Two in the past month: the one that led to admission, and one in the hallway 9 days before visit 1 (agency found her; paramedics came). She doesn't remember the second; nobody told Janet. From visit 2: a third fall at night going to the toilet, about 6 hours on the bathroom floor, bruising only.",
+    meds: "Takes furosemide every morning from the dosette although the hospital stopped it (no heart failure; it worsens the postural drop). Evening donepezil missed most nights: the call comes after 9pm and she's in bed by 8.30. Eye drops are outside the pack; she's meant to do them and mostly forgets.",
+    care: "Two calls a day of about 15 minutes (the record says 30). Evening call often after 9pm. No lunch call. The package no longer fits.",
+    risks: "Symptomatic postural hypotension, systolic drop about 30, worse in the mornings. Pendant alarm taken off and lost. Loose hallway rug, dim landing. Janet has never had a carer's assessment. From visit 2: probable delirium from a urine infection (low-grade fever, off her food, muddled, worse at night); needs a same-day face-to-face assessment.",
+    background: "Widowed 10 years (Frank). Lonely at times, not depressed. Small sherry most evenings, never smoked. Neighbour chats over the fence but gives no practical help.",
+  };
+  const L = (text, acc, how = "", when = "") => ({ text, acc, when, how });
+  s.sources = {
+    patient: { traits: [], notes: "", lines: [
+      L("I haven't had any falls. Well, only the one before the hospital.", "wrong", "if_asked"),
+      L("I take all my tablets. The girls see to that.", "wrong", "if_asked"),
+      L("I do all my own meals, I always have.", "wrong", "if_asked"),
+      L("I do my eye drops myself, at bedtime.", "wrong", "if_asked"),
+      L("The frame is for when I'm poorly. I manage with my stick.", "true", "if_asked")] },
+    carer: { traits: [], notes: "", lines: [
+      L("Mum's managing fine. She's always tidy and cheerful when I come round.", "wrong", "volunteered", "1-1"),
+      L("She had that one fall before the hospital. Nothing since, as far as I know.", "wrong", "if_asked", "1-1"),
+      L("The hospital sorted her tablets out and the chemist does the pods.", "wrong", "if_asked"),
+      L("I'd assumed the carers do her eye drops with her tablets.", "wrong", "if_asked"),
+      L("She fell in the night on Saturday going to the loo and was on the bathroom floor till the carer came. The paramedics left her at home.", "true", "volunteered", "2-"),
+      L("I stayed the weekend. She was up in the night not knowing where she was, and she'd wet the bed. That's not like her.", "true", "volunteered", "2-"),
+      L("She's at home. I'm ringing from work; the carers still come morning and evening.", "true", "if_asked", "2-"),
+      L("She didn't hit her head as far as I know. Just the bruise on her arm.", "true", "if_asked", "2-"),
+      L("She's better in the daytime, just a bit muddled. She's drinking her tea.", "true", "if_asked", "2-")] },
+    gp_record: { traits: ["contradicts_other_records", "outdated_entries", "long_noisy"],
+      notes: "Long problem list and old consultations. Discharge summary filed 'awaiting GP review', never actioned.", lines: [
+      L("Repeat list still has furosemide 40mg each morning.", "outdated"),
+      L("Medication review 7 months ago: no falls reported, memory stable per daughter.", "outdated"),
+      L("BPPV, resolved after Epley manoeuvre.", "true"),
+      L("Social care letter: two 30-minute calls daily.", "outdated")] },
+    care_agency_notes: { traits: ["contradicts_other_records"],
+      notes: "Templated log that makes everything sound fine ('client in good spirits').", lines: [
+      L("Evening medicines, last 14 days: given 5, not given 9 (asleep or declined).", "true"),
+      L("9 days before visit 1: found on the hallway floor, paramedics attended, not conveyed. Office informed (Janet wasn't).", "true"),
+      L("Calls about 15 minutes; evening call after 9pm.", "true"),
+      L("Lunch sandwich left uneaten in the fridge.", "true"),
+      L("5 days before visit 2: found on the bathroom floor, says she fell in the night. Bruise to right arm. Paramedics attended, not conveyed. Daughter informed.", "true", "", "2-")] },
+    discharge_summary: { traits: ["contradicts_other_records"], notes: "Diagnosis and changes only, no BP numbers.", lines: [
+      L("Fall at home secondary to postural hypotension.", "true"),
+      L("Furosemide 40mg STOPPED: no heart failure, postural drop. GP please update repeats.", "true"),
+      L("Discharged with a walking frame; use it at all times.", "true")] },
+    pharmacy_record: { traits: [], notes: "", lines: [
+      L("Weekly blister pack: morning furosemide 40mg, amlodipine 10mg; night donepezil 10mg, atorvastatin 20mg. Eye drops supplied separately.", "true"),
+      L("3 days before visit 2: blister pack dispensed again, contents unchanged.", "true", "", "2-")] },
+    ambulance_report: { traits: [], notes: "", lines: [
+      L("Unwitnessed fall 9 days before visit 1, found by care worker at the morning call. Mechanical fall, not conveyed. GP to consider falls referral.", "true"),
+      L("5 days before visit 2: fall at night going to the toilet, likely long lie. Bruising right forearm, no head injury. Not conveyed; GP to review.", "true", "", "2-")] },
+  };
+  const H = (patient, carer) => ({ patient, carer });
+  s.history = {
+    washing: H("I see to my own washing and dressing. The girl's just there for company. (wrong)", "The carers help her wash, I think."),
+    toileting: H("The odd accident if I can't get there in time (hidden: only if asked about her bladder).", "Wet clothes in the wash basket (hidden: only if asked what she's seen)."),
+    stairs: H("Slowly, holding the rail. My bedroom and the toilet are upstairs.", ""),
+    meals: H("Janet does a big shop for me on a Sunday.", "I do a big shop on Sundays and fill her fridge."),
+    help: H("The girls come morning and night. Very good, but always rushing.", "The carers come morning and evening. They do her tablets and help her wash, I think."),
+    medicines: H("I take all my tablets. Water tablet every morning, up and down to the toilet after (hidden).", "The hospital sorted her tablets out."),
+    memory: H("My memory's not what it was, but I get by.", "Worse than last year, but she's still Mum. She covers it well."),
+    mood: H("A bit lonely since Frank passed, but I'm all right. In bed by half eight.", "Lonely since Dad died. Always early to bed."),
+    alcohol: H("Just a small sherry of an evening. Never smoked.", ""),
+    pain: H("Only my knees, the usual. Paracetamol if they're bad.", ""),
+    wants: H("To stay in my own home. I don't want to go into a home.", "Her to stay at home, with more help if that's what it takes."),
+  };
+  s.outside_pack = "Latanoprost eye drops: nobody gives them. Edith thinks she does, Janet assumes the carers do, the carers give only the blister pack.";
+  s.herrings = "BPPV 6 years ago, resolved after an Epley manoeuvre, still on the GP problem list. Today's dizziness is postural, not positional.";
+  const X = (fact, who, reveal, when = "") => ({ fact, who, reveal, when });
+  s.hidden = [
+    X("Comes over giddy on standing, mostly in the mornings; it passes if she sits.", "patient", "dizziness or light-headedness on standing"),
+    X("Still has the water tablet every morning.", "patient", "the water tablet, furosemide, or passing urine"),
+    X("Has a pendant alarm somewhere but can't find it.", "patient", "a pendant alarm, or how she'd get help after a fall"),
+    X("Grabbed the table getting up; wet clothes in the wash; out-of-date food in the fridge.", "carer", "what she has actually seen at home, not just how Mum is"),
+    X("Frightened you'll say a care home; feels guilty she isn't there more.", "carer", "how she's coping or what worries her, or a care home or respite is mentioned"),
+    X("Didn't know about the hallway fall: 'Nobody told me.'", "carer", "being told the records show a fall since the hospital", "1-1"),
+    X("The morning pod's got a white one in it that says furosemide 40.", "carer", "being asked to check or read out the tablets in the dosette", "2-"),
+    X("She felt hot on Sunday night, she's barely eating, and her wee smells strong.", "carer", "fever or feeling hot, eating and drinking, or urine", "2-"),
+  ];
+  const E = (label, finding) => ({ label, finding });
+  s.visits = [
+    { day: "0", setting: "home_visit", present: ["patient", "carer"],
+      reason: "The care agency phoned: Edith was found on the floor last week and is missing evening medicines. Janet is there for the visit.",
+      changed: [NEW.event()],
+      obs: { pulse: "76 regular", bp: "130/72 sitting", temp: "36.6 C", rr: "16", sats: "96% on air" },
+      exams: [
+        E("Lying and standing BP", "Lying 138/76, pulse 76; standing 108/64 at 1 minute, 112/66 at 3 minutes; dizzy on standing."),
+        E("Gait and mobility", "Rises at the second attempt, pushing up with her arms. Slow with a stick, reaching for furniture; unsteady on turning. Frame unused."),
+        E("General appearance", "Thin, clothes hang loose, food marks, hair unwashed. Alert and chatty. Lips a little dry."),
+        E("Home hazards", "Loose hallway rug; dim landing light; frame folded by the front door."),
+        E("Dosette", "Morning: furosemide 40mg, amlodipine 10mg. Five of last week's seven night slots still full. Eye drops opened 9 weeks ago, nearly full."),
+        E("Cognition screen", "6CIT 12 out of 28: wrong month, recalls 2 of 5."),
+        E("Kitchen and fridge", "Cooker cold and dusty; out-of-date milk and ham; two curled sandwiches."),
+        E("Pendant alarm", "Not worn, not found; base unit working."),
+        E("Heart, chest and ankles", "Normal heart sounds, chest clear, no ankle oedema, JVP not raised."),
+        E("Capillary glucose", "6.1 mmol/L."),
+      ] },
+    { day: "14", setting: "phone", present: ["carer"],
+      reason: "Janet asked for a call back after her mother's fall.",
+      changed: [
+        { text: "Edith fell at night going to the toilet 5 days ago and lay on the bathroom floor until the morning call. Paramedics found bruising only and left her at home." },
+        { text: "The pharmacy dispensed the blister pack again 3 days ago with the same contents (true whatever the GP planned)." },
+        { text: "Janet stayed with her mother for the weekend after the fall." },
+      ],
+      obs: Object.fromEntries(OBS.map(([k]) => [k, ""])), exams: [NEW.exam()] },
+  ];
+  const C = (what, kind, visit, type, stage) => ({ what, kind, visit, type, stage });
+  s.criticals = [
+    C("Reconciles medicines across the discharge summary, GP record, dosette and what she takes; stops furosemide with a reason and gets the pharmacy to remove it from the dosette.", "must_do", "1", "action", "records"),
+    C("Falls and function: checks lying and standing BP and gait, and refers to the falls service or community physio and OT.", "must_do", "1", "action", "examination"),
+    C("Reviews whether the care package still fits (short, late calls; missed evening medicines; no lunch call) and requests a social care reassessment.", "must_do", "1", "action", "plan"),
+    C("Screens for acute illness, recognises probable delirium after a long lie, and arranges a same-day face-to-face assessment (999 if red flags).", "red_flag", "2", "action", "triage"),
+  ];
+  const I = (text, visit, weight) => ({ text, visit, weight });
+  s.must_do = [
+    I("Asks Janet what she has actually seen rather than accepting 'managing fine'.", "1", "3"),
+    I("Plans for missed evening donepezil: moves it to the morning or asks for the call time to change.", "1", "2"),
+    I("Reviews amlodipine in light of the postural drop.", "1", "1"),
+    I("Offers Janet a carer's assessment.", "1", "1"),
+    I("Checks whether furosemide is still in the dosette instead of assuming the change happened.", "2", "3"),
+  ];
+  s.must_not = [
+    I("Continues or restarts furosemide on the strength of the GP repeat list.", "1", "3"),
+    I("Puts the dizziness down to the old BPPV without checking lying and standing BP.", "1", "2"),
+    I("Recommends a care home before a care reassessment and falls work-up.", "1", "2"),
+    I("Manages the new confusion by phone alone, with no assessment arranged.", "2", "3"),
+  ];
+  s.red_flags = [I("", "", "")];
+  s.twin = "Same Edith, everyone accurate: Edith says she's had a couple of falls and misses her night tablet, Janet knows about both falls, the GP record shows the furosemide was stopped. The problems are in plain view.";
+  return s;
+})();
+
+// ---------- State, paths, storage ----------
+const KEY = "clinical-env.case-form.v1";
+let state = blank();
+let saveTimer = null;
+
+function getP(path, obj = state) {
+  return path.split(".").reduce((o, k) => (o == null ? undefined : o[k]), obj);
+}
+function setP(path, value) {
+  const keys = path.split(".");
+  const last = keys.pop();
+  const parent = keys.reduce((o, k) => o[k], state);
+  parent[last] = value;
+}
+function merge(base, loaded) {
+  // Shape a loaded draft like a blank one, so an older or partial file never breaks the form.
+  if (Array.isArray(base)) return Array.isArray(loaded) ? loaded : base;
+  if (base && typeof base === "object") {
+    const out = {};
+    for (const k of Object.keys(base)) out[k] = loaded && k in loaded ? merge(base[k], loaded[k]) : base[k];
+    return out;
+  }
+  if (loaded == null) return base;
+  return typeof base === "number" ? Number(loaded) || base : String(loaded);
+}
+function normalise(s) {
+  // Rows inside arrays are not covered by merge(); fill their missing keys too.
+  const fill = (arr, make) => (arr.length ? arr : [make()]).map((r) => merge(make(), r));
+  for (const [k] of SOURCES) s.sources[k].lines = fill(s.sources[k].lines, NEW.line);
+  s.hidden = fill(s.hidden, NEW.hidden);
+  s.visits = fill(s.visits, NEW.visit).map((v) => ({ ...v, changed: fill(v.changed, NEW.event), exams: fill(v.exams, NEW.exam) }));
+  s.criticals = fill(s.criticals, NEW.crit);
+  for (const k of ["must_do", "must_not", "red_flags"]) s[k] = fill(s[k], NEW.item);
+  s.visits[0].day = "0";
+  return s;
+}
+function load(data) { state = normalise(merge(blank(), data)); }
+function clone(o) { return JSON.parse(JSON.stringify(o)); }
+
+function save() {
+  const el = document.getElementById("saveState");
+  try {
+    localStorage.setItem(KEY, JSON.stringify(state));
+    const t = new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+    el.textContent = "Saved in this browser " + t;
+    el.classList.remove("failed");
+  } catch (e) {
+    el.textContent = "Not saved in this browser: download to keep your work";
+    el.classList.add("failed");
+  }
+}
+function changed() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => { save(); refreshDerived(); }, 300);
+  const el = document.getElementById("saveState");
+  if (!el.classList.contains("failed")) el.textContent = "Saving…";
+}
+
+// ---------- Small HTML helpers ----------
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const idOf = (p) => "f_" + p.replace(/\./g, "_");
+function field(p, label, o = {}) {
+  const id = idOf(p);
+  const hint = o.hint ? `<p class="hint" id="${id}_h">${o.hint}</p>` : "";
+  const desc = (o.hint ? ` aria-describedby="${id}_h"` : "") + (o.labelledby ? ` aria-labelledby="${o.labelledby}"` : "");
+  const ph = o.ph ? ` placeholder="${esc(o.ph)}"` : "";
+  const input = o.area
+    ? `<textarea id="${id}" data-p="${p}" rows="${o.rows || 2}"${ph}${desc}></textarea>`
+    : `<input id="${id}" type="text" data-p="${p}"${ph}${desc}${o.inputmode ? ` inputmode="${o.inputmode}"` : ""}>`;
+  return `<div class="field">${label ? `<label for="${id}">${label}</label>` : ""}${hint}${input}</div>`;
+}
+function bare(p, aria, o = {}) {
+  const ph = o.ph ? ` placeholder="${esc(o.ph)}"` : "";
+  return o.area
+    ? `<textarea data-p="${p}" rows="${o.rows || 1}" aria-label="${esc(aria)}"${ph}></textarea>`
+    : `<input type="text" data-p="${p}" aria-label="${esc(aria)}"${ph}>`;
+}
+function select(p, label, options, o = {}) {
+  const id = idOf(p);
+  const opts = [`<option value="">${o.empty || "Choose"}</option>`].concat(options.map(([v, t]) => `<option value="${v}">${esc(t)}</option>`));
+  const lab = o.hideLabel ? "" : `<label for="${id}">${label}</label>`;
+  const aria = o.hideLabel ? ` aria-label="${esc(label)}"` : "";
+  return `<div class="field">${lab}<select id="${id}" data-p="${p}"${aria}${o.rerender ? ' data-rerender="1"' : ""}>${opts.join("")}</select></div>`;
+}
+function radios(p, legend, options, o = {}) {
+  return `<fieldset><legend>${legend}</legend>${o.hint ? `<p class="hint">${o.hint}</p>` : ""}<div class="opts${o.inline ? " inline" : ""}">` +
+    options.map(([v, t, d]) => `<label class="opt"><input type="radio" name="${p}" data-p="${p}" value="${v}"${o.rerender ? ' data-rerender="1"' : ""}><span>${esc(t)}${d ? `<small>${esc(d)}</small>` : ""}</span></label>`).join("") +
+    `</div></fieldset>`;
+}
+function checks(p, legend, options, o = {}) {
+  return `<fieldset><legend>${legend}</legend>${o.hint ? `<p class="hint">${o.hint}</p>` : ""}<div class="opts${o.inline ? " inline" : ""}">` +
+    options.map(([v, t, d]) => `<label class="opt"><input type="checkbox" data-p="${p}" data-v="${v}"><span>${esc(t)}${d ? `<small>${esc(d)}</small>` : ""}</span></label>`).join("") +
+    `</div></fieldset>`;
+}
+function rows(path, kind, rowFn, o = {}) {
+  const arr = getP(path);
+  const body = arr.map((r, i) => `<div class="row"><div>${rowFn(`${path}.${i}`, r, i)}</div>` +
+    `<button type="button" class="del" data-del="${path}" data-i="${i}" data-kind="${kind}">Remove<span class="vh"> ${esc(o.noun || "line")} ${i + 1}</span></button></div>`).join("");
+  const add = !o.max || arr.length < o.max
+    ? `<button type="button" class="add" data-add="${path}" data-kind="${kind}">+ ${esc(o.add || "Add a line")}</button>` : "";
+  return `<div class="rows">${body}</div>${add}`;
+}
+const visitOpts = () => state.visits.map((_, i) => [String(i + 1), `Visit ${i + 1}`]);
+// "a-b" = visits a to b; "a-" = visit a onwards; "" = every visit.
+function whenOpts(n = state.visits.length) {
+  const out = [];
+  for (let a = 1; a <= n; a++) for (let b = a; b <= n; b++) {
+    if (a === 1 && b === n) continue;
+    out.push([b === n ? `${a}-` : `${a}-${b}`, a === b && b !== n ? `Visit ${a} only` : b === n ? `From visit ${a}` : `Visits ${a} to ${b}`]);
+  }
+  return out;
+}
+function whenLabel(w) { return w ? (whenOpts(3).concat(whenOpts(2)).find(([k]) => k === w) || [, `visits ${w}`])[1] : "Every visit"; }
+const WEIGHTS = [["3", "3 important"], ["2", "2 should"], ["1", "1 nice"]];
+const label = (list, v) => (list.find(([k]) => k === v) || [, v])[1];
+
+// ---------- Edith margin helpers ----------
+const dl = (pairs) => `<dl>${pairs.filter(([, v]) => v).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>`;
+const accTag = (a) => a && a !== "true" ? `<span class="tag w">${esc(label(ACCURACY, a).toUpperCase())}</span> ` : "";
+const traitList = (list, vs) => vs.map((v) => label(list, v)).join("; ");
+const lineMeta = (l) => {
+  const bits = [l.when ? whenLabel(l.when) : "", l.how ? label(HOW, l.how) : ""].filter(Boolean);
+  return bits.length ? ` <span class="tag">${esc(bits.join(" · ").toUpperCase())}</span>` : "";
+};
+
+// ---------- Sections ----------
+const SECTIONS = [
+  {
+    id: "about", title: "The case", keys: ["title", "messiness", "tests"],
+    lede: "Start from a real messy patient you remember, then fictionalise: new name, age moved a few years, a different town and family, dates only relative to visit 1. Never paste from a real letter.",
+    body: () => field("title", "Title", { hint: "Name, then the problem in a few words.", ph: "Name - the problem in a few words" }) +
+      radios("messiness", "Messiness", MESSINESS, { hint: "How hard the sources make it, not how ill the patient is. The pilot needs a spread." }) +
+      field("tests", "What the case tests", { area: true, rows: 2, hint: "One or two sentences: the trap, and what good care looks like." }),
+    edith: (E) => dl([["Title", E.title], ["Messiness", label(MESSINESS, E.messiness)], ["What it tests", E.tests]]),
+  },
+  {
+    id: "patient", title: "Patient", keys: ["patient"],
+    lede: "Who they are and how they talk. Anything wrong they say goes in the sources section as a wrong line; habits only shape how they say it.",
+    body: () => `<div class="cols c-who">${field("patient.name", "Name")}${field("patient.age", "Age", { inputmode: "numeric" })}</div>` +
+      field("patient.living", "Living situation", { area: true }) +
+      field("patient.conditions", "Main conditions", { area: true }) +
+      field("patient.cognition", "Cognition", { area: true, rows: 1 }) +
+      field("patient.speech", "How they talk", { area: true, hint: "Voice, words they use for their medicines, health literacy." }) +
+      field("patient.agenda", "What they want, and what they play down", { area: true, rows: 1 }) +
+      radios("patient.interjection", "Chips in when the carer is being asked?", INTERJECT, { inline: true }) +
+      checks("patient.traits", "Habits", PERSON_TRAITS),
+    edith: (E) => dl([["Name and age", `${E.patient.name}, ${E.patient.age}`], ["Living situation", E.patient.living], ["Main conditions", E.patient.conditions],
+      ["Cognition", E.patient.cognition], ["How they talk", E.patient.speech], ["Agenda", E.patient.agenda],
+      ["Chips in", label(INTERJECT, E.patient.interjection)], ["Habits", traitList(PERSON_TRAITS, E.patient.traits)]]),
+  },
+  {
+    id: "carer", title: "Carer", keys: ["carer"],
+    lede: "Only if realistic for this patient: about half to two thirds of the pilot cases have one. Don't add a carer just to make a conflict.",
+    body: () => radios("carer.present", "Is there a carer in this case?", [["yes", "Yes"], ["no", "No carer"]], { inline: true, rerender: true }) +
+      `<div class="needs-carer"><div class="cols c-who">${field("carer.name", "Name")}${field("carer.age", "Age", { inputmode: "numeric" })}</div>` +
+      field("carer.relationship", "Relationship") +
+      field("carer.how_often", "How often they see the patient", { area: true, rows: 1 }) +
+      field("carer.believes", "What they believe", { area: true }) +
+      field("carer.agenda", "Their agenda", { area: true, rows: 1 }) +
+      field("carer.speech", "How they talk", { area: true, rows: 1 }) +
+      radios("carer.interjection", "Chips in when the patient is being asked?", INTERJECT, { inline: true }) +
+      checks("carer.traits", "Habits", CARER_TRAITS) + `</div>`,
+    edith: (E) => dl([["Who", `${E.carer.name}, ${E.carer.age}, ${E.carer.relationship.toLowerCase()}`], ["How often", E.carer.how_often],
+      ["Believes", E.carer.believes], ["Agenda", E.carer.agenda], ["How they talk", E.carer.speech],
+      ["Chips in", label(INTERJECT, E.carer.interjection)], ["Habits", traitList(CARER_TRAITS, E.carer.traits)]]),
+  },
+  {
+    id: "truth", title: "What's really true", keys: ["truth"],
+    lede: "The ground truth the GP has to dig out. The model never sees this; the grader does. Mark anything that only becomes true later (\"From visit 2: a third fall\").",
+    body: () => TRUTH.map(([k, t, h]) => field(`truth.${k}`, t, { area: true, hint: h })).join(""),
+    edith: (E) => dl(TRUTH.map(([k, t]) => [t, E.truth[k]])),
+  },
+  {
+    id: "sources", title: "What each source says", keys: ["sources"],
+    lede: "One line per thing a source says that bears on the truth. Mark anything wrong or out of date, and say which visits it applies to: what the carer says on the visit-2 phone call, a fall that only reaches the records by visit 2. Leave a source empty if it plays no part. The agent writes the records out in full from these lines and your notes.",
+    body: () => SOURCES.map(([k, t]) => `<div class="sub${k === "carer" ? " needs-carer" : ""}"><h3>${esc(t)}</h3>` +
+      rows(`sources.${k}.lines`, "line", (p) => bare(p + ".text", `${t}: what it says`, { area: true, ph: RECORDS.has(k) ? "What the record says" : "What they say, in their words" }) +
+        `<div class="cols c-meta">${select(p + ".acc", `${t}: accuracy`, ACCURACY, { hideLabel: true, empty: "Accuracy" })}` +
+        `${select(p + ".when", `${t}: which visits`, whenOpts(), { hideLabel: true, empty: "Every visit" })}` +
+        (RECORDS.has(k) ? "" : select(p + ".how", `${t}: how it comes out`, HOW, { hideLabel: true, empty: "Unprompted or asked?" })) + `</div>`) +
+      (RECORDS.has(k) ? `<div class="sub" style="border:0;padding-top:12px">${checks(`sources.${k}.traits`, "What makes it messy", RECORD_TRAITS, { inline: true })}` +
+        field(`sources.${k}.notes`, "Notes for writing it out", { area: true, rows: 1, hint: "How it should read: cluttered, templated, handwritten-style, what's filed and never actioned." }) + `</div>` : "") +
+      `</div>`).join(""),
+    edith: (E) => SOURCES.map(([k, t]) => {
+      const src = E.sources[k];
+      const lines = src.lines.filter((l) => l.text);
+      if (!lines.length) return "";
+      return `<p><b>${esc(t)}</b>${src.traits.length ? `<br><span class="tag">${esc(traitList(RECORD_TRAITS, src.traits))}</span>` : ""}</p>` +
+        `<ul>${lines.map((l) => `<li>${accTag(l.acc)}${esc(l.text)}${lineMeta(l)}</li>`).join("")}</ul>`;
+    }).join(""),
+  },
+  {
+    id: "history", title: "Standard history", keys: ["history", "outside_pack"],
+    lede: "What the patient and carer each say about every topic a GP routinely asks, so the simulator never makes it up. Only symptoms they have need writing: anything not listed is one they don't have.",
+    body: () => HISTORY.map(([k, t]) => `<div class="field"><span class="label">${esc(t)}</span><div class="cols c-hist">` +
+      `<div><span class="hint">Patient says</span>${bare(`history.${k}.patient`, `${t}: patient says`, { area: true })}</div>` +
+      `<div class="needs-carer"><span class="hint">Carer says</span>${bare(`history.${k}.carer`, `${t}: carer says`, { area: true })}</div></div></div>`).join("") +
+      field("outside_pack", "Who gives each medicine outside the blister pack?", { area: true, hint: "Drops, inhalers, creams, patches. Every run asks this, so script it." }),
+    edith: (E) => `<dl>${HISTORY.map(([k, t]) => `<dt>${esc(t)}</dt><dd>${esc(E.history[k].patient)}${E.history[k].carer ? `<br><i>Janet:</i> ${esc(E.history[k].carer)}` : ""}</dd>`).join("")}` +
+      `<dt>Outside the blister pack</dt><dd>${esc(E.outside_pack)}</dd></dl>`,
+  },
+  {
+    id: "herrings", title: "Long-standing conditions and red herrings", keys: ["herrings"],
+    lede: "Optional. An old diagnosis that invites the wrong explanation, or more than one cause for a symptom.",
+    body: () => field("herrings", "", { area: true, rows: 3, labelledby: "herrings_t" }),
+    edith: (E) => `<p>${esc(E.herrings)}</p>`,
+  },
+  {
+    id: "hidden", title: "Hidden facts", keys: ["hidden"],
+    lede: "Facts that only come out if the GP asks the right question. Write the topic a GP would ask about, not the exact words.",
+    body: () => rows("hidden", "hidden", (p) => field(p + ".fact", "Fact", { area: true, rows: 1 }) +
+      `<div class="cols c-who">${field(p + ".reveal", "Revealed if asked about", { area: true, rows: 1 })}${select(p + ".who", "Who says it", [["patient", "Patient"], ["carer", "Carer"]])}</div>` +
+      `<div class="cols c-meta">${select(p + ".when", "Which visits", whenOpts(), { empty: "Every visit" })}</div>`,
+      { add: "Add a hidden fact", noun: "fact" }),
+    edith: (E) => `<ol>${E.hidden.map((h) => `<li>${esc(h.fact)}<br><span class="tag">${esc([h.who, h.when ? whenLabel(h.when) : ""].filter(Boolean).join(" · ").toUpperCase())} · IF ASKED ABOUT</span> ${esc(h.reveal)}</li>`).join("")}</ol>`,
+  },
+  {
+    id: "visits", title: "Visits", keys: ["visits"],
+    lede: "Two or three. Events between visits must make sense whatever the GP did last time: good care is never punished by a fixed event. An examination you don't list comes back unremarkable and an investigation you don't list is \"not available\", so list every abnormal finding the truth implies.",
+    body: () => state.visits.map((v, i) => {
+      const p = `visits.${i}`;
+      const head = `<div class="vhead"><h3>Visit ${i + 1}${i === 0 ? " · day 0" : ""}</h3>${i > 0 ? `<button type="button" class="del" data-del="visits" data-i="${i}" data-kind="visit">Remove visit ${i + 1}</button>` : ""}</div>`;
+      return `<div class="sub">${head}<div class="cols c3">` +
+        (i > 0 ? field(p + ".day", "Days after visit 1", { inputmode: "numeric" }) : "") +
+        select(p + ".setting", "Setting", SETTINGS) + `</div>` +
+        checks(p + ".present", "Who's there", [["patient", "Patient"], ["carer", "Carer"]], { inline: true }) +
+        field(p + ".reason", "Why the visit is happening", { area: true }) +
+        (i > 0 ? `<div class="field"><span class="label">What changed since last time</span>` + rows(p + ".changed", "event", (q) => bare(q + ".text", `Visit ${i + 1}: event`, { area: true, ph: "An event that fits any earlier plan" }), { add: "Add an event", noun: "event" }) + `</div>` : "") +
+        `<div class="field"><span class="label">Basic observations</span><p class="hint">One each. Asking for "obs" returns them all. Leave blank on a phone visit.</p><div class="cols obs">` +
+        OBS.map(([k, t]) => `<div class="field">${`<label for="${idOf(p + ".obs." + k)}">${t}</label><input id="${idOf(p + ".obs." + k)}" type="text" data-p="${p}.obs.${k}">`}</div>`).join("") + `</div></div>` +
+        `<div class="field"><span class="label">Examination findings</span><p class="hint">Lying and standing BP, gait, home hazards, dosette contents, cognition screen; any test result you want available.</p>` +
+        rows(p + ".exams", "exam", (q) => `<div class="cols c-exam">${bare(q + ".label", `Visit ${i + 1}: examination`, { area: true, ph: "Examination" })}${bare(q + ".finding", `Visit ${i + 1}: finding`, { area: true, ph: "Finding" })}</div>`, { add: "Add a finding", noun: "finding" }) +
+        `</div></div>`;
+    }).join("") + (state.visits.length < 3 ? `<button type="button" class="add" data-add="visits" data-kind="visit">+ Add visit ${state.visits.length + 1}</button>` : ""),
+    edith: (E) => E.visits.map((v, i) => `<p><b>Visit ${i + 1}, day ${esc(v.day)}:</b> ${esc(label(SETTINGS, v.setting).toLowerCase())}, ${esc(v.present.join(" and "))}. ${esc(v.reason)}</p>` +
+      (v.changed.some((c) => c.text) ? `<p class="tag">SINCE LAST TIME</p><ul>${v.changed.filter((c) => c.text).map((c) => `<li>${esc(c.text)}</li>`).join("")}</ul>` : "") +
+      (v.exams.some((x) => x.label) ? `<p class="tag">OBS</p><p>${esc(OBS.map(([k, t]) => `${t} ${v.obs[k]}`).join(", "))}</p><p class="tag">FINDINGS (${v.exams.length})</p><ul>${v.exams.slice(0, 5).map((x) => `<li><i>${esc(x.label)}:</i> ${esc(x.finding)}</li>`).join("")}<li>…and ${v.exams.length - 5} more, normal ones included so nothing reads "unremarkable" against the truth.</li></ul>` : "")).join(""),
+  },
+  {
+    id: "criticals", title: "Critical items", keys: ["criticals"],
+    lede: "These decide the pilot: a model fails the case if it misses any one. 2 to 4 (5 at most, in a 3-visit case that genuinely needs it), each something you'd criticise a GP for missing, at a named visit, gradable from the transcript. Rank your candidates and keep the top 4; the rest go below with a weight. Where you can, make one a do-everything plan fails (a must-not, or a must-do with restraint built in).",
+    body: () => rows("criticals", "crit", (p) => field(p + ".what", "What the GP must do (or must not do)", { area: true, rows: 2 }) +
+      `<div class="cols c4">${select(p + ".kind", "Kind", KINDS)}${select(p + ".visit", "Visit", visitOpts())}${select(p + ".type", "Type", CTYPES.map(([v, t]) => [v, t.split(" (")[0]]))}${select(p + ".stage", "Stage", STAGES)}</div>`,
+      { add: "Add a critical item", noun: "critical", max: 5 }) +
+      `<p class="hint" style="margin-top:12px">Action: needed whatever the sources say. Detect: exists only because the sources disagree (a twin case drops these).</p>`,
+    edith: (E) => `<ol>${E.criticals.map((c) => `<li>${esc(c.what)}<br><span class="tag">${esc([label(KINDS, c.kind), "visit " + c.visit, c.type, label(STAGES, c.stage)].join(" · ").toUpperCase())}</span></li>`).join("")}</ol>` +
+      `<p>Edith has no must-not critical: the only candidate, continuing furosemide, restates the first. It sits below as a weight-3 must-not.</p>`,
+  },
+  {
+    id: "other", title: "Other must do, must not do, red flags", keys: ["must_do", "must_not", "red_flags"],
+    lede: "Scored, but never decide go or stop. Weight 3 important, 2 should, 1 nice. At visit 2 or 3 the grader already checks the GP follows up its own plan; add an item only for a case-specific check.",
+    body: () => [["must_do", "Must do", "Add a must do"], ["must_not", "Must not do", "Add a must not"], ["red_flags", "Red flags", "Add a red flag"]].map(([k, t, a]) =>
+      `<div class="sub"><h3>${t}</h3>` + rows(k, "item", (p) => `<div class="cols c-item">${bare(p + ".text", `${t}: item`, { area: true })}${select(p + ".visit", `${t}: visit`, visitOpts(), { hideLabel: true, empty: "Visit" })}${select(p + ".weight", `${t}: weight`, WEIGHTS, { hideLabel: true, empty: "Weight" })}</div>`, { add: a, noun: "item" }) + `</div>`).join(""),
+    edith: (E) => [["Must do", E.must_do], ["Must not do", E.must_not]].map(([t, list]) =>
+      `<p class="tag">${t.toUpperCase()}</p><ul>${list.map((x) => `<li>${esc(x.text)} <span class="tag">V${esc(x.visit)} · W${esc(x.weight)}</span></li>`).join("")}</ul>`).join("") +
+      `<p class="tag">RED FLAGS</p><p>The visit-2 delirium is Edith's only red flag, and it is a critical.</p>`,
+  },
+  {
+    id: "twin", title: "Twin", keys: ["twin"],
+    lede: "Optional; only if asked. What each source says when everyone tells the truth and the problem is in plain view. The agent can draft it.",
+    body: () => field("twin", "", { area: true, rows: 3, labelledby: "twin_t" }),
+    edith: (E) => `<p>${esc(E.twin)}</p>`,
+  },
+];
+
+// ---------- Checks ----------
+const MONTHS = "jan(uary)?|feb(ruary)?|mar(ch)?|apr(il)?|may|june?|july?|aug(ust)?|sep(t|tember)?|oct(ober)?|nov(ember)?|dec(ember)?";
+const PRIVACY = [
+  ["an NHS number", /\b\d{3}[ -]?\d{3}[ -]?\d{4}\b/],
+  ["a calendar date", /\b\d{1,2}[\/.-]\d{1,2}[\/.-](\d{4}|\d{2})\b/],
+  ["a calendar date", /\b(19|20)\d{2}-\d{1,2}-\d{1,2}\b/],
+  ["a calendar date", new RegExp(`\\b\\d{1,2}(st|nd|rd|th)?\\s+(${MONTHS})\\.?,?\\s+(19|20)\\d{2}\\b`, "i")],
+  ["a calendar date", new RegExp(`\\b(${MONTHS})\\.?\\s+\\d{1,2}(st|nd|rd|th)?,?\\s+(19|20)\\d{2}\\b`, "i")],
+  ["a postcode", /\b[A-Z]{1,2}\d[A-Z\d]?\s?\d[ABD-HJLNP-UW-Z]{2}\b/i],
+];
+function walk(o, path, fn) {
+  if (typeof o === "string") return fn(path, o);
+  if (o && typeof o === "object") for (const k of Object.keys(o)) walk(o[k], path ? `${path}.${k}` : k, fn);
+}
+function sectionOf(path) {
+  const top = path.split(".")[0];
+  return (SECTIONS.find((s) => s.keys.includes(top)) || SECTIONS[0]).id;
+}
+function runChecks(s) {
+  const out = [];
+  const add = (level, text, sec) => out.push({ level, text, sec });
+  const hasCarer = s.carer.present !== "no";
+  if (!s.title.trim()) add("error", "Give the case a title.", "about");
+  if (!s.messiness) add("error", "Choose a messiness level.", "about");
+  if (!s.patient.name.trim() || !s.patient.age.trim()) add("warn", "The patient needs a name and age.", "patient");
+  if (!s.carer.present) add("warn", "Say whether there is a carer.", "carer");
+  const nv = s.visits.length;
+  if (nv < 2 || nv > 3) add("error", "Cases have 2 or 3 visits.", "visits");
+  if (!s.patient.interjection) add("warn", "Patient: choose whether they chip in when the carer is asked.", "patient");
+  if (s.carer.present === "yes" && !s.carer.interjection) add("warn", "Carer: choose whether they chip in when the patient is asked.", "carer");
+  if (s.carer.present === "yes" && !s.sources.carer.lines.some((l) => l.text.trim())) add("error", "The carer needs at least one line in What each source says.", "sources");
+  let prev = 0;
+  s.visits.forEach((v, i) => {
+    const n = i + 1;
+    if (!v.setting) add("error", `Visit ${n}: choose the setting.`, "visits");
+    if (!v.present.length) add("error", `Visit ${n}: say who's there.`, "visits");
+    if (v.present.includes("carer") && !hasCarer) add("error", `Visit ${n} has the carer present, but the case has no carer.`, "visits");
+    if (i > 0) {
+      const d = Number(v.day);
+      if (!/^\d+$/.test(v.day.trim())) add("error", `Visit ${n}: give the number of days after visit 1.`, "visits");
+      else if (d <= prev) add("error", `Visit ${n} must come after visit ${n - 1} (day ${d} is not after day ${prev}).`, "visits");
+      else prev = d;
+      if (!v.changed.some((c) => c.text.trim())) add("warn", `Visit ${n}: nothing has changed since the last visit.`, "visits");
+    }
+    if (v.setting && v.setting !== "phone" && !OBS.every(([k]) => v.obs[k].trim())) add("warn", `Visit ${n}: fill in all five basic observations.`, "visits");
+    if (v.setting === "phone" && (v.exams.some((x) => x.label.trim() || x.finding.trim()) || OBS.some(([k]) => v.obs[k].trim()))) add("error", `Visit ${n} is a phone call, so it can't have examination findings or observations.`, "visits");
+  });
+  const crit = s.criticals.filter((c) => c.what.trim());
+  if (crit.length > 5) add("error", `At most 5 critical items (${crit.length} written).`, "criticals");
+  else if (crit.length === 5) add("warn", "5 critical items: keep 5 only in a 3-visit case that genuinely needs them.", "criticals");
+  if (crit.length < 2) add("error", `Write 2 to 5 critical items (${crit.length} so far).`, "criticals");
+  crit.forEach((c, i) => {
+    const miss = [["kind", "kind"], ["visit", "visit"], ["type", "type"], ["stage", "stage"]].filter(([k]) => !c[k]).map(([, t]) => t);
+    if (miss.length) add("error", `Critical ${i + 1}: choose its ${miss.join(", ")}.`, "criticals");
+    if (c.visit && Number(c.visit) > nv) add("error", `Critical ${i + 1} is at visit ${c.visit}, but the case has ${nv} visits.`, "criticals");
+  });
+  if (crit.length && !crit.some((c) => c.kind === "must_not_do")) add("info", "No must-not critical. Fine if the only candidate restates another one.", "criticals");
+  const flagged = Object.values(s.sources).some((src) => src.lines.some((l) => l.text.trim() && (l.acc === "wrong" || l.acc === "outdated")));
+  if (crit.some((c) => c.type === "detect") && !flagged) add("error", "A detect critical needs a source line marked wrong or out of date.", "sources");
+  if (!flagged) add("warn", "Nothing in the sources is marked wrong or out of date. Even a nearly clean case needs one conflict.", "sources");
+  for (const [k, t] of SOURCES) {
+    const src = s.sources[k];
+    if (src.traits.includes("outdated_entries") && !src.lines.some((l) => l.text.trim() && l.acc === "outdated")) add("warn", `${t} is ticked "outdated entries" but no line in it is marked out of date.`, "sources");
+    src.lines.forEach((l, i) => {
+      if (!l.text.trim()) return;
+      if (l.when && Number(l.when.split("-")[0]) > nv) add("error", `${t} line ${i + 1} is set for a visit the case doesn't have.`, "sources");
+      if (!RECORDS.has(k) && !l.how && (k === "patient" || hasCarer)) add("warn", `${t} line ${i + 1}: say whether it's said unprompted or only if asked.`, "sources");
+    });
+  }
+  const noAcc = Object.values(s.sources).reduce((n, src) => n + src.lines.filter((l) => l.text.trim() && !l.acc).length, 0);
+  if (noAcc) add("warn", `${noAcc} source line${noAcc > 1 ? "s have" : " has"} no accuracy marked.`, "sources");
+  s.hidden.filter((h) => h.fact.trim()).forEach((h, i) => {
+    if (!h.reveal.trim()) add("error", `Hidden fact ${i + 1} needs the question that reveals it.`, "hidden");
+    if (!h.who) add("warn", `Hidden fact ${i + 1}: say who says it.`, "hidden");
+    if (h.when && Number(h.when.split("-")[0]) > nv) add("error", `Hidden fact ${i + 1} is set for a visit the case doesn't have.`, "hidden");
+    if (h.who === "carer" && !hasCarer) add("error", `Hidden fact ${i + 1} is the carer's, but the case has no carer.`, "hidden");
+  });
+  for (const [k, t] of [["must_do", "Must do"], ["must_not", "Must not do"], ["red_flags", "Red flag"]]) {
+    s[k].filter((x) => x.text.trim()).forEach((x, i) => {
+      if (!x.visit || !x.weight) add("warn", `${t} ${i + 1}: choose its visit and weight.`, "other");
+      else if (Number(x.visit) > nv) add("error", `${t} ${i + 1} is at visit ${x.visit}, but the case has ${nv} visits.`, "other");
+    });
+  }
+  walk(s, "", (path, text) => {
+    for (const [what, re] of PRIVACY) {
+      const m = text.match(re);
+      if (m) add("error", `This looks like ${what}: "${m[0]}". Cases are fictional${what === "a calendar date" ? "; give dates relative to visit 1" : ""}.`, sectionOf(path));
+    }
+  });
+  return out;
+}
+
+// ---------- Export ----------
+function toMarkdown(s) {
+  const L = [];
+  const has = (v) => v && String(v).trim();
+  const line = (k, v) => { if (has(v)) L.push(`- ${k}: ${String(v).trim()}`); };
+  const none = (n0) => { if (L.length === n0) L.push("(not written)"); };
+  const hasCarer = s.carer.present !== "no";
+  L.push(`# Case draft: ${s.title.trim() || "(untitled)"}`, "",
+    `Exported from tools/case-form on ${new Date().toISOString().slice(0, 10)}. Fictional composite; dates are relative to visit 1.`, "");
+  line("Messiness", label(MESSINESS, s.messiness)); line("What it tests", s.tests);
+  L.push("", "## Patient"); let n0 = L.length;
+  const p = s.patient;
+  line("Name and age", [p.name, p.age].filter(has).join(", ")); line("Living situation", p.living); line("Main conditions", p.conditions);
+  line("Cognition", p.cognition); line("How they talk", p.speech); line("Agenda", p.agenda);
+  line("Chips in when the carer is asked", p.interjection); line("Habits", traitList(PERSON_TRAITS, p.traits)); none(n0);
+  L.push("", "## Carer"); n0 = L.length;
+  if (s.carer.present === "no") L.push("No carer in this case.");
+  else {
+    const c = s.carer;
+    line("Name and age", [c.name, c.age].filter(has).join(", ")); line("Relationship", c.relationship); line("How often they see the patient", c.how_often);
+    line("Believes", c.believes); line("Agenda", c.agenda); line("How they talk", c.speech);
+    line("Chips in when the patient is asked", c.interjection); line("Habits", traitList(CARER_TRAITS, c.traits)); none(n0);
+  }
+  L.push("", "## What's really true"); n0 = L.length;
+  for (const [k, t] of TRUTH) line(t, s.truth[k]); none(n0);
+  L.push("", "## What each source says"); n0 = L.length;
+  for (const [k, t] of SOURCES) {
+    if (k === "carer" && !hasCarer) continue;
+    const src = s.sources[k];
+    const lines = src.lines.filter((l) => has(l.text));
+    if (!lines.length && !src.traits.length && !has(src.notes)) continue;
+    L.push("", `### ${t}`);
+    if (src.traits.length) L.push(`Messy: ${traitList(RECORD_TRAITS, src.traits)}`);
+    if (has(src.notes)) L.push(`Notes for writing it out: ${src.notes.trim()}`);
+    for (const l of lines) {
+      const tags = [l.acc ? label(ACCURACY, l.acc).toLowerCase() : "accuracy not marked", whenLabel(l.when).toLowerCase()];
+      if (!RECORDS.has(k)) tags.push(l.how ? label(HOW, l.how).toLowerCase() : "unprompted or asked not chosen");
+      L.push(`- [${tags.join("; ")}] ${l.text.trim()}`);
+    }
+  }
+  none(n0);
+  L.push("", "## Standard history"); n0 = L.length;
+  for (const [k, t] of HISTORY) {
+    const h = s.history[k];
+    if (has(h.patient)) L.push(`- ${t}, patient: ${h.patient.trim()}`);
+    if (hasCarer && has(h.carer)) L.push(`- ${t}, carer: ${h.carer.trim()}`);
+  }
+  line("Who gives medicines outside the blister pack", s.outside_pack); none(n0);
+  L.push("", "## Long-standing conditions or red herrings", has(s.herrings) ? s.herrings.trim() : "(none)");
+  L.push("", "## Hidden facts"); n0 = L.length;
+  s.hidden.filter((h) => has(h.fact)).forEach((h, i) => L.push(`${i + 1}. ${h.fact.trim()}`, `   Who says it: ${h.who || "(not chosen)"}. ${whenLabel(h.when)}. Revealed if asked about: ${h.reveal.trim() || "(not written)"}`));
+  none(n0);
+  L.push("", "## Visits");
+  s.visits.forEach((v, i) => {
+    L.push("", `### Visit ${i + 1} (day ${v.day || "?"}): ${v.setting ? label(SETTINGS, v.setting).toLowerCase() : "setting not chosen"}; present: ${v.present.join(", ") || "not chosen"}`);
+    line("Reason", v.reason);
+    const ev = v.changed.filter((c) => has(c.text));
+    if (i > 0 && ev.length) { L.push("- What changed since last time:"); ev.forEach((c) => L.push(`  - ${c.text.trim()}`)); }
+    const obs = OBS.filter(([k]) => has(v.obs[k]));
+    if (obs.length) { L.push("- Observations:"); obs.forEach(([k, t]) => L.push(`  - ${t}: ${v.obs[k].trim()}`)); }
+    const ex = v.exams.filter((x) => has(x.label) || has(x.finding));
+    if (ex.length) { L.push("- Examination findings:"); ex.forEach((x) => L.push(`  - ${x.label.trim() || "(unnamed)"}: ${x.finding.trim()}`)); }
+  });
+  L.push("", "## Critical items"); n0 = L.length;
+  s.criticals.filter((c) => has(c.what)).forEach((c, i) => L.push(`${i + 1}. ${c.what.trim()}`,
+    `   ${[c.kind ? label(KINDS, c.kind).toLowerCase() : "kind?", c.visit ? "visit " + c.visit : "visit?", c.type || "type?", c.stage ? "stage: " + c.stage : "stage?"].join("; ")}`));
+  none(n0);
+  for (const [k, t] of [["must_do", "Other must do"], ["must_not", "Must not do"], ["red_flags", "Red flags"]]) {
+    L.push("", `## ${t}`); n0 = L.length;
+    s[k].filter((x) => has(x.text)).forEach((x) => L.push(`- [visit ${x.visit || "?"}, weight ${x.weight || "?"}] ${x.text.trim()}`));
+    if (L.length === n0) L.push("(none)");
+  }
+  L.push("", "## Twin", has(s.twin) ? s.twin.trim() : "(not asked for)");
+  // The form's own data, so this file can be opened in the form again. "<" and ">" are escaped
+  // so the JSON can neither close the comment early nor contain the opening marker.
+  L.push("", "<!-- case-form-data v1", JSON.stringify(s).replace(/</g, "\\u003c").replace(/>/g, "\\u003e"), "-->", "");
+  return L.join("\n");
+}
+function parseDraft(text) {
+  // The real block is the last one: text typed into a field could contain a lookalike.
+  const at = text.lastIndexOf("<!-- case-form-data v1");
+  const m = at >= 0 ? text.slice(at).match(/^<!-- case-form-data v1\s*\n([\s\S]*?)\n-->/) : null;
+  const data = JSON.parse(m ? m[1] : text);
+  if (!data || typeof data !== "object" || data.version !== 1) throw new Error("not a case-form draft");
+  return data;
+}
+const slug = (t) => (t || "case-draft").toLowerCase().split(" - ")[0].replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "") || "case_draft";
+
+// ---------- Render ----------
+const main = document.getElementById("main");
+const wide = window.matchMedia("(min-width: 1000px)");
+
+function renderAll() {
+  const y = window.scrollY;
+  const opened = new Set([...main.querySelectorAll("details.margin[open]")].map((d) => d.closest("section").id));
+  main.innerHTML = SECTIONS.map((s) => `<section id="${s.id}" aria-labelledby="${s.id}_t"><h2 id="${s.id}_t">${esc(s.title)}</h2>` +
+    `<p class="lede">${esc(s.lede)}</p><div class="spread"><div class="fields">${s.body()}</div>` +
+    `<details class="margin"><summary>See Edith's</summary><div class="note">${s.edith(EDITH)}</div></details></div></section>`).join("") +
+    `<section id="export" aria-labelledby="export_t"><h2 id="export_t">Checks and export</h2>` +
+    `<p class="lede">Fix the red items, then download into <code>cases/drafts/</code> and ask the agent to convert it. The file opens here again with "Open a draft".</p>` +
+    `<p class="privacy">Fictional only. No real names, dates of birth, NHS numbers, addresses or text copied from real letters.</p>` +
+    `<ul class="checks" id="checks"></ul><div class="bar"><button type="button" class="primary" data-action="download">Download draft</button>` +
+    `<button type="button" data-action="copy">Copy text</button><span id="exportState" class="small muted" aria-live="polite"></span></div>` +
+    `<pre class="out" id="out" tabindex="0" aria-label="Export preview"></pre></section>`;
+  hydrate();
+  syncMargins();
+  if (!wide.matches) main.querySelectorAll("details.margin").forEach((d) => { d.open = opened.has(d.closest("section").id); });
+  refreshDerived();
+  window.scrollTo(0, y);
+}
+function hydrate() {
+  main.querySelectorAll("[data-p]").forEach((el) => {
+    const v = getP(el.dataset.p);
+    if (el.type === "checkbox") el.checked = Array.isArray(v) && v.includes(el.dataset.v);
+    else if (el.type === "radio") el.checked = v === el.value;
+    else el.value = v ?? "";
+    if (el.tagName === "TEXTAREA") grow(el);
+  });
+  document.body.classList.toggle("carer-off", state.carer.present === "no");
+}
+function grow(el) { el.style.height = "auto"; el.style.height = el.scrollHeight + 2 + "px"; }
+function syncMargins() {
+  main.querySelectorAll("details.margin").forEach((d) => {
+    d.open = wide.matches;
+    const sum = d.querySelector("summary");
+    if (wide.matches) sum.setAttribute("tabindex", "-1"); else sum.removeAttribute("tabindex");
+  });
+}
+function started(sec) {
+  let any = false;
+  for (const k of sec.keys) walk(state[k], "", (path, v) => { if (v.trim() && !(k === "visits" && /^0\.day$/.test(path))) any = true; });
+  return any;
+}
+function refreshDerived() {
+  const list = runChecks(state);
+  const errs = new Set(list.filter((c) => c.level === "error").map((c) => c.sec));
+  document.getElementById("nav").innerHTML = SECTIONS.map((s) =>
+    `<li><a href="#${s.id}"><span class="dot${errs.has(s.id) && started(s) ? " bad" : started(s) ? " on" : ""}" aria-hidden="true"></span>${esc(s.title)}${errs.has(s.id) && started(s) ? '<span class="vh"> (needs fixing)</span>' : ""}</a></li>`).join("") +
+    `<li><a href="#export"><span class="dot${list.some((c) => c.level === "error") ? " bad" : " on"}" aria-hidden="true"></span>Checks and export</a></li>`;
+  const ul = document.getElementById("checks");
+  if (ul) {
+    const order = { error: 0, warn: 1, info: 2 };
+    ul.innerHTML = list.length
+      ? list.sort((a, b) => order[a.level] - order[b.level]).map((c) => `<li class="${c.level}"><a href="#${c.sec}">${esc(c.text)}</a></li>`).join("")
+      : `<li class="ok">Nothing the form can check is missing. The agent's validator runs on conversion.</li>`;
+  }
+  const out = document.getElementById("out");
+  if (out) { const md = toMarkdown(state); out.textContent = md.slice(0, md.lastIndexOf("\n<!-- case-form-data v1")) + "\n(form data for reopening is added to the file)"; }
+  document.getElementById("caseName").textContent = state.title ? "· " + state.title.split(" - ")[0] : "";
+}
+
+// ---------- Events ----------
+function onEdit(e) {
+  const el = e.target;
+  const p = el.dataset && el.dataset.p;
+  if (!p) return;
+  if (el.type === "checkbox") {
+    const arr = getP(p).slice();
+    const i = arr.indexOf(el.dataset.v);
+    if (el.checked && i < 0) arr.push(el.dataset.v);
+    if (!el.checked && i >= 0) arr.splice(i, 1);
+    setP(p, arr);
+  } else if (el.type === "radio") {
+    if (!el.checked) return;
+    setP(p, el.value);
+  } else setP(p, el.value);
+  if (el.tagName === "TEXTAREA") grow(el);
+  if (el.dataset.rerender) { hydrate(); }
+  changed();
+}
+main.addEventListener("input", onEdit);
+main.addEventListener("change", (e) => { if (e.target.type === "checkbox" || e.target.type === "radio" || e.target.tagName === "SELECT") onEdit(e); });
+
+document.addEventListener("click", async (e) => {
+  const sum = e.target.closest("details.margin > summary");
+  if (sum && wide.matches) { e.preventDefault(); return; }
+  const btn = e.target.closest("button");
+  if (!btn) return;
+  if (btn.dataset.add) {
+    const arr = getP(btn.dataset.add);
+    arr.push(NEW[btn.dataset.kind]());
+    renderAll(); changed();
+    const box = btn.dataset.kind === "visit" ? document.querySelectorAll("#visits .sub") : null;
+    const target = box ? box[box.length - 1].querySelector("[data-p]") : null;
+    const rowsEl = !box && main.querySelector(`[data-add="${btn.dataset.add}"]`)?.previousElementSibling;
+    const focusEl = target || rowsEl?.lastElementChild?.querySelector("[data-p]");
+    if (focusEl) focusEl.focus();
+    return;
+  }
+  if (btn.dataset.del) {
+    const arr = getP(btn.dataset.del);
+    const i = Number(btn.dataset.i);
+    const isVisit = btn.dataset.kind === "visit";
+    const filled = JSON.stringify(arr[i]) !== JSON.stringify(NEW[btn.dataset.kind]());
+    const ask = isVisit
+      ? `Remove visit ${i + 1} and everything written in it? Items set to visit ${i + 1} lose their visit, and later visits move up one.`
+      : "Remove this and what's written in it?";
+    if (filled && !confirm(ask)) return;
+    if (arr.length > 1) arr.splice(i, 1); else arr[0] = NEW[btn.dataset.kind]();
+    if (isVisit) renumberAfterRemoving(i + 1);
+    renderAll(); changed();
+    // Keep keyboard users in place: the list's own Add button, or the previous row's first field.
+    const addBtn = main.querySelector(`[data-add="${btn.dataset.del}"]`);
+    const prev = main.querySelector(`[data-p^="${btn.dataset.del}.${Math.max(0, i - 1)}."]`);
+    (addBtn || prev)?.focus();
+    return;
+  }
+  const act = btn.dataset.action;
+  if (act === "edith") {
+    if (hasContent() && !confirm("Replace what's in the form with Edith's case? Download your draft first if you want to keep it.")) return;
+    load(clone(EDITH)); renderAll(); save();
+  } else if (act === "new") {
+    if (hasContent() && !confirm("Clear the form and start a new case? Download your draft first if you want to keep it.")) return;
+    state = blank(); renderAll(); save(); window.scrollTo(0, 0);
+  } else if (act === "open") {
+    document.getElementById("fileInput").click();
+  } else if (act === "download") {
+    await download();
+  } else if (act === "copy") {
+    await copyText();
+  }
+});
+document.getElementById("fileInput").addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  e.target.value = "";
+  if (!file) return;
+  try {
+    const data = parseDraft(await file.text());
+    if (hasContent() && !confirm(`Replace what's in the form with "${file.name}"?`)) return;
+    load(data); renderAll(); save();
+  } catch (err) {
+    alert(`"${file.name}" isn't a draft from this form, so it can't be opened here. Drafts are the .md files this form downloads.`);
+  }
+});
+wide.addEventListener("change", syncMargins);
+
+// After visit r is removed, references to r are cleared and later visits move up one.
+function renumberAfterRemoving(r) {
+  const shift = (v) => { const n = Number(v); return !v ? "" : n === r ? null : String(n > r ? n - 1 : n); };
+  for (const k of ["criticals", "must_do", "must_not", "red_flags"]) state[k].forEach((x) => { x.visit = shift(x.visit) ?? ""; });
+  const shiftWhen = (w) => {
+    if (!w) return "";
+    const [a, b] = w.split("-");
+    // "From visit r" carries on from the visit that moves into r's place, if there is one.
+    const a2 = !b && Number(a) === r && r <= state.visits.length ? String(r) : shift(a);
+    const b2 = b ? shift(b) : "";
+    return a2 === null || b2 === null ? "" : `${a2}-${b2}`;
+  };
+  for (const [k] of SOURCES) state.sources[k].lines.forEach((l) => { l.when = shiftWhen(l.when); });
+  state.hidden.forEach((h) => { h.when = shiftWhen(h.when); });
+}
+function hasContent() { return JSON.stringify(state) !== JSON.stringify(blank()); }
+function setExportState(t) { const el = document.getElementById("exportState"); if (el) el.textContent = t; }
+async function download() {
+  const text = toMarkdown(state);
+  const name = slug(state.title) + ".md";
+  if (window.showSaveFilePicker) {
+    try {
+      const h = await window.showSaveFilePicker({ suggestedName: name, types: [{ description: "Markdown", accept: { "text/markdown": [".md"] } }] });
+      const w = await h.createWritable(); await w.write(text); await w.close();
+      setExportState(`Saved ${h.name}`); return;
+    } catch (err) {
+      if (err && err.name === "AbortError") return;
+    }
+  }
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([text], { type: "text/markdown" }));
+  a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  setExportState(`Downloaded ${name}: move it into cases/drafts/`);
+}
+async function copyText() {
+  const text = toMarkdown(state);
+  try { await navigator.clipboard.writeText(text); setExportState("Copied"); return; } catch (e) { /* fall through */ }
+  const ta = document.createElement("textarea");
+  ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  const ok = document.execCommand && document.execCommand("copy");
+  ta.remove();
+  setExportState(ok ? "Copied" : "Couldn't copy: use Download draft");
+}
+
+// ---------- Start ----------
+(function start() {
+  let saved = null;
+  try {
+    saved = localStorage.getItem(KEY);
+    if (saved) load(JSON.parse(saved));
+  } catch (e) {
+    // Keep the unreadable draft before the first keystroke overwrites it.
+    try { if (saved) localStorage.setItem(KEY + ".broken", saved); } catch (e2) { /* nothing more to do */ }
+    state = blank();
+    if (saved) alert("The draft saved in this browser couldn't be read, so the form starts empty. A copy was kept; ask the agent to recover it.");
+  }
+  renderAll();
+  const el = document.getElementById("saveState");
+  try { localStorage.setItem(KEY + ".probe", "1"); localStorage.removeItem(KEY + ".probe"); el.textContent = "Saves in this browser as you type"; }
+  catch (e) { el.textContent = "This browser won't save: download to keep your work"; el.classList.add("failed"); }
+  const flush = () => { if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; save(); } };
+  window.addEventListener("pagehide", flush);
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") flush(); });
+  // Another tab of this form saved: take its newer draft, so this tab can never save stale work over it.
+  window.addEventListener("storage", (e) => {
+    if (e.key !== KEY || !e.newValue) return;
+    try { clearTimeout(saveTimer); saveTimer = null; load(JSON.parse(e.newValue)); renderAll(); el.textContent = "Updated from another tab"; } catch (err) { /* ignore unreadable */ }
+  });
+})();
+</script>
+</body>
+</html>

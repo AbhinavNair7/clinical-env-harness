@@ -1,0 +1,26 @@
+# Internal only: never shown to a model, never published with the case.
+case_id: gene_ostrander
+pmcid: PMC10407305
+title: Surgical Treatment of Vertebral Compression Fracture in a Patient with Idiopathic Normal Pressure Hydrocephalus.
+authors: Tanaka T, Fujiwara R, Sashida R, Hirokawa Y, Wakamiya T, Michiwaki Y, Shimoji K, Suehiro E, Onoda K, Yamane F, Kawashima M, Matsuno A.
+journal: JMA journal
+year: "2023"
+doi: 10.31662/jmaj.2023-0005
+licence: cc by
+url: https://europepmc.org/article/PMC/PMC10407305
+changes:
+  - "Kept: years of gait difficulty, urge incontinence and cognitive decline in an older adult, falls, and normal pressure hydrocephalus as the unifying cause."
+  - "No vertebral fracture and no head injury: last week's fall had paramedics, a normal ECG and 'mechanical fall' (the clinical lead: a head strike makes CT too easy)."
+  - "Man, 80, US (source: woman, 77, Japan); three separate labels (mechanical falls, overactive bladder, probable Alzheimer's) and a donepezil-oxybutynin cascade."
+  - "A prostate cancer history with post-surgical leakage and a summer fall blamed on heat after which gait never recovered: a fictionalised blend of a pattern from the clinical lead's memory clinic experience, no identifying details."
+  - "Three primary care visits over six weeks with carer breakdown; the source was hospital spinal surgery and then a shunt."
+record_patterns:
+  - Three services, three labels, nobody joining them up
+  - Prescribing cascade (bladder anticholinergic on top of donepezil)
+  - Discharge summary and EMS report both saying mechanical fall
+  - Memory clinic diagnosis made without imaging
+distinctive_details:
+  - normal pressure hydrocephalus
+  - oxybutynin
+  - donepezil
+  - falls

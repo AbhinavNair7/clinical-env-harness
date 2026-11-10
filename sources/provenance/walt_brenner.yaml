@@ -1,0 +1,31 @@
+# Internal only: never shown to a model, never published with the case.
+case_id: walt_brenner
+pmcid: PMC13696058
+title: >
+  Severe Malnutrition Revealing Psychotic Depression in an Elderly Patient Successfully
+  Treated With Electroconvulsive Therapy: A Case Report
+authors: Sumya UM, Hamid T.
+journal: Cureus
+year: "2026"
+doi: 10.7759/cureus.116940
+licence: cc by
+url: https://europepmc.org/article/PMC/PMC13696058
+changes:
+  - "Kept: severe weight loss and food refusal in an older man, extensive tests negative, depression the cause, recognised late."
+  - "Man, 79, US, at home over 3 primary care visits (source: 74, a medical ward admission)."
+  - "Severe depression with passive then stronger death wishes; no psychosis, no ECT (source: psychotic depression, ECT)."
+  - "Added a bereavement, citalopram stopped but still auto-refilled, a copied-forward 'mood good' note, and a daughter sure it is cancer who wants more scans."
+  - "First tests are proportionate primary care tests (bloods, chest X-ray, FIT; CT optional) per NICE NG12 and the AAFP reviews, not an inpatient workup (the clinical lead, 5 Nov)."
+record_patterns:
+  - Stopped medicine still dispensed (auto-refill)
+  - Long, copied-forward note
+  - Chronic diagnosis coded once and missing the next time
+distinctive_details:
+  - citalopram
+  - bereavement
+  - hunting rifle
+theme:
+  - depression
+  - weight loss
+  - malnutrition
+  - older adult

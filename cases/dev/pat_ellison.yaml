@@ -1,0 +1,585 @@
+# Development case for the people-not-paper test (pre-registered in DECISIONS.md, 6 Nov).
+# Built on an open case report (CC BY; provenance in sources/provenance/pat_ellison.yaml,
+# never shown to a model). Fictional throughout. Development only. Its written twin is
+# pat_ellison_twin.yaml (the carer's news also in the GP record).
+id: pat_ellison
+title: Pat Ellison - muddled after a water infection, a bladder tablet, and a husband with news of his own
+country: uk
+messiness: moderate
+notes: >
+  Moderate Alzheimer's on donepezil; urgency put on oxybutynin 10 weeks ago (a prescribing
+  cascade); a UTI with delirium 3 weeks ago treated out of hours. Clinical layer (records plus
+  a clinical cue): stop the oxybutynin, treat the constipation, don't treat a trace dipstick.
+  The fact that changes the plan is held only by Ken, her husband and only carer: his knee
+  replacement is in under three weeks (3-4 nights in, no driving for 6 weeks) and nobody will
+  look after Pat. He has told no one, for fear her son will push for a care home. He says it to
+  a GP who asks about his own health or leg, what support there is if he were unwell or away,
+  what is coming up, his worries, or whether there is anything else to raise. He walks with a
+  stick and a limp, and Pat mentions his bad leg if asked who helps. Visit 2 (Ken phones): the
+  operation is now volunteered and a week away. Built 6 Nov. After the visit-1 smoke run (dev
+  clinician): scripted Ken's standard history (power of attorney, shop-bought medicines,
+  eating and drinking, washing, walking), which the checker flagged as invented.
+
+patient:
+  name: Patricia Ellison
+  age: 80
+  summary: >
+    Lives with her husband Ken in a semi-detached house. Alzheimer's disease (moderate),
+    hypertension. A urinary infection with confusion three weeks ago, treated by the
+    out-of-hours service.
+
+hidden_truth:
+  - id: t_dementia
+    category: cognition
+    statement: >
+      Moderate Alzheimer's disease (MMSE 18 nine months ago). Needs prompting to wash and
+      dress; Ken does the meals, the dosette and the money. Says she is fine and cannot recall
+      recent events. No delirium now (4AT 3: cognitive impairment without delirium), but she is
+      more muddled than before the bladder tablets.
+  - id: t_cascade
+    category: medicines
+    statement: >
+      Donepezil 10 mg at night (memory clinic, 9 months). Urgency and incontinence began about
+      3 months ago, likely from the donepezil. The GP started oxybutynin 5 mg twice daily 10
+      weeks ago by phone; the 6-week review never happened. Since then she is more confused,
+      has a dry mouth and is constipated, and the urgency is no better. The oxybutynin should be
+      stopped; the urgency managed without an anticholinergic.
+  - id: t_constipation
+    category: adls
+    statement: >
+      Bowels open every 4-5 days with straining since the oxybutynin (used to be daily). Loaded
+      colon on examination. No vomiting, no pain.
+  - id: t_uti
+    category: risks
+    statement: >
+      The UTI has resolved. No urinary symptoms beyond her usual urgency. A dipstick now shows
+      trace leucocytes only, which needs no antibiotic.
+  - id: t_operation
+    category: carer_strain
+    statement: >
+      Ken, 82, has a left total knee replacement booked in under three weeks (day 19): 3-4
+      nights in hospital, then no driving and no heavy lifting for about 6 weeks. Nobody else can
+      look after Pat. He has told no one at the surgery and did not tell the pre-op clinic he is
+      a carer. He assumes "it'll sort itself", and fears that if social services get involved
+      her son Gary will push for a care home.
+  - id: t_strain
+    category: carer_strain
+    statement: >
+      Ken is exhausted: Pat gets up 2-3 times a night and he sleeps in a chair by the front
+      door. He shouted at her last week and felt terrible. No carer's assessment, not on the
+      carers register, no care package; he does not want "strangers in".
+  - id: t_night
+    category: risks
+    statement: >
+      A month ago she got out of the front door at night in her nightdress. He now locks the
+      door at night and hides the key (a fire risk). No door sensor or telecare.
+  - id: t_family
+    category: other
+    statement: >
+      Married to Ken for 22 years (her second marriage). Her son Gary (Ken's stepson) lives two
+      hours away, works full time, rings monthly, and thinks she should be in a care home. She
+      ran the village post office. Never smoked, no alcohol. No lasting power of attorney. She
+      eats what Ken puts in front of her and drinks little unless reminded. Takes nothing bought
+      from a shop.
+  - id: t_v2
+    category: carer_strain
+    from_visit: 2
+    statement: >
+      Day 12: at the pre-op clinic two days ago the nurse asked who would look after Pat; Ken
+      said Gary would, which is not true. The operation is a week away. Gary says it is time she
+      went into a home and will not have her. Ken would accept respite or carers for a few
+      weeks if she comes home after. Nobody from social care has been in touch.
+
+views:
+  patient:
+    - id: p_fine
+      truth: t_dementia
+      statement: "I'm fine, dear. I don't know what all the fuss is about."
+      accuracy: wrong
+      disclosure: volunteered
+    - id: p_toilet
+      truth: t_cascade
+      statement: "I have to dash to the toilet. I don't always make it, I'm ashamed to say."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_mouth
+      truth: t_cascade
+      statement: "My mouth's like sandpaper. I keep a glass of water by me."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about a dry mouth, thirst or side effects of her tablets
+    - id: p_bowels
+      truth: t_constipation
+      statement: "Oh, I couldn't tell you, dear. Ask Ken."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_ken_leg
+      truth: t_operation
+      statement: "Ken does everything. He's a good man. His leg's bad, you know. He won't make a fuss."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_pain
+      truth: t_dementia
+      statement: "No pain. I'm right as rain."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_falls
+      truth: t_dementia
+      statement: "I don't fall. I'm steady."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_mood
+      truth: t_dementia
+      statement: "Happy enough. I like my garden. The roses are lovely this year."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_post_office
+      truth: t_family
+      statement: "I ran the post office in the village for twenty years, you know. Everyone came in."
+      accuracy: "true"
+      disclosure: volunteered
+
+  carer:
+    - id: c_infection
+      truth: t_dementia
+      statement: "She went right off with that water infection. She's better than that now, but she's not right."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: c_managing
+      truth: t_strain
+      statement: "We're managing fine. I do everything for her. Always have."
+      accuracy: wrong
+      disclosure: volunteered
+    - id: c_since_tablets
+      truth: t_cascade
+      statement: >
+        Now you say it, she was getting more muddled before the infection. About when she
+        started them bladder tablets. Her mouth's always dry and all.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: >
+        asked when the confusion started, whether anything changed before the infection, or
+        about her bladder tablets, new medicines or side effects
+    - id: c_wet
+      truth: t_cascade
+      statement: "She still has accidents. The bladder tablets haven't done much, to be honest."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_bowels
+      truth: t_constipation
+      statement: "Every four or five days, and she strains. She was regular as clockwork before."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_tablets
+      truth: t_cascade
+      statement: "I do her dosette every Sunday. The memory one at night, the bladder one twice a day, and her blood pressure one."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_waterworks_now
+      truth: t_uti
+      statement: "No burning now, no fever. Just the usual rushing to the toilet."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_nights
+      truth: t_night
+      statement: >
+        She's up two or three times a night. Last month she got out the front door in her
+        nightie. I lock it now and hide the key.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about nights, sleep, wandering, or her going out
+    # Standard history (added 6 Nov after the smoke run: the carer simulator had no lines).
+    - id: c_lpa
+      truth: t_family
+      statement: "Power of attorney? No. We never got round to it."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_otc
+      truth: t_family
+      statement: "Nothing from the shop. Just what's in the dosette."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_eating
+      truth: t_family
+      statement: "She eats what I put in front of her. She doesn't drink much unless I remind her."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_washing
+      truth: t_dementia
+      statement: "I help her wash and dress. She'll do her face and teeth if I prompt her."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_walking
+      truth: t_dementia
+      statement: "She gets about the house fine. No falls. It's the rushing to the loo."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_tired
+      truth: t_strain
+      statement: "I'm tired, I won't lie. I sleep in the chair by the door so I hear her."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_operation
+      truth: t_operation
+      statement: >
+        My knee's being done. The new knee. Two weeks on Thursday. They keep you in three or
+        four nights, and then I can't drive for six weeks. I haven't worked out what happens to
+        Pat.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: >
+        asked about his own health, his leg, knee or walking, any hospital appointments or
+        plans of his own, whether anything is coming up or changing, what support there is or
+        who could step in if he were unwell or away, what worries him about the future, or
+        whether there is anything else he wants to raise
+    - id: c_why_quiet
+      truth: t_operation
+      statement: "I didn't want a fuss. If social services come in, Gary will have her in a home. He's said as much."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked why he had not mentioned it, whether anyone knows, or what he is worried about if services get involved
+    - id: c_snapped
+      truth: t_strain
+      statement: "I shouted at her last week. I've never done that in twenty-two years. I felt terrible."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked how he is in himself, about his mood, or whether he ever feels he cannot cope
+    - id: c_gary
+      truth: t_family
+      statement: "Her son Gary's in Leeds. My stepson. He works. He thinks she should be in a home."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_no_help
+      truth: t_strain
+      statement: "No carers. We manage. I don't want strangers in the house."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c2_preop
+      truth: t_v2
+      from_visit: 2
+      statement: >
+        The nurse at the pre-op asked who'd look after Pat while I'm in. I told her Gary would.
+        He won't. It's a week tomorrow.
+      accuracy: "true"
+      disclosure: volunteered
+    - id: c2_gary_no
+      truth: t_v2
+      from_visit: 2
+      statement: "I rang Gary. He says it's time she went in a home. He won't have her, not even for a week."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked who else could help, about family, or whether Gary could step in
+    - id: c2_respite_ok
+      truth: t_v2
+      from_visit: 2
+      statement: "If it's just while I'm laid up, and she comes home after. Yes. I'd have that."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked whether he would accept respite, a short stay, or carers coming in
+    - id: c2_nobody_rang
+      truth: t_v2
+      from_visit: 2
+      statement: "Nobody's rung me from anywhere. Not the council, nobody."
+      accuracy: "true"
+      disclosure: if_asked
+
+  gp_record:
+    - id: g_memory
+      truth: t_dementia
+      statement: >
+        Memory clinic: Alzheimer's disease, moderate. MMSE 18/30. Started donepezil 5mg at
+        night, increase to 10mg after 4 weeks if tolerated. Discharged to GP care.
+      accuracy: "true"
+    - id: g_oab
+      truth: t_cascade
+      statement: >
+        Telephone (husband). Urinary urgency and incontinence for 3 months. Urine dip negative.
+        Overactive bladder. Start oxybutynin 5mg BD. Review 6 weeks.
+      accuracy: "true"
+    - id: g_ooh
+      truth: t_uti
+      statement: >
+        Out of hours. Acute confusion for 2 days. Dip nitrites +, leucocytes ++. Probable UTI
+        with delirium. Nitrofurantoin 100mg MR BD for 3 days. Husband to call if worse.
+      accuracy: "true"
+    - id: g_ooh_fu
+      truth: t_uti
+      statement: "Out of hours follow-up call: husband reports she is improving. GP review when settled."
+      accuracy: "true"
+
+  pharmacy_record:
+    - id: r_meds
+      truth: t_cascade
+      statement: "Dispensed {day:-5}: donepezil 10mg x28, oxybutynin 5mg x56, amlodipine 5mg x28. Collected by husband."
+      accuracy: "true"
+
+documents:
+  gp_record: |
+    Patricia ELLISON   Female   Age 80   Usual GP: Dr R Bhatt
+
+    PROBLEMS - ACTIVE
+      Alzheimer's disease
+      Essential hypertension
+      Overactive bladder
+
+    PROBLEMS - PAST / MINOR
+      Hip replacement, right (2015)
+      Hysterectomy (1988)
+      Shingles (2021)
+
+    REPEAT MEDICATION (last issued {day:-5})
+      Donepezil 10mg tablets - one at night - 28 tablets
+      Oxybutynin 5mg tablets - one twice a day - 56 tablets
+      Amlodipine 5mg tablets - one each morning - 28 tablets
+
+    CONSULTATIONS (most recent first)
+      {entries}
+      {day:-17}  OOH            [[g_ooh_fu]]
+      {day:-21}  OOH            [[g_ooh]]
+      {day:-70}  Telephone      [[g_oab]]
+      {day:-150}  Nurse          Hypertension review. BP 136/78. Bloods normal. Husband attended with her.
+      {day:-250}  Admin          Donepezil 10mg added to repeat per memory clinic.
+      {day:-280}  Letter         [[g_memory]]
+      {day:-400}  GP             Memory concerns raised by husband. Bloods and referral to memory clinic.
+
+  pharmacy_record: |
+    PATIENT MEDICATION RECORD - Patricia ELLISON
+    Original packs; husband fills a weekly dosette at home.
+      [[r_meds]]
+      {day:-21}  Nitrofurantoin 100mg MR x6 dispensed (out of hours prescription).
+      {day:-33}  Repeat dispensed, all items.
+      {day:-70}  Oxybutynin 5mg x56 dispensed (new item).
+
+record_traits: {}
+
+personas:
+  patient:
+    name: Pat Ellison
+    age: 80
+    cognition: >
+      Moderate Alzheimer's disease. Pleasant and sociable, cannot recall recent events or
+      dates, and says she is fine.
+    health_literacy: Low now. Does not know her tablets; "Ken sees to all that".
+    agenda: Wants everyone to stop fussing and to get back to her garden.
+    speech_style: Warm, chatty, repeats herself; talks about the post office and her roses; calls people "dear".
+    interjection: sometimes
+    traits: [poor_recall, tangents]
+  carer:
+    name: Ken Ellison
+    age: 82
+    relationship: husband
+    cognition: Normal.
+    health_literacy: Moderate. Knows her tablets by what they are for, not their names.
+    agenda: >
+      Wants Pat's muddle and waterworks sorted and to keep looking after her at home himself.
+      Keeps his own problems to himself and does not want social services involved.
+    speech_style: Plain-spoken retired joiner; brief; proud; answers for Pat about her care.
+    interjection: sometimes
+    traits: [denies_minimises, carer_dominates]
+
+conflicts:
+  - id: cf_coping
+    facts: [c_managing, c_tired, c_operation, c_snapped]
+    truth: [t_strain, t_operation]
+    expected_behaviour: >
+      Ken says they are managing fine. He is exhausted, and in under three weeks he will be in
+      hospital and then unable to drive or lift for 6 weeks, with no one to look after Pat. Ask
+      him about his own health and what support there is, and plan her care around his
+      operation.
+  - id: cf_fine
+    facts: [p_fine, c_infection]
+    truth: [t_dementia]
+    expected_behaviour: Pat says she is fine; Ken says she is not right. Assess her cognition and ask Ken what has changed.
+
+visits:
+  - number: 1
+    day: 0
+    setting: home_visit
+    present: [patient, carer]
+    turn_budget: 30
+    reason: >
+      GP review after a urinary infection with confusion three weeks ago, treated by the
+      out-of-hours service. Ken asked for a home visit.
+    records_available: [gp_record, pharmacy_record]
+    examination:
+      - id: x_general
+        label: General appearance
+        finding: "Well-kempt, smiling, sitting in the lounge. Not distressed. Dry lips."
+      - id: x_4at
+        label: Cognitive and delirium screen (4AT or similar)
+        finding: >
+          Alert. AMT4: 2 of 4 correct. Months backwards: reaches October, then stops. Ken
+          reports no fluctuation over the last 2 weeks. 4AT 3: cognitive impairment, not
+          delirium.
+      - id: x_obs
+        label: Observations (pulse, blood pressure, temperature, respiratory rate, oxygen saturation)
+        parts: [x_pulse, x_bp, x_temp, x_rr, x_sats]
+      - id: x_pulse
+        label: Pulse rate and rhythm
+        finding: "Pulse 76 regular."
+      - id: x_bp
+        label: Blood pressure (sitting)
+        finding: "Blood pressure 132/74 sitting."
+      - id: x_temp
+        label: Temperature
+        finding: "Temperature 36.7 C."
+      - id: x_rr
+        label: Respiratory rate
+        finding: "Respiratory rate 15."
+      - id: x_sats
+        label: Oxygen saturation
+        finding: "Oxygen saturation 97% on air."
+      - id: x_abdomen
+        label: Abdomen
+        finding: "Soft, non-tender. Mildly distended lower abdomen; loaded colon palpable on the left. Bladder not palpable."
+      - id: x_dipstick
+        label: Urine dipstick
+        finding: "Leucocytes trace. Nitrites negative. Blood negative."
+      - id: x_home
+        label: Home
+        finding: >
+          Tidy semi. The front door is locked with the key on a hook out of sight; an armchair
+          with a blanket faces the door. Ken walks with a stick and a marked limp on the left.
+          A weekly dosette on the kitchen windowsill.
+      - id: x_tablets
+        label: Medicines at home
+        finding: "Dosette filled to Sunday: donepezil at night, oxybutynin morning and evening, amlodipine in the morning. Original packs in the cupboard."
+    results:
+      - id: r1_bloods
+        label: Blood tests (FBC, U&E, LFT, calcium, thyroid, B12, folate)
+        finding: "Full blood count, U&E, liver function, calcium, TSH, B12 and folate all normal."
+      - id: r1_msu
+        label: Urine culture (MSU)
+        finding: "Mixed growth, no significant bacteriuria."
+  - number: 2
+    day: 12
+    setting: phone
+    present: [carer]
+    turn_budget: 20
+    reason: >
+      Ken has phoned the surgery: the hospital pre-op nurse asked who will look after Pat while
+      he is in hospital for his operation.
+    events_since_last:
+      - Ken went to the hospital pre-operative assessment clinic two days ago.
+      - Pat has had no new illness since the last visit.
+    records_available: [gp_record, pharmacy_record]
+
+rubric:
+  # Criticals. People-only (pre-registered, DECISIONS 6 Nov): v1_carer_cover.
+  - id: v1_oxybutynin
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: plan
+    critical: true
+    critical_type: clinical_action
+    evidence: [c_since_tablets, p_mouth, x_4at, x_abdomen]
+    description: >
+      Stops the oxybutynin (an anticholinergic in moderate dementia, started for urgency that
+      donepezil may have caused, and likely worsening her confusion and constipation).
+  - id: v1_carer_cover
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: plan
+    critical: true
+    critical_type: clinical_action
+    evidence: [c_operation]
+    requires: {spoke_to: [carer]}
+    description: >
+      Finds out about Ken's knee replacement in under three weeks and starts arranging care for
+      Pat while he is in hospital and recovering: a referral to adult social care for respite or
+      a replacement care package (or an urgent carer's assessment with that aim) before the
+      operation date.
+  - id: v2_cover_urgent
+    visit: 2
+    kind: must_do
+    weight: 3
+    stage: plan
+    critical: true
+    critical_type: clinical_action
+    evidence: [c2_gary_no, c2_respite_ok]
+    description: >
+      With the operation a week away and no one to look after Pat, arranges cover urgently:
+      same-day or next-day contact with adult social care (the duty team) for emergency respite
+      or a replacement care package before the operation.
+
+  # Non-critical items.
+  - id: v1_constipation
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: Treats the constipation (a laxative, fluids) and plans to check it settles.
+  - id: v1_no_antibiotic
+    visit: 1
+    kind: must_not_do
+    weight: 2
+    stage: plan
+    description: Gives antibiotics for a trace of leucocytes on the dipstick with no urinary symptoms.
+  - id: v1_cognition
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: examination
+    description: Screens for delirium and cognition (4AT or similar).
+    requires: {examined: [x_4at]}
+  - id: v1_urgency_plan
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: >
+      Plans for the urgency without an anticholinergic (continence assessment, timed toileting,
+      pads, or a non-anticholinergic option), and considers donepezil as a cause.
+  - id: v1_no_swap
+    visit: 1
+    kind: must_not_do
+    weight: 2
+    stage: plan
+    description: Swaps oxybutynin for another antimuscarinic (solifenacin, tolterodine, trospium, fesoterodine).
+  - id: v1_door
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: >
+      Addresses night-time safety: the locked door with a hidden key is a fire risk (door
+      sensor or telecare, key safe, fire service home safety visit).
+  - id: v1_carer_assessment
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: Offers Ken a carer's assessment and adds him to the carers register.
+  - id: v1_ken_wellbeing
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: history
+    description: Asks how Ken is coping in himself, and responds supportively when he says he shouted at Pat.
+    requires: {spoke_to: [carer]}
+  - id: v1_family
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: history
+    description: Asks about family or other support and learns about Gary.
+  - id: v2_preop
+    visit: 2
+    kind: must_do
+    weight: 1
+    stage: plan
+    description: Advises Ken to tell the pre-op team that he is Pat's only carer (or contacts them).
+  - id: v2_care_home
+    visit: 2
+    kind: must_not_do
+    weight: 2
+    stage: plan
+    description: Recommends permanent care home placement rather than short-term cover.
+  - id: v2_capacity
+    visit: 2
+    kind: must_do
+    weight: 1
+    stage: plan
+    description: Considers Pat's own view and capacity about a short respite stay (best interests if she lacks it).

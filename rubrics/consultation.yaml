@@ -1,0 +1,123 @@
+# Consultation-quality items scored at every visit of every case, from the clinical transcript
+# reviews ("Score in M3" in docs/m1-transcripts/run1-review.md) and the Calgary-Cambridge guide
+# to the medical interview (the skills UK, US and other medical schools teach, and the RCGP's
+# licensing exam marks). Reported as a separate consultation score beside the case score; they
+# never decide go/stop. Each is met once per visit: doing it once, naturally, is enough, and
+# repeating it or reciting it as a script earns nothing more.
+# Fields: id, description, weight; optional `settings` (visits it applies to; default all),
+# `from_visit` (e.g. 2 for follow-up visits only) and
+# `check` (decided in code from the visit log, not by the judge). A judge may mark an item not
+# applicable when nothing in the visit called for it (e.g. no one dodged a question).
+items:
+  - id: c_read_first
+    check: read_first
+    weight: 1
+    # One greeting or consent turn first is fine: the clinician starts in the room.
+    description: >
+      Reads the records before asking about the problem. A greeting first is fine; questions
+      before any record is read are not.
+
+  - id: c_one_question
+    weight: 2
+    description: >
+      Asks one thing at a time in plain words. Stacked questions (several different things in
+      one turn) or odd clinical phrasing ("change from Edith's usual thinking") count against
+      it; a good example is "is it light-headed when you stand, or does the room spin?".
+
+  - id: c_rephrase
+    weight: 1
+    description: >
+      When someone dodges, misunderstands or gives a vague answer to something that matters,
+      rephrases or comes back to it rather than moving on. Not applicable if no one did.
+
+  - id: c_open_start
+    weight: 1
+    description: >
+      Opens with an open question and lets the person tell their story before narrowing down
+      with closed questions.
+
+  - id: c_agenda
+    weight: 1
+    description: >
+      Early on, finds out everything the patient and carer want to cover ("is there anything
+      else?") rather than only the first thing raised.
+
+  - id: c_ice
+    weight: 2
+    description: >
+      Asks the patient and, when present, the carer about their ideas, concerns and
+      expectations (what they think is going on, what worries them, what they hope for). Once
+      each, naturally, is enough; asking again and again, or reading it out as a script, does
+      not meet it.
+
+  - id: c_signpost
+    weight: 1
+    description: >
+      Signposts the structure: says what it is about to do or move on to ("I'd like to ask
+      about your tablets now", "I'm going to look at your records").
+
+  - id: c_summarise
+    weight: 1
+    description: >
+      Summarises what it has heard back to the patient or carer at least once, so they can
+      correct it.
+
+  - id: c_explain_check
+    weight: 2
+    description: >
+      Explains findings and the plan in small chunks of plain language and checks the patient
+      or carer has understood, rather than one long monologue or jargon.
+
+  - id: c_shared_decision
+    weight: 2
+    description: >
+      Involves the patient (and carer) in the plan: offers the options that matter, takes their
+      wishes into account and agrees the plan with them rather than announcing it.
+
+  - id: c_safety_net
+    weight: 1
+    description: >
+      Safety-nets in words the patient or carer will remember: what to look out for, what to
+      do, and when or whom to call.
+
+  - id: c_local_pathways
+    weight: 2
+    description: >
+      Uses the referral and care routes of the health system the case is set in, not those of
+      another country.
+    examples:
+      uk: >
+        In a UK case: equipment and home adaptations through occupational therapy (social care
+        or community OT), care changes through a social care assessment, falls through the
+        falls service or community physiotherapy, dosette changes through the pharmacy.
+        Ordering equipment or care directly counts against it.
+      # Agent's draft from the UK list, for the clinical lead to confirm.
+      us: >
+        In a US case: home health (nursing, physical or occupational therapy) by a referral
+        the doctor certifies, durable medical equipment by a prescription to a supplier, help
+        at home through the Area Agency on Aging or a Medicaid waiver assessment, pill
+        organizer or blister-pack changes through the pharmacy. Arranging care or equipment
+        with no referral or order counts against it.
+
+  - id: c_permission_home
+    settings: [home_visit]
+    weight: 1
+    description: >
+      Asks the patient's permission before looking round the home, in the kitchen or fridge, or
+      through their medicines. Not applicable if it looked at none of these.
+
+  - id: c_wording
+    weight: 1
+    description: >
+      Plain, kind and non-alarming wording that does not raise fears nobody has voiced (for
+      example "we can help you stay at home" when no one mentioned a care home).
+
+  - id: c_follow_up_plan
+    from_visit: 2
+    weight: 2
+    # Agreed 4 Nov (plan review, change 9): the plan was the model's own, so this is graded on
+    # every case's later visits, not written into each case.
+    description: >
+      Reviews its own plan from the earlier visit: checks whether what it arranged has happened
+      (medicine changes, referrals, care changes, tests) rather than assuming it did, and acts
+      on anything that has not.

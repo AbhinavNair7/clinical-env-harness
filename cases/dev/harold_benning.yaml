@@ -1,0 +1,621 @@
+# Development case built on an open case report (CC BY; provenance and changes in
+# sources/provenance/harold_benning.yaml, never shown to a model). Fictional: every person,
+# place and institution is invented. Development only: never counted in the pilot.
+# Drafted by the agent for the clinical lead to check, correct and add primary care detail to.
+id: harold_benning
+title: Harold Benning - "vertigo" that is a new heart pill raising an old seizure pill
+country: us
+messiness: mild
+notes: >
+  Phenytoin toxicity from an interaction: cardiology started amiodarone 35 days before visit 1
+  for new atrial fibrillation and his phenytoin level, stable for years, rose over the
+  following weeks. Urgent care called it vertigo and added meclizine (a prescribing cascade).
+  The chart's medicine list predates cardiology and the cardiology letter has not arrived at
+  visit 1 (it arrives before visit 2); the 30-day fill history and his bottles show the new
+  medicines but not when they started, so the timing has to be asked (changed 5 Nov after
+  The clinical lead's review). Phenytoin also lowers apixaban levels. He lives
+  alone, drives daily to see his wife, and plays things down to keep driving. Visit 2 is a
+  phone call when the neurology clinic's annual level (drawn 5 days before visit 1) arrives.
+
+patient:
+  name: Harold Benning
+  age: 83
+  summary: >
+    Lives alone in a one-floor condo; his wife lives in memory care nearby. Epilepsy
+    (seizure-free for years on phenytoin), hypertension, enlarged prostate. Seen by
+    cardiology last month.
+
+hidden_truth:
+  - id: t_phenytoin_toxic
+    category: medicines
+    statement: >
+      Phenytoin toxicity. Phenytoin extended-release 300 mg at bedtime, level 14.2 (range 10 to
+      20) a year ago and stable for years. Amiodarone, started 35 days before visit 1 (200 mg
+      twice daily for 2 weeks, then 200 mg daily), slowly inhibits its metabolism. From about 14 days ago: unsteadiness ("like walking on a boat"),
+      double vision on looking to the side, sleepiness, mild nausea. The neurology clinic's
+      annual level, drawn 5 days before visit 1, is 31.5 (reaches the chart after visit 1).
+      Holding a dose or two and restarting phenytoin at a lower dose with neurology (small
+      changes have large effects), or a different rhythm or rate drug with cardiology, would
+      fix it. Stopping phenytoin outright risks seizures.
+  - id: t_new_meds
+    category: medicines
+    statement: >
+      His real medicines: phenytoin extended-release 300 mg at bedtime, lisinopril 10 mg daily,
+      tamsulosin 0.4 mg at night, atorvastatin 10 mg at night, and since cardiology 35 days ago
+      amiodarone 200 mg daily (twice daily for the first 2 weeks) and apixaban 5 mg twice daily; since urgent care 8 days ago
+      meclizine 25 mg two or three times a day. He takes them from the bottles, by the labels.
+  - id: t_vertigo_label
+    category: other
+    statement: >
+      No vestibular cause. Nothing spins; the dizziness is imbalance, there all the time, worse
+      walking, not brought on by turning his head. Urgent care labelled it "vertigo, likely
+      BPPV" without a positional test; Dix-Hallpike is negative.
+  - id: t_meclizine
+    category: medicines
+    statement: >
+      Meclizine (anticholinergic, sedating) has not helped; it makes him drowsier, gives him a
+      dry mouth and constipation, and his urine stream is slower to start.
+  - id: t_apixaban_interaction
+    category: medicines
+    statement: >
+      Phenytoin, a strong enzyme inducer, lowers apixaban levels, so his stroke prevention may
+      be inadequate. Cardiology's consult note (it reaches the chart only after visit 1) lists
+      phenytoin but mentions neither interaction.
+  - id: t_falls
+    category: falls
+    statement: >
+      No falls. Several near-misses: caught himself on the kitchen counter, and stumbled on the
+      steps at his wife's facility 4 days ago, grabbing the rail. Has stopped his morning walk.
+  - id: t_driving
+    category: risks
+    statement: >
+      Drives 10 minutes every day to have lunch with his wife. With double vision on side gaze
+      and slowed reactions he is not safe to drive until this settles.
+  - id: t_function
+    category: adls
+    statement: >
+      Independent: cooks simple meals, does his laundry and manages his own medicines. Slower
+      and holding the walls since the dizziness began. Normal cognition.
+  - id: t_background
+    category: other
+    statement: >
+      Focal epilepsy after a work injury in his forties; seizure-free since 2009; seen by
+      neurology yearly. Atrial fibrillation found by cardiology last month after palpitations.
+      Hypertension, enlarged prostate, hearing aids. Retired machinist. His wife June has
+      Alzheimer's disease and lives in memory care at Willow Court. Their daughter lives in
+      Tucson and calls on Sundays. A beer on Fridays; never smoked. Wants to keep seeing June
+      every day.
+  - id: t_stroke_screen
+    category: risks
+    statement: >
+      No stroke features: gradual onset, both sides, no weakness, numbness, facial droop,
+      speech change or severe headache. Gaze-evoked nystagmus both ways fits drug toxicity.
+  - id: t_v2_status
+    category: medicines
+    from_visit: 2
+    statement: >
+      Day 4: no seizures, still unsteady with double vision on and off, still drowsy. He is
+      taking his tablets as the bottle labels say (no new prescriptions picked up) and still
+      takes meclizine when it is bad. He drove to see June yesterday.
+
+views:
+  patient:
+    - id: p_boat
+      truth: t_phenytoin_toxic
+      statement: "I feel like I'm walking on a boat. Like I've had six beers, and I haven't."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p_not_spinning
+      truth: t_vertigo_label
+      statement: "No, the room doesn't spin. I'm just off balance, all the time, worse when I walk."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_double
+      truth: t_phenytoin_toxic
+      statement: "When I look off to the side things double up. Straight ahead's all right."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about his eyesight or vision, or about double vision
+    - id: p_onset
+      truth: t_phenytoin_toxic
+      statement: "Started two weeks ago, maybe a bit more. Came on gradual and got worse."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_sleepy
+      truth: t_phenytoin_toxic
+      statement: "I'm sleeping a lot more. I nod off in the chair after lunch."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_nausea
+      truth: t_phenytoin_toxic
+      statement: "My stomach's a bit off. I haven't thrown up."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_same_pills
+      truth: t_new_meds
+      statement: "Same pills I've always taken. I'm not one for pills."
+      accuracy: wrong
+      disclosure: if_asked
+    - id: p_new_heart
+      truth: t_new_meds
+      statement: >
+        Oh, the heart doctor put me on two new ones last month, for the fluttering. A blood
+        thinner and one to keep the rhythm steady.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: >
+        asked about new or changed medicines, other doctors he has seen, or the heart doctor
+    - id: p_meclizine
+      truth: t_meclizine
+      statement: "The walk-in clinic gave me a dizzy pill. It just knocks me out. I take it two, three times a day."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_seizure_pill
+      truth: t_new_meds
+      statement: "The seizure pill? Same as always, three capsules at bedtime."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_seizures
+      truth: t_background
+      statement: "Haven't had a seizure since 2009. The neurologist sees me once a year."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_near_falls
+      truth: t_falls
+      statement: "I haven't fallen. Caught myself once or twice, that's all."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_stumble
+      truth: t_falls
+      statement: "I stumbled on the steps at June's place on Sunday. Grabbed the rail, no harm done."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about stumbles, trips or near-misses, or about steps and stairs
+    - id: p_driving
+      truth: t_driving
+      statement: "I drive over to see June every day. It's ten minutes. I take it slow."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about driving, or how he gets around or gets to see his wife
+    - id: p_urine
+      truth: t_meclizine
+      statement: "Peeing's slower to get going since that dizzy pill. And I'm a bit stopped up."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_stroke_negatives
+      truth: t_stroke_screen
+      statement: "No headache. No weakness or numbness, and I'm talking fine, aren't I?"
+      accuracy: "true"
+      disclosure: if_asked
+    # Standard history.
+    - id: p_adls
+      truth: t_function
+      statement: "I look after myself. Cooking, laundry, the lot. I'm just slower right now."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_own_pills
+      truth: t_function
+      statement: "I do my own pills, straight from the bottles. I read the labels."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_walk
+      truth: t_falls
+      statement: "I've given up my morning walk for now. I hold on to the walls in the house."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_memory
+      truth: t_function
+      statement: "My memory's fine. I do the crossword every morning."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_alcohol
+      truth: t_background
+      statement: "A beer on Fridays. I haven't felt like one lately. Never smoked."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_mood
+      truth: t_background
+      statement: "I'm fine. It's June I worry about."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_help
+      truth: t_background
+      statement: "I don't have help and I don't need it. My daughter's in Tucson; she calls Sundays."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_wishes
+      truth: t_driving
+      statement: "I just want to get back to normal so I can keep seeing June."
+      accuracy: "true"
+      disclosure: if_asked
+    # Small talk.
+    - id: p_machinist
+      truth: t_background
+      statement: "Forty years a machinist. I can fix anything except myself, apparently."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p_june
+      truth: t_background
+      statement: "June doesn't always know who I am, but she knows my voice. We have lunch every day."
+      accuracy: "true"
+      disclosure: volunteered
+    # Visit 2 (phone).
+    - id: p2_status
+      truth: t_v2_status
+      from_visit: 2
+      statement: "Still wobbly. The double vision comes and goes. No fits, if that's what you're asking."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p2_bottles
+      truth: t_v2_status
+      from_visit: 2
+      statement: "I'm taking them the way it says on the bottles. I haven't been back to the pharmacy."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p2_meclizine
+      truth: t_v2_status
+      from_visit: 2
+      statement: "I still take the dizzy pill when it's bad."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p2_driving
+      truth: t_v2_status
+      from_visit: 2
+      statement: "I drove over to June's yesterday. Slow, mind you."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about driving or how he got to see his wife
+    - id: p2_sleepy
+      truth: t_v2_status
+      from_visit: 2
+      statement: "Still sleepy. I dozed off twice this morning."
+      accuracy: "true"
+      disclosure: if_asked
+
+  gp_record:
+    - id: g_meds
+      truth: t_new_meds
+      statement: >
+        phenytoin sodium extended 100 mg capsule - 3 capsules at bedtime (Valley Neurology); lisinopril
+        10 mg daily; tamsulosin 0.4 mg nightly; atorvastatin 10 mg nightly
+      accuracy: outdated
+    - id: g_bppv
+      truth: t_vertigo_label
+      statement: "Benign paroxysmal positional vertigo (added from outside record)"
+      accuracy: wrong
+    - id: u_dx
+      truth: t_vertigo_label
+      statement: >
+        Dizziness 5 days, worse standing and walking. Unsteady gait. Assessment: vertigo,
+        likely BPPV. Meclizine 25 mg three times daily as needed. Follow up with PCP.
+      accuracy: wrong
+    - id: k_cardiology
+      truth: t_apixaban_interaction
+      from_visit: 2
+      statement: >
+        New symptomatic atrial fibrillation, rate 112; poorly tolerated. CHA2DS2-VASc 3 (age,
+        hypertension). Start amiodarone 200 mg twice daily for 2 weeks then 200 mg daily, and
+        apixaban 5 mg twice daily. Baseline TSH and LFTs normal. Current medications: phenytoin
+        300 mg at bedtime, lisinopril, tamsulosin, atorvastatin. Follow up in 3 months.
+      accuracy: "true"
+    - id: g_level_old
+      truth: t_phenytoin_toxic
+      statement: "Phenytoin level 14.2 mcg/mL (range 10 to 20); albumin 3.9; sodium 138; ALT 19. Seizure-free, continue."
+      accuracy: outdated
+    - id: g2_level
+      truth: t_phenytoin_toxic
+      from_visit: 2
+      statement: >
+        Outside result (Valley Neurology annual labs): phenytoin level 31.5 mcg/mL HIGH
+        (range 10 to 20); albumin 3.8; sodium 136; ALT 22.
+      accuracy: "true"
+
+  pharmacy_record:
+    - id: r_amiodarone
+      truth: t_new_meds
+      statement: "amiodarone 200 mg tablet, #30 - Dr. P. Okonkwo (Lakeshore Heart)"
+      accuracy: "true"
+    - id: r_apixaban
+      truth: t_new_meds
+      statement: "apixaban 5 mg tablet, #60 - Dr. P. Okonkwo (Lakeshore Heart)"
+      accuracy: "true"
+    - id: r_meclizine
+      truth: t_meclizine
+      statement: "meclizine 25 mg tablet, #30 - Millbrook Walk-In Clinic"
+      accuracy: "true"
+
+documents:
+  gp_record: |
+    RIVERSIDE FAMILY MEDICINE - PATIENT CHART
+    BENNING, Harold J.   M   83 y   PCP: Sofia Mendez, MD   Coverage: Medicare Advantage
+    Allergies: penicillin (hives)   Preferred pharmacy: Corner Drug, Millbrook
+
+    PROBLEM LIST
+      Localization-related epilepsy, not intractable (Valley Neurology)
+      Essential (primary) hypertension
+      Benign prostatic hyperplasia with lower urinary tract symptoms
+      Bilateral sensorineural hearing loss (hearing aids)
+      Primary osteoarthritis, right knee
+      Hyperlipidemia, unspecified
+      [[g_bppv]]
+
+    ACTIVE MEDICATIONS (last reconciled at annual wellness visit)
+      [[g_meds]]
+
+    RESULTS
+      {day:-370}  Valley Neurology: [[g_level_old]]
+      {day:3}  [[g2_level]]
+
+    ENCOUNTERS (most recent first)
+      {entries}
+      {day:-8}  Outside record   Millbrook Walk-In Clinic: [[u_dx]]
+      {day:2}  Outside record   Lakeshore Heart, cardiology consult (dictated 5 weeks ago, received today): [[k_cardiology]]
+      {day:-40}  Referral         Cardiology (Lakeshore Heart): palpitations. Seen per patient; consult note not received.
+      {day:-190}  Annual wellness  Medicare AWV. Lives with wife (wife now in memory care, see note). Independent. Drives. Falls screen negative. Mini-Cog 5/5. Hearing aids. Medications reconciled.
+      {day:-200}  Telephone        Patient's daughter called from Arizona: mother moved to memory care at Willow Court. Patient coping; declined social work.
+      {day:-370}  Outside record   Valley Neurology annual review: seizure-free since 2009. Continue phenytoin 300 mg at bedtime. Labs stable.
+      {day:-395}  Office visit     BP 136/78. BPH symptoms stable on tamsulosin. Continue.
+
+  pharmacy_record: |
+    CORNER DRUG, MILLBROOK - PRESCRIPTION FILL HISTORY (LAST 30 DAYS) - BENNING, HAROLD
+      {day:-5}  [[r_apixaban]]
+      {day:-8}  [[r_meclizine]]
+      {day:-14}  [[r_amiodarone]]
+      {day:-26}  phenytoin sodium extended 100 mg capsule, #270 - Valley Neurology
+      {day:-26}  lisinopril 10 mg tablet, #90 - Dr. S. Mendez
+      {day:-26}  atorvastatin 10 mg tablet, #90 - Dr. S. Mendez
+
+record_traits:
+  gp_record: [outdated_entries, miscoded]
+
+personas:
+  patient:
+    name: Harold Benning
+    age: 83
+    cognition: Normal; a little slow when drowsy.
+    health_literacy: >
+      Good. Reads his labels; knows phenytoin as "my seizure pill" and calls the new ones
+      "the heart pills"; does not know their names.
+    agenda: >
+      Wants the dizziness fixed so he can keep driving to see his wife every day; afraid of
+      being told to stop driving, so plays things down.
+    speech_style: Dry, matter-of-fact, a little gruff; short sentences; jokes to deflect.
+    interjection: never
+    traits: [denies_minimises]
+
+conflicts:
+  - id: cf_med_list
+    facts: [g_meds, p_same_pills, p_new_heart, r_amiodarone, r_apixaban]
+    truth: [t_new_meds, t_apixaban_interaction]
+    expected_behaviour: >
+      Do not rely on the chart's medicine list or "same pills as always": the cardiology note,
+      the fill history and the bottles show amiodarone, apixaban and meclizine, but not when
+      they started. Ask, and line the new amiodarone (last month) up with the start of the
+      symptoms.
+  - id: cf_level
+    facts: [g_level_old, p_boat]
+    truth: [t_phenytoin_toxic]
+    expected_behaviour: >
+      Do not take last year's normal phenytoin level as reassurance after a new interacting
+      medicine; check a level.
+  - id: cf_vertigo
+    facts: [g_bppv, u_dx, p_not_spinning]
+    truth: [t_vertigo_label]
+    expected_behaviour: >
+      Do not carry forward the urgent care "vertigo, likely BPPV": nothing spins, the
+      imbalance is constant, and he has double vision and nystagmus both ways.
+
+visits:
+  - number: 1
+    day: 0
+    setting: clinic
+    present: [patient]
+    turn_budget: 35
+    reason: >
+      Follow-up after an urgent care visit for dizziness 8 days ago; the pill he was given is
+      "not doing a thing". He has brought his medicine bottles.
+    records_available: [gp_record, pharmacy_record]
+    examination:
+      - id: x_eyes
+        label: Eye movements
+        finding: "Horizontal nystagmus on looking to either side; double vision at the far ends of side gaze. Pupils equal and reactive."
+      - id: x_coordination
+        label: Coordination (finger-nose and heel-shin)
+        finding: "Mildly clumsy finger-nose on both sides; heel-shin unsteady on both sides."
+      - id: x_gait
+        label: Gait and balance
+        finding: "Wide-based, unsteady gait; reaches for the wall; cannot walk heel to toe. Romberg: sways but does not fall."
+      - id: x_dix
+        label: Dix-Hallpike test
+        finding: "Negative on both sides; no positional nystagmus or vertigo."
+      - id: x_orthostatic
+        label: Lying and standing blood pressure
+        finding: "Lying 134/78, pulse 72 irregular; standing 126/76, pulse 76 at 1 minute and 128/74, pulse 74 at 3 minutes; no symptoms on standing."
+      - id: x_neuro
+        label: Neurological examination (power, sensation, reflexes, speech, face)
+        finding: "Speech normal; face symmetrical; power full in all limbs; sensation intact; reflexes symmetrical; plantars down."
+      - id: x_general
+        label: General appearance
+        finding: "Alert but yawns often and is slow to answer; well kept; no injuries."
+      - id: x_cognition
+        label: Cognitive screen
+        finding: "Mini-Cog 5 of 5: recalls 3 of 3 words; normal clock."
+      - id: x_ears
+        label: Ears and hearing
+        finding: "Hearing aids in place; ear canals clear; eardrums normal."
+      - id: x_cardio
+        label: Heart, chest and ankles
+        finding: "Irregularly irregular rhythm, no murmur; chest clear; no ankle edema."
+      - id: x_meds
+        label: Medicine bottles he brought
+        finding: >
+          Phenytoin sodium extended 100 mg, 3 capsules at bedtime (Valley Neurology). Amiodarone
+          200 mg, 1 daily, and apixaban 5 mg twice daily (Lakeshore Heart; labels show the latest
+          refills, not when they were started). Meclizine
+          25 mg, 1 tablet three times daily as needed (Millbrook Walk-In, about half used).
+          Lisinopril 10 mg, tamsulosin 0.4 mg, atorvastatin 10 mg.
+      - id: x_obs
+        label: Vital signs (pulse, blood pressure, temperature, respiratory rate, oxygen saturation)
+        parts: [x_pulse, x_bp, x_temp, x_rr, x_sats]
+      - id: x_pulse
+        label: Pulse rate and rhythm
+        finding: "Pulse 74, irregularly irregular."
+      - id: x_bp
+        label: Blood pressure (sitting)
+        finding: "Blood pressure 132/76 sitting."
+      - id: x_temp
+        label: Temperature
+        finding: "Temperature 97.8 F."
+      - id: x_rr
+        label: Respiratory rate
+        finding: "Respiratory rate 14."
+      - id: x_sats
+        label: Oxygen saturation
+        finding: "Oxygen saturation 97% on room air."
+      - id: x_glucose
+        label: Fingerstick glucose
+        finding: "Fingerstick glucose 104 mg/dL."
+  - number: 2
+    day: 4
+    setting: phone
+    present: [patient]
+    turn_budget: 20
+    reason: >
+      Valley Neurology has faxed the results of Mr. Benning's annual labs, drawn 5 days before
+      his office visit. You are calling him about them.
+    events_since_last:
+      - >
+        The neurology clinic's result arrived: phenytoin level 31.5 mcg/mL (range 10 to 20),
+        drawn 5 days before visit 1. Sodium and liver tests normal.
+      - He has not been back to the pharmacy and is taking his tablets as the bottle labels say.
+    records_available: [gp_record, pharmacy_record]
+
+rubric:
+  # Critical items (3, 5 Nov): toxicity with specialist advice, stop meclizine, act on the
+  # visit-2 level. Country-neutral clinical actions.
+  - id: v1_phenytoin_toxicity
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: records
+    critical: true
+    critical_type: clinical_action
+    evidence: [p_double, p_new_heart, x_eyes, x_gait, r_amiodarone]
+    description: >
+      Recognises probable phenytoin toxicity from the new amiodarone (unsteadiness, double
+      vision, nystagmus and drowsiness starting a few weeks after amiodarone), arranges an
+      urgent phenytoin level and gets same-day specialist advice (neurology, and cardiology
+      about the amiodarone) on which medicine to change, rather than changing phenytoin or
+      amiodarone on its own.
+  - id: v1_no_abrupt_stop
+    visit: 1
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: >
+      Stops phenytoin outright with no plan to restart at a lower dose or cover seizures
+      (holding one or two doses and restarting lower, or reducing the dose, is fine).
+  - id: v2_act_on_level
+    visit: 2
+    kind: must_do
+    weight: 3
+    stage: follow_up
+    critical: true
+    critical_type: clinical_action
+    evidence: [g2_level, p2_bottles]
+    description: >
+      Acts on the level of 31.5: asks what he is actually taking now (he is going by the old
+      bottle labels), gives a clear phenytoin dose instruction agreed with or sent to
+      neurology, and arranges a repeat level within about a week.
+
+  # Non-critical items.
+  - id: v1_stop_meclizine
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: plan
+    critical: true
+    critical_type: clinical_action
+    evidence: [p_meclizine, p_urine, p_not_spinning, r_meclizine]
+    description: >
+      Stops meclizine (sedating and anticholinergic; worse falls risk, urinary hesitancy and
+      constipation; treats a vertigo he does not have).
+  - id: v1_driving
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: plan
+    description: >
+      Asks about driving and advises him not to drive until the double vision and unsteadiness
+      have settled, with another way to see his wife (family, the facility, a ride service).
+  - id: v1_reconcile
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: records
+    description: >
+      Reconciles the chart's out-of-date medicine list with the fill history, his bottles and
+      what he says (the cardiology note has not arrived), finds out when the new medicines
+      started, and updates it (amiodarone, apixaban, meclizine).
+  - id: v1_neuro_exam
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: examination
+    description: Examines eye movements and gait or coordination.
+    requires: {examined: [x_eyes, x_gait]}
+  - id: v1_stroke_screen
+    visit: 1
+    kind: red_flag
+    weight: 2
+    stage: triage
+    description: >
+      Asks about or examines for stroke features (sudden onset, one-sided weakness or numbness,
+      speech, facial droop, severe headache), given new atrial fibrillation, and safety-nets to
+      call 911 for any of them.
+  - id: v1_apixaban
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: >
+      Flags that phenytoin lowers apixaban levels (stroke prevention may be inadequate) to
+      cardiology or neurology.
+  - id: v1_vertigo_label
+    visit: 1
+    kind: must_not_do
+    weight: 2
+    stage: history
+    description: Accepts the urgent care "vertigo, likely BPPV" diagnosis without checking (no spinning; Dix-Hallpike negative).
+  - id: v1_more_sedatives
+    visit: 1
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: Continues or increases meclizine, or adds another vestibular suppressant or sedative (such as a benzodiazepine).
+  - id: v1_safety_net
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: plan
+    description: >
+      Safety-nets: a seizure, worsening drowsiness or confusion, vomiting, or a fall means
+      calling the office the same day or 911.
+  - id: v2_meclizine
+    visit: 2
+    kind: must_do
+    weight: 2
+    stage: follow_up
+    description: Finds he is still taking meclizine and stops it clearly.
+  - id: v2_driving
+    visit: 2
+    kind: must_do
+    weight: 2
+    stage: follow_up
+    description: Asks about driving and repeats the advice not to drive yet.
+  - id: v2_abrupt_stop
+    visit: 2
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: Stops phenytoin outright on seeing the high level, with no plan to restart lower.

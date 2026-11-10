@@ -1,0 +1,70 @@
+name: Check
+# A feature push runs once, as its PR; main runs again after each merge.
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        if: hashFiles('package.json', 'web/package.json') != ''
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - uses: pnpm/action-setup@v6
+        if: hashFiles('pnpm-lock.yaml', 'web/pnpm-lock.yaml') != ''
+        with:
+          package_json_file: ${{ hashFiles('web/package.json') != '' && 'web/package.json' || 'package.json' }}
+          run_install: false
+      - name: Install locked Node dependencies
+        if: hashFiles('package.json', 'web/package.json') != ''
+        working-directory: ${{ hashFiles('web/package.json') != '' && 'web' || '.' }}
+        run: |
+          if [ -f pnpm-lock.yaml ] && [ ! -f package-lock.json ]; then
+            pnpm install --frozen-lockfile
+          elif [ -f package-lock.json ] && [ ! -f pnpm-lock.yaml ]; then
+            npm ci
+          else
+            echo 'Exactly one supported Node lockfile is required.' >&2
+            exit 1
+          fi
+      - uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        if: hashFiles('pyproject.toml', 'api/pyproject.toml') != ''
+        with:
+          working-directory: ${{ hashFiles('api/pyproject.toml') != '' && 'api' || '.' }}
+      - name: Install locked Python dependencies
+        if: hashFiles('pyproject.toml', 'api/pyproject.toml') != ''
+        working-directory: ${{ hashFiles('api/pyproject.toml') != '' && 'api' || '.' }}
+        run: uv sync --locked
+      - name: Install Playwright Chromium
+        if: hashFiles('playwright.config.*', 'web/playwright.config.*') != ''
+        working-directory: ${{ hashFiles('web/package.json') != '' && 'web' || '.' }}
+        run: |
+          if [ -f pnpm-lock.yaml ]; then
+            pnpm exec playwright install --with-deps chromium
+          else
+            ./node_modules/.bin/playwright install --with-deps chromium
+          fi
+      - name: Run the project gate
+        run: ./scripts/check
+      - name: Preserve browser verification evidence
+        if: ${{ !cancelled() && hashFiles('playwright.config.*', 'web/playwright.config.*') != '' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: browser-verification
+          path: |
+            playwright-report/
+            test-results/
+            web/playwright-report/
+            web/test-results/
+          retention-days: 7
+          if-no-files-found: warn

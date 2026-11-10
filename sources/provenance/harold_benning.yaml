@@ -1,0 +1,30 @@
+# Internal only: never shown to a model, never published with the case.
+case_id: harold_benning
+pmcid: PMC11897834
+title: "Overlooked Carbamazepine Toxicity: A Diagnostic Pitfall in an Elderly Patient With Dizziness"
+authors: Kobayashi K, Hamai A, Ando T.
+journal: Cureus
+year: "2025"
+doi: 10.7759/cureus.78802
+licence: cc by
+url: https://europepmc.org/article/PMC/PMC11897834
+changes:
+  - "Kept: dizziness in an older man put down to vertigo when it was antiepileptic toxicity; the lesson is a medication review."
+  - "Culprit drug changed within class: phenytoin instead of carbamazepine (rewritten after the first identifiability check found the source for 'carbamazepine toxicity + dizziness')."
+  - "Mechanism: amiodarone, newly started for atrial fibrillation, slowly raises a long-stable phenytoin level, instead of a rapid dose escalation."
+  - "Indication: long-standing epilepsy, seizure-free for years, instead of new trigeminal neuralgia; so stopping the drug outright becomes a must-not."
+  - "No atrial flutter or cardioversion; new atrial fibrillation is managed in clinic with amiodarone and apixaban (adding the phenytoin-apixaban interaction)."
+  - "Route: urgent care (no imaging) labels it vertigo and adds meclizine, a prescribing cascade; in the source the ED imaged him and sent him home."
+  - "Milder and slower: unsteadiness, double vision and drowsiness, no altered consciousness or myoclonus; an office visit and a phone follow-up."
+  - "Age moved from 79 to 83; lives alone and drives daily to see his wife in memory care (driving safety)."
+record_patterns:
+  - Chart medicine list out of date after a specialist started new medicines
+  - Wrong diagnosis carried into the problem list from an outside record (BPPV)
+  - Specialist letter not yet received; new medicines visible only as recent refills
+  - Outside result arriving after the visit it was needed for
+  - Prescribing cascade (vestibular suppressant for a drug side effect)
+distinctive_details:
+  - phenytoin toxicity
+  - amiodarone
+  - meclizine
+  - dizziness

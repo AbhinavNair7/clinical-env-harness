@@ -1,0 +1,34 @@
+# Live eval for the checker's kept-back rule. Each item: who speaks, the GP's question, a
+# reply, and whether the checker should pass it ("clean") or flag a kept-back fact
+# ("hidden_revealed", with the fact id) or a reply that works through a long list of questions
+# ("over_cooperative"). Coping can be asked in many ways; all must count. Answering part of a
+# list, and small talk, are in character.
+# Run: uv run python -m clinical_env.live_evals checker
+case: cases/dev/edith_marsh.yaml
+visit: 1
+items:
+  - {speaker: carer, gp: "How are you coping with all this yourself, Janet?", reply: "I'm frightened you'll say she needs a home. I feel guilty I'm not here more.", expect: clean}
+  - {speaker: carer, gp: "Is it all getting on top of you?", reply: "I'm frightened you'll say she needs a home. I feel guilty I'm not here more.", expect: clean}
+  - {speaker: carer, gp: "What worries you most about Mum at the moment?", reply: "I'm frightened you'll say she needs a home.", expect: clean}
+  - {speaker: carer, gp: "How has it been for you, looking after your mum?", reply: "Honestly? I feel guilty I'm not here more. I'm frightened you'll say she needs a home.", expect: clean}
+  - {speaker: carer, gp: "How is your mum managing at home?", reply: "She's fine. I'm frightened you'll say she needs a home, though.", expect: hidden_revealed, fact: c_strain}
+  - {speaker: carer, gp: "What support can you give her between the care visits?", reply: "I work full time, so I can only come on Sundays.", expect: clean}
+  - {speaker: carer, gp: "What have you actually seen her doing when you're here?", reply: "Last Sunday she grabbed the table getting up from her chair. I've found wet clothes in the wash basket, and there's out-of-date food in the fridge.", expect: clean}
+  - {speaker: carer, gp: "Have you noticed anything at home that worried you?", reply: "Last Sunday she grabbed the table getting up from her chair. I've found wet clothes in the wash basket.", expect: clean}
+  - {speaker: carer, gp: "How's Mum been?", reply: "Fine really. I've found wet clothes in the wash basket and out-of-date food in the fridge.", expect: hidden_revealed, fact: c_what_seen}
+  - {speaker: patient, gp: "Do you ever feel giddy or light-headed when you stand up?", reply: "Oh, I come over giddy when I stand up, love, mostly in the mornings.", expect: clean}
+  - {speaker: patient, gp: "How are you feeling in yourself?", reply: "Oh fine, love, though I come over giddy when I stand up, mostly in the mornings.", expect: hidden_revealed, fact: p_dizzy}
+  - {speaker: patient, gp: "If you fell, how would you get help?", reply: "I've got one of those buttons somewhere. I can't think where I've put it.", expect: clean}
+  - {speaker: patient, gp: "Any falls lately?", reply: "No, love. I've got one of those buttons somewhere, I can't think where.", expect: hidden_revealed, fact: p_alarm}
+  - {speaker: patient, gp: "Do you remember being found on the floor last week?", reply: "Oh, I can't really remember, love.", expect: clean}
+  - {speaker: patient, gp: "Do you take a water tablet?", reply: "I still have my water tablet every morning. I'm up and down to the toilet after.", expect: clean}
+  - {speaker: patient, gp: "How are you managing for meals?", reply: "Oh, I do all my own meals, I always have.", expect: clean}
+  - {speaker: patient, gp: "Have you had dizziness on standing, blackouts, pain, or any new illness?", reply: "Oh, I do come over giddy when I stand up, love, mostly mornings.", expect: clean}
+  - {speaker: patient, gp: "Any falls, blackouts, chest pain or trouble with your waterworks?", reply: "Falls? Only the one before the hospital, love.", expect: clean}
+  - {speaker: patient, gp: "How are you feeling today?", reply: "Oh, not bad, love. Doreen next door popped her head over the fence yesterday for a natter. She's not well herself.", expect: clean}
+  - {speaker: patient, gp: "How have you been sleeping?", reply: "Oh, all right, love. It's been ever so cold this week, hasn't it? I had my quiz shows on all afternoon.", expect: clean}
+  - {speaker: patient, gp: "Any dizziness on standing, blackouts, pain, or problems with your bladder?", reply: "I come over giddy when I stand up, mostly mornings. Only my knees hurt. And I have the odd accident if I can't get there in time.", expect: over_cooperative}
+  - {speaker: carer, gp: "The carers recorded another fall on 27 October. How much extra help could you give?", reply: "Another fall? Nobody told me. Is she all right? I work full time, so only Sundays.", expect: clean}
+  - {speaker: carer, gp: "How much extra help could you realistically give her?", reply: "Another fall? Nobody told me. I work full time, so only Sundays.", expect: hidden_revealed, fact: c_fall_news}
+  - {speaker: patient, gp: "Any chest pain, palpitations or blackouts?", reply: "No, love, nothing like that.", expect: clean}
+  - {speaker: patient, gp: "Any chest pain?", reply: "I get a tight chest going up the stairs, love.", expect: invented_fact}

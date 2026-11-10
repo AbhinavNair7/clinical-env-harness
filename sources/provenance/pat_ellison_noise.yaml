@@ -1,0 +1,27 @@
+# Internal only: never shown to a model, never published with the case.
+case_id: pat_ellison_noise
+pmcid: PMC11431802
+title: "Second Partnership and Dementia Care in a Blended Family: Case Study of a Wicked Problem."
+authors: Stefansdottir OA, Kaas MJ, Sudmann T.
+journal: International journal of environmental research and public health
+year: "2024"
+doi: 10.3390/ijerph21091213
+licence: cc by
+url: https://europepmc.org/article/PMC/PMC11431802
+changes:
+  - "Kept: an older husband in a second marriage caring for his wife with dementia, whose own position is overlooked by professionals, with her adult child pressing a different plan."
+  - "Husband 82, wife 80, UK, primary care home visit and a phone call (source: husband 79, Norway, interviews over 3 years)."
+  - "His own knee replacement in under three weeks that he has told no one (source: disputes over decision-making and legal roles)."
+  - "Added a donepezil-oxybutynin prescribing cascade, a UTI with delirium treated out of hours, constipation and a locked front door at night."
+  - "Removed the legal proceedings and the wider family conflict; one son who wants a care home."
+record_patterns:
+  - Prescribing cascade (antimuscarinic for urgency caused by a cholinesterase inhibitor)
+  - Review date never actioned (6-week oxybutynin review)
+distinctive_details:
+  - oxybutynin
+  - knee replacement
+  - stepson
+theme:
+  - dementia
+  - caregiver
+  - older adult

@@ -1,0 +1,27 @@
+# Internal only: never shown to a model, never published with the case.
+case_id: reg_holloway
+pmcid: PMC12066164
+title: "Rethinking Care: Early Palliative Support for Advanced Heart Failure."
+authors: Ansari A, Sookai V, Gossen I, Matta S, Mahmudul H, Lazarescu R.
+journal: Cureus
+year: "2025"
+doi: 10.7759/cureus.82106
+licence: cc by
+url: https://europepmc.org/article/PMC/PMC12066164
+changes:
+  - "Kept: an older man with advanced HFrEF, AF and CKD, repeated admissions, where care should follow what matters most to him."
+  - "Man, 84, UK, at home over 2 primary care visits (source: 87, US hospital and hospice course)."
+  - "The patient's own wish to stay at home, never asked (source: a daughter carer's reluctance to move away from aggressive treatment)."
+  - "Removed COPD, the intracranial haemorrhage and the malignancies; lives alone with a dog, no carer."
+  - "Added a hospital titration list with potassium 5.0 and a postural drop, a CRT-D referral, and a declined 999 conveyance at visit 2."
+record_patterns:
+  - Discharge plan written without the patient's goals (for full escalation, not discussed)
+  - Hospital asks the GP to start a drug the bloods argue against (spironolactone with K 5.0)
+distinctive_details:
+  - CRT-D
+  - spironolactone
+  - dog
+theme:
+  - heart failure
+  - palliative care
+  - older adult

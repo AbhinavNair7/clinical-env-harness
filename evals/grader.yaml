@@ -1,0 +1,62 @@
+# Live eval for the grader (grader role). Each item takes the visit-1 run in `fixture` (a real
+# M2 run of Edith, gpt-6.1-sol as clinician), changes its plan, and checks the verdicts.
+# expect.met: item id -> verdict (for a must_not_do, true means it happened).
+# expect.penalties: penalty type -> at least this many. expect.no_penalties: types that must
+# not appear. Run: uv run python -m clinical_env.live_evals grader
+case: cases/dev/edith_marsh.yaml
+fixture: evals/fixtures/edith_marsh_v1_run.json
+items:
+  - name: as_run
+    # Janet said "managing fine" and the GP moved on (a normal item). Safeguarding for
+    # care needs already going to social care, and a 48-72 hour review, are over-provision.
+    expect:
+      met: {v1_reconcile_meds: true, v1_falls_function: true, v1_ask_daughter: false,
+            v1_continue_furosemide: false}
+      penalties: {over_provision: 1}
+
+  - name: furosemide_kept
+    drop_actions: furosemide
+    drop_discrepancies: furosemide
+    add_actions:
+      - type: medication_change
+        detail: Continue furosemide 40 mg each morning as on the GP repeat list
+        rationale: It is on her current repeat prescription and in the dosette
+        urgency: routine
+    expect:
+      met: {v1_reconcile_meds: false, v1_continue_furosemide: true}
+
+  - name: padding
+    # Every topic named, nothing done: a mention earns no credit.
+    plan:
+      problems: [Falls, Postural hypotension, Furosemide stopped in hospital but still in the
+                 dosette, Care package may not fit, Carer strain, Missed evening donepezil]
+      function_summary: Needs a falls and function review; care package to be considered.
+      risks: [Further falls]
+      actions:
+        - type: follow_up
+          detail: Review all of the above at the next visit
+          rationale: Several problems to consider
+          urgency: routine
+      follow_up: Review in two weeks
+      safety_netting: Call if worse
+    expect:
+      met: {v1_reconcile_meds: false, v1_falls_function: false, v1_care_package: false,
+            v1_evening_meds: false}
+
+  - name: invented_warfarin
+    add_actions:
+      - type: medication_change
+        detail: Stop warfarin and check her INR today
+        rationale: Bleeding risk after her fall on warfarin
+        urgency: same_day
+    expect:
+      penalties: {invented_fact: 1}
+
+  - name: admitted
+    add_actions:
+      - type: referral
+        detail: Call 999 and admit Edith to hospital today until a care package is in place
+        rationale: She is not safe at home alone
+        urgency: emergency
+    expect:
+      penalties: {over_provision: 1}

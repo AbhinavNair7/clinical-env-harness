@@ -1,0 +1,31 @@
+# Internal only: never shown to a model, never published with the case.
+case_id: marjorie_lindqvist
+pmcid: PMC12863219
+title: >
+  Functional and Cognitive Decline in an Older Adult With Severe Hyponatremia and Undiagnosed
+  Hypothyroidism: A Geriatric Perspective
+authors: Bhutani P, Tanwar B, Choudhary N, Singh A, Dhar M.
+journal: Cureus
+year: "2026"
+doi: 10.7759/cureus.100682
+licence: cc by
+url: https://europepmc.org/article/PMC/PMC12863219
+changes:
+  - "Kept: months of reversible functional and cognitive decline put down to age, from low sodium and an underactive thyroid, recovering with treatment."
+  - "Hypothyroidism is known and was treated; the levothyroxine refill lapsed, so the clue is found by medicine reconciliation (chart vs fill history vs carer), not a new diagnosis."
+  - "A thiazide (losartan-hydrochlorothiazide, added 5 months ago with no electrolyte check) joins the cause; in the source the hyponatremia was attributed to hypothyroidism alone."
+  - "Caught earlier, in primary care: sodium 126-128 with no delirium or hallucinations and no hypertonic saline; the low sodium is an unactioned outside result already in the chart."
+  - "Different patient: a woman in a US town (not a man in India), no COPD or smoking, long-standing diabetes; a daughter who wants an antidepressant (a new must-not)."
+  - "Visit 2 adds an ER visit for a night fall that copies the stale medicine list and adds tramadol (another hyponatremia and falls risk)."
+record_patterns:
+  - Stopped (lapsed) medicine still on the chart's list and copied into the ER's discharge list
+  - Outside lab result filed with no result note (sodium 128)
+  - Copied-forward review of systems and falls screen
+  - Hospital-started proton pump inhibitor with no indication carried on for 18 months
+  - Pharmacy auto-refill re-dispensing a medicine the plan may have changed
+  - Unanswered refill request in the chart's task list
+distinctive_details:
+  - hyponatremia
+  - hypothyroidism
+  - hydrochlorothiazide
+  - levothyroxine refill

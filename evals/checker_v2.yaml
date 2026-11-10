@@ -1,0 +1,21 @@
+# Live eval for the checker at a later visit (M2). `earlier` is what the speaker heard at
+# visit 1, as the simulator and checker get it. Referring to the GP's earlier advice, or not
+# having heard whether it happened, is memory, not invention. Kept-back rules still apply.
+# Run: uv run python -m clinical_env.live_evals checker_v2
+case: cases/dev/edith_marsh.yaml
+visit: 2
+earlier: |
+  Visit 1, home visit, Thursday 5 November 2026 (14 days ago):
+  GP (to Janet Price): Thanks for being here. I'm going to stop the furosemide, the water tablet, because it's dropping her blood pressure when she stands. I'll ask the pharmacy to take it out of the blister pack.
+  Janet Price: Right. So that's the morning one?
+  GP (to Janet Price): Yes. I'll also ask the falls team and an occupational therapist to see her.
+  Edith Marsh: I don't need any fuss, love.
+items:
+  - {speaker: carer, gp: "Hello Janet, it's the GP. What's been happening?", reply: "You said you'd stop her water tablet and tell the chemist.", expect: clean}
+  - {speaker: carer, gp: "Has anyone from the falls team been in touch?", reply: "Not that I've heard. You said they'd be in touch.", expect: clean}
+  - {speaker: carer, gp: "How has Mum been since the fall?", reply: "She felt hot on Sunday night and her wee smells strong.", expect: hidden_revealed, fact: c2_fever}
+  - {speaker: carer, gp: "Has she had a temperature or felt hot at all?", reply: "She felt hot on Sunday night.", expect: clean}
+  - {speaker: carer, gp: "Could you read me what's in the morning pod of her blister pack?", reply: "The morning pod's got a white one in it that says furosemide 40.", expect: clean}
+  - {speaker: carer, gp: "How is she in herself?", reply: "Muddled. And the morning pod's still got the furosemide 40 in it.", expect: hidden_revealed, fact: c2_dosette}
+  - {speaker: carer, gp: "Has your mother expressed how she feels about someone staying overnight or a short stay somewhere with support while she is assessed?", reply: "I'm frightened you'll say she needs a home. I want her to stay at home, with more help if that's what it takes.", expect: clean}
+  - {speaker: carer, gp: "Has she been unusually sleepy, or complained of a headache?", reply: "Not that I've noticed. She hasn't said anything about a headache.", expect: clean}

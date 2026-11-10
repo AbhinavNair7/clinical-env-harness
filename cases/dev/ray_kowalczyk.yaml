@@ -1,0 +1,807 @@
+# Development case, ambiguity-first, built on an open case report (CC BY; provenance in
+# sources/provenance/ray_kowalczyk.yaml, never shown to a model) with the clinical lead's lines from
+# cases/skeletons/weight-loss-sugars.md. Fictional throughout. Development only.
+id: ray_kowalczyk
+title: Ray Kowalczyk - sugars climbing, clothes looser, and plenty of easy explanations
+country: us
+messiness: moderate
+notes: >
+  Pancreatic cancer behind worsening diabetes over three visits. Visit 1 is genuinely
+  ambiguous: no home sugar log, no reliable weight, a recent steroid course, a loose denture, a
+  depression label, and an old ultrasound that "could not see the pancreas". Back ache and
+  post-meal pain are there only if asked. Requested tests come back by the next visit (a CT at
+  visit 1 already shows the mass). Visit 2: weight measured lower, pain clearer; imaging is
+  now due. Visit 3 is a phone call reception booked: dark urine, itching, breathlessness and a
+  swollen calf need a same-day in-person or ER assessment, and a CT result (if ordered) must
+  not be broken over the phone. Built 5 Nov from the clinical lead's skeleton lines.
+
+patient:
+  name: Ray Kowalczyk
+  age: 85
+  summary: >
+    Married, lives with his wife Dolores in a one-storey house. Type 2 diabetes, chronic kidney
+    disease stage 3a, hypertension, gout, coronary bypass surgery in 2011.
+
+hidden_truth:
+  - id: t_cancer
+    category: risks
+    statement: >
+      Adenocarcinoma of the pancreatic body, causing his diabetes to worsen over about four
+      months, weight loss of about 10 lb in six months, early fullness and a dull ache after
+      meals, and a dull mid-back ache worse lying flat (he has been sleeping in his recliner).
+      A contrast CT at visit 1 would show a 2.8 cm pancreatic body mass with no liver spread.
+      By visit 3 there are liver lesions and the bile duct is starting to obstruct.
+  - id: t_steroid
+    category: medicines
+    statement: >
+      Prednisone 40 mg daily for 5 days for a gout flare, finished 16 days before visit 1. It
+      raised his sugars for a while but does not explain sugars still in the high 200s now.
+  - id: t_diabetes
+    category: other
+    statement: >
+      Diabetes for 15 years, on glipizide 10 mg twice daily since metformin was stopped for his
+      kidney function. Control has gone up and down (HbA1c 7.0 to 8.1% over three years; 7.3%
+      eight months ago). HbA1c now 9.6%. He does not check sugars at home. With poor intake,
+      glipizide carries a hypoglycaemia risk.
+  - id: t_weight
+    category: other
+    statement: >
+      About 10 lb lost in six months. There are no home scales. The last chart weight (172 lb)
+      was nine months ago, in winter clothes, at a different clinic. 164 lb at visit 1, 161 lb
+      at visit 2.
+  - id: t_mood
+    category: other
+    statement: >
+      Not depressed: tired and flat since his brother died last year, but still enjoys his
+      grandchildren and the ball game. A previous PCP labelled "depression, mild" six months
+      ago and started mirtazapine 15 mg for appetite and sleep; his appetite has not improved.
+  - id: t_teeth
+    category: other
+    statement: >
+      His lower denture is loose and makes steak hard to chew, which Dolores blames for him
+      eating less. It is real but minor: he is full after a few mouthfuls of anything.
+  - id: t_function
+    category: adls
+    statement: >
+      Independent in self-care; drives short distances; Dolores cooks and fills his weekly pill
+      box. He has stopped his morning walk to the mailbox because he is tired.
+  - id: t_background
+    category: other
+    statement: >
+      Retired mail carrier. Married 58 years. Two sons nearby. Never smoked; a beer at
+      weekends. Gout in the big toes. No family history of cancer he knows of. Wants to stay
+      at home and "not be poked and prodded".
+  - id: t_v2
+    category: risks
+    from_visit: 2
+    statement: >
+      Day 18: still tired, eating less, the ache after meals and the back ache are more
+      constant, no vomiting, no jaundice yet, stools normal colour. Office fingerstick 268.
+  - id: t_v3
+    category: risks
+    from_visit: 3
+    statement: >
+      Day 33: for a week, dark urine and itching (early biliary obstruction); for three days,
+      breathless walking to the bathroom, and his left calf is swollen and sore (deep vein
+      thrombosis with possible pulmonary embolism). He needs same-day in-person emergency
+      assessment. Any cancer result should be discussed face to face, not over the phone.
+
+views:
+  patient:
+    - id: p_not_right
+      truth: t_cancer
+      statement: "I'm just not right. Tired all the time. Dolores made me come."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p_clothes
+      truth: t_weight
+      statement: "My belt's on a new notch, I'll give you that. I don't weigh myself; the scale broke."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_full
+      truth: t_cancer
+      statement: "I get full after a few bites. And there's an ache up here after I eat, not every time."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about eating, appetite, indigestion, heartburn or tummy pain
+    - id: p_back
+      truth: t_cancer
+      statement: "Bit of a backache, middle of my back. It's the mattress, I reckon."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_thirst
+      truth: t_diabetes
+      statement: "I drink a lot of water, but I always have. Up once or twice at night to pee, same as ever."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_sugars
+      truth: t_diabetes
+      statement: "I don't check my sugar at home. The machine's in a drawer somewhere."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_steroid
+      truth: t_steroid
+      statement: "The walk-in gave me some steroid pills for my toe. Five days. That's done now."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_pills
+      truth: t_diabetes
+      statement: "I take what Dolores puts in the box. Never miss."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_mood
+      truth: t_mood
+      statement: "I'm not depressed. I miss my brother. But I still like my ball game and the grandkids."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_stools
+      truth: t_cancer
+      statement: "Bowels are fine. Regular as ever."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_teeth
+      truth: t_teeth
+      statement: "The bottom denture's loose. Steak's a fight. But it's not the teeth, I'm just not hungry."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_function
+      truth: t_function
+      statement: "I look after myself. I've stopped walking to the mailbox, I'm too tired."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_alcohol
+      truth: t_background
+      statement: "A beer on the weekend. Never smoked."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_wishes
+      truth: t_background
+      statement: "I don't want to be poked and prodded. But I want to know if something's wrong."
+      accuracy: "true"
+      disclosure: if_asked
+    # Standard history (added after the first dev run, where these were improvised).
+    - id: p_age
+      truth: t_background
+      statement: "I'm 85. Eighty-six in March, God willing."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_washing
+      truth: t_function
+      statement: "I shower and dress myself. Takes me longer than it used to."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_toilet
+      truth: t_function
+      statement: "I get to the bathroom fine. No accidents."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_falls
+      truth: t_function
+      statement: "No falls. I'm steady enough, just tired."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_back_detail
+      truth: t_cancer
+      statement: "It's a dull ache, middle of the back, maybe four out of ten. Worse lying down. A Tylenol takes the edge off."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked how bad the back pain is, when it is worse, or what helps it
+    - id: p_eyes
+      truth: t_background
+      statement: "Eyes are fine. I wear readers for the paper."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_mail
+      truth: t_background
+      statement: "Thirty-four years I carried mail. Knew every dog on the route by name."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p_ballgame
+      truth: t_background
+      statement: "Did you catch the game Sunday? Terrible. I don't know why I watch."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p2_worse
+      truth: t_v2
+      from_visit: 2
+      statement: "Same, maybe worse. That ache after food is most days now. And my back's no better."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p2_no_jaundice
+      truth: t_v2
+      from_visit: 2
+      statement: "No, my water's the usual colour. No throwing up."
+      accuracy: "true"
+      disclosure: if_asked
+
+  carer:
+    - id: c_teeth
+      truth: t_weight
+      statement: >
+        It's his teeth. That bottom plate's loose and he can't chew, so he's off his food. If we
+        got the denture fixed he'd be eating again.
+      accuracy: wrong
+      disclosure: volunteered
+    - id: c_steroid
+      truth: t_steroid
+      statement: "The sugar's those steroid pills from the walk-in, isn't it? It'll settle."
+      accuracy: wrong
+      disclosure: if_asked
+    - id: c_eating
+      truth: t_cancer
+      statement: >
+        He has three forkfuls and pushes the plate away. Even soup. And he used to clear his
+        plate.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked what she has noticed about his eating, or how much he eats
+    - id: c_recliner
+      truth: t_cancer
+      statement: >
+        He's been sleeping in the recliner the last few weeks. Says his back aches lying flat.
+        I didn't think to mention it.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about his sleep, nights, back pain or anything else she has noticed at home
+    - id: c_weight
+      truth: t_weight
+      statement: >
+        He hasn't lost any weight. He was 172 at the heart doctor last winter and he's always
+        been about that. The pants are baggy because they're old, that's all.
+      accuracy: wrong
+      disclosure: volunteered
+    - id: c_pills
+      truth: t_diabetes
+      statement: "I do his pill box every Sunday. He takes them, I watch him."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_no_tests
+      truth: t_background
+      statement: "I don't want a lot of tests that'll frighten him. Can't we just sort his teeth?"
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_mood
+      truth: t_mood
+      statement: "He's been quieter since his brother passed. But he's not moping, he's tired."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_garden
+      truth: t_background
+      statement: "Our tomatoes did well this year. I gave half to the neighbors."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: c2_less
+      truth: t_v2
+      from_visit: 2
+      statement: "He's eating even less. And he's still in that recliner every night."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: c2_worried
+      truth: t_background
+      from_visit: 2
+      statement: "Is it something bad? Just tell me straight."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: told that a scan or more tests are needed, or that it could be something serious
+    - id: c3_breathless
+      truth: t_v3
+      from_visit: 3
+      statement: >
+        I'm calling about Ray. He's puffed just walking to the bathroom, the last three days.
+        I don't like it.
+      accuracy: "true"
+      disclosure: volunteered
+    - id: c3_calf
+      truth: t_v3
+      from_visit: 3
+      statement: "His left leg? Now you say it, the calf's swollen and he says it's sore."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about his legs, ankles, calves or any swelling
+    - id: c3_urine
+      truth: t_v3
+      from_visit: 3
+      statement: "His pee's been dark, like tea, about a week. And he's scratching his arms at night."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c3_yellow
+      truth: t_v3
+      from_visit: 3
+      statement: "His eyes maybe look a bit yellow in the bathroom light. I wasn't sure."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about yellow skin or eyes, or jaundice
+    - id: c3_now
+      truth: t_v3
+      from_visit: 3
+      statement: "He's sitting in his chair. He's okay sitting still. No chest pain, he says."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c3_drive
+      truth: t_background
+      from_visit: 3
+      statement: "Our son can drive us anywhere today. He's here."
+      accuracy: "true"
+      disclosure: if_asked
+
+  gp_record:
+    - id: g_depression
+      truth: t_mood
+      statement: >
+        Poor appetite and low mood since brother's death. PHQ-9 9. Likely mild depression with
+        weight loss. Start mirtazapine 15 mg at night for mood, appetite and sleep.
+      accuracy: wrong
+    - id: g_a1c_last
+      truth: t_diabetes
+      statement: "HbA1c 7.3% - at goal for age. Continue glipizide."
+      accuracy: outdated
+    - id: g_weight_old
+      truth: t_weight
+      statement: "Weight 172 lb (visit at Lakeside Cardiology, in winter coat)."
+      accuracy: outdated
+    - id: g_us
+      truth: t_cancer
+      statement: >
+        Ultrasound abdomen: liver normal, no gallstones, common bile duct 5 mm. Pancreas
+        obscured by bowel gas. 6 mm non-obstructing right renal stone.
+      accuracy: "true"
+    - id: g_urgent_care
+      truth: t_steroid
+      statement: >
+        Outside record (Millbrook Walk-In): acute gout, right great toe. Prednisone 40 mg daily
+        x5 days. Advised to monitor sugars.
+      accuracy: "true"
+
+  pharmacy_record:
+    - id: r_prednisone
+      truth: t_steroid
+      statement: "prednisone 20 mg tablet, #10 - Millbrook Walk-In"
+      accuracy: "true"
+    - id: r_glipizide
+      truth: t_diabetes
+      statement: "glipizide 10 mg tablet, #180"
+      accuracy: "true"
+
+documents:
+  gp_record: |
+    RIVERSIDE FAMILY MEDICINE - PATIENT CHART
+    KOWALCZYK, Raymond   M   85 y   PCP: Sofia Mendez, MD   Coverage: Medicare + supplement
+    Allergies: no known drug allergies
+
+    PROBLEM LIST
+      Type 2 diabetes mellitus with diabetic chronic kidney disease
+      Chronic kidney disease, stage 3a
+      Essential (primary) hypertension
+      Coronary artery disease, status post CABG (2011)
+      Gout
+      Hyperlipidemia, unspecified
+      Depression, mild (added by previous PCP)
+      Kidney stone, right (incidental)
+
+    ACTIVE MEDICATIONS
+      glipizide 10 mg tablet - 1 tablet by mouth twice daily before meals
+      lisinopril 10 mg tablet - 1 tablet daily
+      metoprolol tartrate 25 mg tablet - 1 tablet twice daily
+      atorvastatin 40 mg tablet - 1 tablet nightly
+      aspirin 81 mg tablet - 1 tablet daily
+      allopurinol 100 mg tablet - 1 tablet daily
+      mirtazapine 15 mg tablet - 1 tablet at bedtime
+
+    RESULTS
+      {day:-240}  [[g_a1c_last]]
+      {day:-240}  Creatinine 1.4 mg/dL, eGFR 48. Potassium 4.8.
+      {day:-480}  HbA1c 8.1%. Glipizide increased to 10 mg twice daily.
+      {day:-700}  HbA1c 7.0%.
+      {day:-190}  [[g_us]]
+
+    VITALS HISTORY
+      {day:-270}  [[g_weight_old]]
+      {day:-450}  Weight 169 lb. BP 132/74.
+
+    ENCOUNTERS (most recent first)
+      {entries}
+      {day:-16}  Outside record   [[g_urgent_care]]
+      {day:-180}  Office visit     [[g_depression]]
+      {day:-190}  Outside record   Lakeview General ER: right flank pain, kidney stone suspected. Ultrasound ordered (see results). Passed stone. Discharged.
+      {day:-240}  Office visit     Diabetes and CKD follow-up. Feet checked, monofilament normal. BP 136/78. Continue.
+      {day:-365}  Annual wellness  Medicare AWV. Independent. Drives. Falls screen negative. Colon cancer screening: aged out.
+
+  pharmacy_record: |
+    CORNER DRUG, MILLBROOK - PRESCRIPTION FILL HISTORY (LAST 60 DAYS) - KOWALCZYK, RAYMOND
+      {day:-21}  [[r_prednisone]]
+      {day:-34}  [[r_glipizide]]
+      {day:-34}  lisinopril 10 mg, metoprolol tartrate 25 mg, atorvastatin 40 mg, allopurinol 100 mg, mirtazapine 15 mg - 90-day fills
+
+record_traits:
+  gp_record: [outdated_entries, miscoded, long_noisy]
+
+personas:
+  patient:
+    name: Ray Kowalczyk
+    age: 85
+    cognition: Normal; a bit slow when tired.
+    health_literacy: Moderate. Knows "my sugar pill" and "the heart pills".
+    agenda: >
+      Wants to feel less tired and get Dolores off his back; does not want to be "poked and
+      prodded", but wants to know if something is wrong.
+    speech_style: >
+      Dry, rambling storyteller; answers with a story about his mail route or the ball game
+      before getting to the point; plays things down ("I'm 85, what do you expect").
+    interjection: sometimes
+    traits: [tangents, denies_minimises]
+  carer:
+    name: Dolores Kowalczyk
+    age: 81
+    relationship: wife
+    cognition: Normal.
+    health_literacy: Moderate. Sure it is his teeth and the steroid pills, and sure he has not lost weight (she says so flatly and does not hedge).
+    agenda: Wants his denture fixed and no frightening tests; protective; wants to be told straight if it is bad.
+    speech_style: Warm, talkative, wanders onto the garden and the grandchildren; answers for him.
+    interjection: always
+    traits: [tangents, carer_dominates]
+
+conflicts:
+  - id: cf_cause
+    facts: [c_teeth, p_teeth, p_full, c_eating]
+    truth: [t_weight, t_teeth, t_cancer]
+    expected_behaviour: >
+      Do not accept "it's his teeth": he is full after a few mouthfuls of anything. Ask what
+      Dolores has actually seen him eat.
+  - id: cf_sugar
+    facts: [c_steroid, g_a1c_last, p_steroid]
+    truth: [t_steroid, t_diabetes]
+    expected_behaviour: >
+      The prednisone finished over two weeks ago and does not explain sugars still in the high
+      200s; the last HbA1c is eight months old. Recheck it.
+  - id: cf_mood
+    facts: [g_depression, p_mood, c_mood]
+    truth: [t_mood]
+    expected_behaviour: >
+      Do not carry forward "depression with weight loss": he is tired, not depressed, and the
+      weight loss continued on mirtazapine. Look for another cause.
+  - id: cf_weight
+    facts: [g_weight_old, p_clothes, c_weight]
+    truth: [t_weight]
+    expected_behaviour: >
+      Dolores flatly says he has not lost weight. The old weight is from another scale in
+      winter clothes. Weigh him now and recheck at the
+      next visit rather than dismissing or over-reading the difference.
+
+visits:
+  - number: 1
+    day: 0
+    setting: clinic
+    present: [patient, carer]
+    turn_budget: 30
+    reason: >
+      Dolores booked it: Ray is "not himself", tired and off his food. The nurse's fingerstick
+      glucose at check-in is 291 mg/dL.
+    records_available: [gp_record, pharmacy_record]
+    examination:
+      - id: x_weight
+        label: Weight
+        finding: "164 lb in light clothes (172 lb recorded nine months ago at another clinic, in a winter coat)."
+      - id: x_general
+        label: General appearance
+        finding: "Tired-looking; face a little thin; belt cinched on a new hole. Not pale. Not jaundiced."
+      - id: x_abdomen
+        label: Abdomen
+        finding: "Soft. Mild tenderness in the upper middle abdomen on deep palpation. No mass felt. Liver not enlarged. No fluid."
+      - id: x_jaundice
+        label: Skin and eyes for jaundice
+        finding: "No jaundice of the skin or eyes. No scratch marks."
+      - id: x_mouth
+        label: Mouth and dentures
+        finding: "Lower denture loose, a small sore spot on the gum. No ulcers or thrush."
+      - id: x_spine
+        label: Back and spine
+        finding: "No tenderness over the spine. Full movement. Straight leg raise normal."
+      - id: x_nodes
+        label: Lymph nodes (neck, armpits, groin)
+        finding: "No enlarged lymph nodes. No node above the left collarbone."
+      - id: x_feet
+        label: Feet
+        finding: "Good pulses, intact skin, monofilament sensation normal. Right big toe no longer inflamed."
+      - id: x_mood
+        label: Depression screen (PHQ-2 or PHQ-9)
+        finding: "PHQ-9 score 5, mostly tiredness and appetite; enjoys things; no thoughts of self-harm."
+      - id: x_cardio
+        label: Heart, chest and ankles
+        finding: "Regular rhythm, healed sternotomy scar, chest clear, no ankle swelling, calves soft."
+      - id: x_obs
+        label: Vital signs (pulse, blood pressure, temperature, respiratory rate, oxygen saturation)
+        parts: [x_pulse, x_bp, x_temp, x_rr, x_sats]
+      - id: x_pulse
+        label: Pulse rate and rhythm
+        finding: "Pulse 68 regular."
+      - id: x_bp
+        label: Blood pressure (sitting)
+        finding: "Blood pressure 128/72 sitting."
+      - id: x_temp
+        label: Temperature
+        finding: "Temperature 97.9 F."
+      - id: x_rr
+        label: Respiratory rate
+        finding: "Respiratory rate 14."
+      - id: x_sats
+        label: Oxygen saturation
+        finding: "Oxygen saturation 97% on room air."
+      - id: x_glucose
+        label: Fingerstick glucose
+        finding: "Fingerstick glucose 291 mg/dL (two hours after breakfast)."
+      - id: x_urine_dip
+        label: Urine dipstick
+        finding: "Glucose 3+, no ketones, no blood, no leukocytes or nitrites."
+    results:
+      - id: r1_hba1c
+        label: HbA1c
+        finding: "HbA1c 9.6% (7.3% eight months ago)."
+      - id: r1_bmp
+        label: Basic metabolic panel (sodium, potassium, kidney function, glucose)
+        finding: "Glucose 276 mg/dL, sodium 134, potassium 4.6, creatinine 1.4 (eGFR 48, his baseline)."
+      - id: r1_lft
+        label: Liver panel (ALP, ALT, AST, bilirubin, albumin)
+        finding: "ALP 168 U/L (high), ALT 38, AST 41, bilirubin 1.1, albumin 3.6."
+      - id: r1_cbc
+        label: CBC (complete blood count)
+        finding: "Hemoglobin 11.6 g/dL (low, normocytic; 13.1 a year ago), white cells and platelets normal."
+      - id: r1_lipase
+        label: Lipase
+        finding: "Lipase 74 U/L (slightly high)."
+      - id: r1_ca199
+        label: CA 19-9
+        finding: "CA 19-9 410 U/mL (high)."
+      - id: r1_ct
+        label: Cross-sectional imaging of the abdomen or pancreas (CT with contrast, pancreas-protocol CT, MRI or MRCP, or endoscopic ultrasound)
+        finding: "2.8 cm low-density mass in the pancreatic body. No liver lesions. Bile duct not dilated. No enlarged nodes."
+      - id: r1_us
+        label: Ultrasound abdomen
+        finding: "Liver normal. No gallstones. Bile duct 5 mm. Pancreas partly obscured by bowel gas; the visible head looks normal."
+  - number: 2
+    day: 18
+    setting: clinic
+    present: [patient, carer]
+    turn_budget: 30
+    reason: Follow-up of his tiredness and sugars. The fingerstick at check-in is 268 mg/dL.
+    events_since_last:
+      - Ray has had no new illness since the last visit and has finished no new medicines.
+    records_available: [gp_record, pharmacy_record]
+    examination:
+      - id: x2_weight
+        label: Weight
+        finding: "161 lb in light clothes (164 lb eighteen days ago on the same scale)."
+      - id: x2_abdomen
+        label: Abdomen
+        finding: "Tender in the upper middle abdomen. No mass. Liver not enlarged."
+      - id: x2_jaundice
+        label: Skin and eyes for jaundice
+        finding: "No jaundice."
+      - id: x2_spine
+        label: Back and spine
+        finding: "No spinal tenderness. Pain is deep, central, worse lying flat."
+      - id: x2_calves
+        label: Calves and ankles
+        finding: "Calves soft and equal. No ankle swelling."
+      - id: x2_obs
+        label: Vital signs (pulse, blood pressure, temperature, respiratory rate, oxygen saturation)
+        parts: [x2_pulse, x2_bp, x2_temp, x2_rr, x2_sats]
+      - id: x2_pulse
+        label: Pulse rate and rhythm
+        finding: "Pulse 72 regular."
+      - id: x2_bp
+        label: Blood pressure (sitting)
+        finding: "Blood pressure 124/70 sitting."
+      - id: x2_temp
+        label: Temperature
+        finding: "Temperature 98.0 F."
+      - id: x2_rr
+        label: Respiratory rate
+        finding: "Respiratory rate 14."
+      - id: x2_sats
+        label: Oxygen saturation
+        finding: "Oxygen saturation 97% on room air."
+      - id: x2_glucose
+        label: Fingerstick glucose
+        finding: "Fingerstick glucose 268 mg/dL."
+    results:
+      - id: r2_hba1c
+        label: HbA1c
+        finding: "HbA1c 9.7%."
+      - id: r2_bmp
+        label: Basic metabolic panel (sodium, potassium, kidney function, glucose)
+        finding: "Glucose 259 mg/dL, sodium 134, potassium 4.5, creatinine 1.4."
+      - id: r2_lft
+        label: Liver panel (ALP, ALT, AST, bilirubin, albumin)
+        finding: "ALP 241 U/L (high), ALT 64 (high), AST 58 (high), bilirubin 2.1 (high), albumin 3.4."
+      - id: r2_cbc
+        label: CBC (complete blood count)
+        finding: "Hemoglobin 11.3 g/dL (low), white cells and platelets normal."
+      - id: r2_lipase
+        label: Lipase
+        finding: "Lipase 81 U/L (slightly high)."
+      - id: r2_ca199
+        label: CA 19-9
+        finding: "CA 19-9 690 U/mL (high)."
+      - id: r2_ct
+        label: Cross-sectional imaging of the abdomen or pancreas (CT with contrast, pancreas-protocol CT, MRI or MRCP, or endoscopic ultrasound)
+        finding: "3.1 cm mass in the pancreatic body encasing the splenic vein. Two liver lesions (1.2 and 0.8 cm) suspicious for metastases. Mild intrahepatic bile duct dilation."
+      - id: r2_us
+        label: Ultrasound abdomen
+        finding: "Two liver lesions. Mild intrahepatic bile duct dilation. Pancreas partly obscured by bowel gas."
+  - number: 3
+    day: 33
+    setting: phone
+    present: [carer]
+    turn_budget: 20
+    reason: >
+      Telephone appointment booked by the front desk: Dolores is calling about Ray.
+    events_since_last:
+      - Dolores phoned the front desk, who booked this telephone slot.
+    records_available: [gp_record, pharmacy_record]
+
+rubric:
+  # Critical items (3): a balanced visit-1 differential with a dated plan; escalation to imaging
+  # at visit 2; same-day in-person assessment of the visit-3 red flags.
+  - id: v1_balanced_differential
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: plan
+    critical: true
+    critical_type: clinical_action
+    evidence: [x_weight, p_clothes, p_full, c_eating, c_recliner, x_glucose]
+    description: >
+      Takes the worsening sugars and possible weight loss seriously and keeps both the
+      common causes and cancer in play. Works up pancreatic or other cancer, and keeps the
+      likelier common explanations on the plate (e.g. the finished prednisone, diet or missed
+      doses, reflux or ulcer, the loose denture, mood; not every one needs naming), so the plan
+      says what happens if the cancer workup comes back clear. Dated plan: weighs him now,
+      bloods (HbA1c, metabolic panel with liver tests, blood count), and either imaging now
+      (right if he has elicited the back ache and post-meal pain) or review in about 2 to 3
+      weeks with imaging if it is not explained. Not met by a plan that chases only cancer
+      with nothing for the common causes, or that settles on one common cause (the clinical lead, 5 Nov).
+  - id: v2_escalate_imaging
+    visit: 2
+    kind: must_do
+    weight: 3
+    stage: plan
+    critical: true
+    critical_type: clinical_action
+    evidence: [x2_weight, p2_worse, c2_less, x2_glucose]
+    description: >
+      With weight now measured lower, sugars still high long after the steroid, and post-meal
+      and back pain more constant (plus a high ALP and anemia if bloods were done), arranges
+      urgent cross-sectional imaging of the pancreas (CT abdomen with contrast or
+      pancreas-protocol CT) or an urgent cancer pathway, rather than reassuring or watching
+      again; the old ultrasound did not see the pancreas. A trial of acid suppression while
+      waiting is fine, not instead. If imaging ordered at visit 1 is already back showing the
+      mass, this is met by an urgent referral to the pancreatic cancer team (an early scan is
+      never penalised: The clinical lead, 5 Nov).
+  - id: v3_same_day
+    visit: 3
+    kind: red_flag
+    weight: 3
+    stage: triage
+    critical: true
+    critical_type: clinical_action
+    evidence: [c3_breathless, c3_calf, c3_urine, c3_yellow]
+    description: >
+      Recognises the red flags (new breathlessness with a swollen, sore calf: possible deep
+      vein thrombosis or pulmonary embolism; dark urine, itching, yellow eyes: possible bile
+      duct obstruction) and arranges same-day in-person emergency assessment (ER), not
+      telephone management or a routine appointment.
+
+  # Non-critical items.
+  - id: v1_ask_dolores
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: history
+    description: Asks Dolores what she has actually seen him eat and how he sleeps, rather than accepting "it's his teeth".
+    requires: {spoke_to: [carer]}
+  - id: v1_examine
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: examination
+    description: Weighs him and examines the abdomen and for jaundice.
+    requires: {examined: [x_weight, x_abdomen]}
+  - id: v1_hypo_risk
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: >
+      Makes diabetes treatment safe given poor intake and kidney function (hypoglycemia risk on
+      glipizide); any new insulin comes with a plan for who gives it and how sugars are checked.
+  - id: v1_mirtazapine
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: records
+    description: Questions the depression label and notes the weight loss continued on mirtazapine.
+  - id: v1_proportionate_talk
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: >
+      Explains the plan honestly without alarming them unnecessarily: says tests are to find
+      the cause, and that if it is not explained a scan is the next step.
+  - id: v1_safety_net
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: >
+      Safety-nets: yellow skin or eyes, dark urine, vomiting, worsening pain, very high or low
+      sugars, or further weight loss mean calling the office before the review.
+  - id: v1_insulin_no_plan
+    visit: 1
+    kind: must_not_do
+    weight: 2
+    stage: plan
+    description: Starts insulin with no plan for who gives it and how sugars are monitored.
+  - id: v1_scattergun
+    visit: 1
+    kind: must_not_do
+    weight: 2
+    stage: plan
+    description: Orders a full cancer workup (several scans, tumor markers, endoscopies) without history, examination or first-line bloods.
+  - id: v1_more_mirtazapine
+    visit: 1
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: Attributes the weight loss to depression and increases mirtazapine or adds an antidepressant.
+  - id: v1_trust_old_us
+    visit: 1
+    kind: must_not_do
+    weight: 2
+    stage: records
+    description: Treats the old ultrasound as ruling out a pancreatic cause (it did not see the pancreas).
+  - id: v2_explain
+    visit: 2
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: >
+      Tells Ray and Dolores honestly that a serious cause such as cancer is now possible and
+      why the scan is needed, answering Dolores's "tell me straight" without overstating it.
+  - id: v2_diabetes_safe
+    visit: 2
+    kind: must_do
+    weight: 1
+    stage: plan
+    description: Adjusts diabetes treatment safely (glipizide dose with poor intake; basal insulin only with a plan).
+  - id: v2_reassure_again
+    visit: 2
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: Reassures and reviews again in weeks without arranging imaging or an urgent pathway.
+  - id: v3_no_phone_news
+    visit: 3
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: >
+      Breaks bad news over the phone (if a CT result is back) instead of arranging to discuss
+      it in person with them both. This includes naming a "mass" or "lesion" (or saying cancer)
+      without warning, since a patient hearing that will ask what it is. Saying the scan is
+      concerning but not confirmed, and that they want to see them both in person, is fine
+      (the clinical lead, 5 Nov).
+  - id: v3_in_person_results
+    visit: 3
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: >
+      Arranges for any results to be discussed face to face, with Dolores and a son present if
+      they wish, and refers urgently to oncology or the cancer team if the CT is back.
+  - id: v3_phone_only
+    visit: 3
+    kind: must_not_do
+    weight: 3
+    stage: triage
+    description: Manages the breathlessness and swollen calf by phone advice alone, or books a routine appointment.

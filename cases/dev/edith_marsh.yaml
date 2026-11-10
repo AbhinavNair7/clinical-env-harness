@@ -1,0 +1,893 @@
+# Pipeline test case from docs/build-v0.md. Fictional. Development only: never counted in the
+# pilot. Clinical detail drafted by the agent for the clinical lead to check or replace.
+id: edith_marsh
+title: Edith Marsh - falls, a dosette nobody updated and a daughter who says she is fine
+country: uk
+messiness: moderate
+notes: >
+  Furosemide was stopped at discharge but the dosette still contains it. Visit 2 tests whether
+  the clinician checks that the visit-1 change actually happened.
+  Change log (realism fixes after M1 runs, 4 Nov): added observations and kitchen findings so
+  "unremarkable" never contradicts the truth; split Janet's availability (not secret, it is
+  in the briefing) from her fear of a care home (kept back). After the clinical lead's run-1 review:
+  records written out as real documents (cluttered GP record, templated agency log, no BP
+  numbers in the discharge summary, a paramedic report for the hallway fall; the agency told
+  its office but not Janet, who does not know about that fall); small talk for Edith; a standard
+  history for Edith and Janet; gait described without a timed up and go; a general
+  appearance finding; a pendant alarm finding (unlisted, it read "unremarkable"). Visit 1 is
+  day 0; records show dates relative to it.
+  After the first M2 runs (4 Nov): Janet's visit-2 account of the second fall and where her
+  mother is now (she denied any fall since the hospital, the visit-1 line still applied);
+  "nothing since" and "managing fine" now end at visit 1; the summary no longer says
+  "3 weeks ago", which was wrong at visit 2. The GP record marks where {entries} go.
+  After the clinical lead's M2 read (4 Nov): Janet speaks plainly (she had picked up Edith's "love") and
+  reacts when told of the fall nobody told her about; who gives the eye drops is now scripted
+  (asked in every run, answered by guesswork); Edith says she does her own meals only when
+  asked; observations are single findings plus an "obs" set, and lying and standing BP
+  records the pulse. A symptom not in a person's script is one they do not have (as an unlisted
+  exam is unremarkable), so routine negatives such as chest pain need no lines; Edith's
+  giddiness passes when she sits; the key safe is scripted.
+
+patient:
+  name: Edith Marsh
+  age: 84
+  summary: >
+    Lives alone in a two-storey terraced house. Mild Alzheimer's disease, hypertension.
+    Admitted in October after a fall with a postural drop in blood pressure. Care agency
+    visits twice daily; her daughter visits on Sundays.
+
+hidden_truth:
+  - id: t_furosemide
+    category: medicines
+    statement: >
+      Furosemide is not indicated (no heart failure) and is worsening her postural
+      hypotension. She takes it every morning from her dosette.
+  - id: t_missed_meds
+    category: medicines
+    statement: >
+      Morning medicines are taken with agency prompting. Evening donepezil is missed on most
+      nights: the evening call comes after 9pm, when she is asleep or drowsy and declines.
+      Nobody has moved the dose or the call time. She goes to bed by about 8.30pm.
+  - id: t_eye_drops
+    category: medicines
+    statement: >
+      Latanoprost is supplied separately from the blister pack. The carers give only the
+      blister pack; Edith is meant to put the drops in herself at bedtime and mostly forgets.
+  - id: t_postural
+    category: risks
+    statement: >
+      Symptomatic postural hypotension: systolic drop of about 30 mmHg on standing, worse in
+      the morning after her tablets.
+  - id: t_falls
+    category: falls
+    statement: >
+      Two falls in the past month: the fall that led to admission 3 weeks ago, and a fall in
+      the hallway 1 week ago when the agency found her on the floor in the morning. She does
+      not remember the second fall.
+  - id: t_fall_2
+    category: falls
+    from_visit: 2
+    statement: >
+      A third fall at night going to the toilet, 5 days before visit 2, with a lie of about
+      6 hours on the bathroom floor. Bruising only. New night-time confusion since.
+  - id: t_mobility
+    category: mobility
+    statement: >
+      Walks with a stick and furniture-walks indoors. The walking frame issued at discharge is
+      folded in the hallway, unused. Slow and unsteady on turning. Manages the stairs slowly
+      with the rail; her bedroom and toilet are upstairs.
+  - id: t_adls
+    category: adls
+    statement: >
+      Washes and dresses with prompting from the morning carer. Has stopped using the cooker
+      and skips lunch; leaves sandwiches uneaten. Occasional urinary incontinence she hides.
+      Janet does a weekly shop on Sundays.
+  - id: t_cognition
+    category: cognition
+    statement: >
+      Mild Alzheimer's disease. Poor recall of recent events, including falls. Can hold a
+      conversation and presents well socially.
+  - id: t_care_delivered
+    category: care_delivered
+    statement: >
+      Two agency calls daily, running at about 15 minutes because of staffing. The evening
+      call often comes after 9pm. No lunchtime call. The package no longer fits her needs.
+  - id: t_carer_strain
+    category: carer_strain
+    statement: >
+      Her daughter Janet works full time, visits only on Sundays, feels guilty and fears her
+      mother will be moved to a care home. She has never had a carer's assessment.
+  - id: t_alarm
+    category: risks
+    statement: >
+      Has a pendant alarm but takes it off and misplaces it, so she cannot summon help after
+      a fall. Loose rug in the hallway and poor landing lighting.
+  - id: t_background
+    category: other
+    statement: >
+      Widowed 10 years (husband Frank). Lonely and low at times, not depressed. A small sherry
+      most evenings; never smoked. Osteoarthritis of the knees (paracetamol when needed),
+      glaucoma (eye drops), CKD stage 3a. Wants to stay in her own home. Her neighbour Doreen
+      chats over the fence but is frail herself and gives no practical help. Enjoys afternoon
+      quiz shows. Worries about her eyesight.
+  - id: t_bppv
+    category: other
+    statement: >
+      Red herring: benign paroxysmal positional vertigo 6 years ago, resolved. Not the cause
+      of her current dizziness, which is postural.
+  - id: t_delirium
+    category: risks
+    from_visit: 2
+    statement: >
+      Probable delirium from a urinary tract infection: low-grade fever, off her food,
+      muddled by day and worse at night. No head injury seen; no chest pain or
+      breathlessness; alert and drinking. Needs a same-day face-to-face assessment.
+
+views:
+  patient:
+    - id: p_no_falls
+      truth: t_falls
+      statement: "I haven't had any falls. Well, only the one before the hospital."
+      accuracy: wrong
+      disclosure: if_asked
+    - id: p_tablets_fine
+      truth: t_missed_meds
+      statement: "I take all my tablets. The girls see to that."
+      accuracy: wrong
+      disclosure: if_asked
+    - id: p_cooking
+      truth: t_adls
+      statement: "I do all my own meals, I always have."
+      accuracy: wrong
+      disclosure: if_asked
+    - id: p_dizzy
+      truth: t_postural
+      statement: "I come over giddy when I stand up, mostly in the mornings. It passes if I sit back down."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about dizziness or light-headedness on standing
+    - id: p_water_tablet
+      truth: t_furosemide
+      statement: "I still have my water tablet every morning. I'm up and down to the toilet after."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about the water tablet, furosemide, or passing urine
+    - id: p_frame
+      truth: t_mobility
+      statement: "The frame is for when I'm poorly. I manage with my stick."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_alarm
+      truth: t_alarm
+      statement: "I've got one of those buttons somewhere. I can't think where I've put it."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about a pendant alarm or how she would get help after a fall
+    # Standard history: her own account of each topic a GP routinely asks about.
+    - id: p_washing
+      truth: t_adls
+      statement: "I see to my own washing and dressing. The girl's just there for company."
+      accuracy: wrong
+      disclosure: if_asked
+    - id: p_continence
+      truth: t_adls
+      statement: "I have the odd accident if I can't get there in time. I don't like to talk about it."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about her bladder, waterworks, leaking or accidents
+    - id: p_stairs
+      truth: t_mobility
+      statement: "I go up the stairs slowly, holding the rail. My bedroom and the toilet are upstairs."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_shopping
+      truth: t_adls
+      statement: "Janet does a big shop for me on a Sunday."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_help
+      truth: t_care_delivered
+      statement: "The girls come in the morning and at night. They're very good, but they're always rushing."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_bedtime
+      truth: t_missed_meds
+      statement: "I'm in bed by half eight most nights. I'm often asleep when the night girl comes."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_memory
+      truth: t_cognition
+      statement: "My memory's not what it was, but I get by."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_mood
+      truth: t_background
+      statement: "I get a bit lonely since Frank passed, but I'm all right. I've got my programmes."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_alcohol
+      truth: t_background
+      statement: "Just a small sherry of an evening. I've never smoked."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_pain
+      truth: t_background
+      statement: "Only my knees, the usual. I take a paracetamol if they're bad."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_wishes
+      truth: t_background
+      statement: "I want to stay in my own home. I don't want to go into a home."
+      accuracy: "true"
+      disclosure: if_asked
+    # Small talk for a chatty persona: true, harmless, said once each.
+    - id: p_frank
+      truth: t_background
+      statement: "Frank and I were married forty-six years. He did all the jobs round the house."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p_doreen
+      truth: t_background
+      statement: "Doreen next door pops her head over the fence for a natter, but she's not well herself."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p_telly
+      truth: t_background
+      statement: "I like my quiz shows in the afternoon. I'm not bad at them, you know."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p_eyes
+      truth: t_background
+      statement: "My eyes aren't what they were. I've got drops for them."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p_drops
+      truth: t_eye_drops
+      statement: "I do my eye drops myself, at bedtime."
+      accuracy: wrong
+      disclosure: if_asked
+
+  carer:
+    - id: c_managing_fine
+      truth: t_adls
+      until_visit: 1
+      statement: "Mum's managing fine. She's always tidy and cheerful when I come round."
+      accuracy: wrong
+      disclosure: volunteered
+    - id: c_falls
+      truth: t_falls
+      until_visit: 1
+      statement: "She had that one fall before the hospital. Nothing since, as far as I know."
+      accuracy: wrong
+      disclosure: if_asked
+    - id: c_fall_news
+      truth: t_falls
+      until_visit: 1
+      statement: >
+        Another fall? Nobody told me. Why didn't the agency ring me? Is she all right, did she
+        hurt herself?
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: >
+        told that the carers or the records show a fall since the hospital, or asked whether
+        she knew about it
+    - id: c_drops
+      truth: t_eye_drops
+      statement: "I'd assumed the carers do her eye drops with her tablets."
+      accuracy: wrong
+      disclosure: if_asked
+    - id: c_keysafe
+      truth: t_care_delivered
+      statement: "There's a key safe by the front door. The carers and I have the number."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_meds_sorted
+      truth: t_furosemide
+      statement: "The hospital sorted her tablets out and the chemist does the pods."
+      accuracy: wrong
+      disclosure: if_asked
+    - id: c_what_seen
+      truth: t_adls
+      statement: >
+        Last Sunday she grabbed the table getting up from her chair. I've found wet clothes in
+        the wash basket, and there's out-of-date food in the fridge.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: >
+        asked what she has seen or noticed at home (her mother's actions, the house, the
+        fridge), rather than only how her mother is
+    - id: c_availability
+      truth: t_carer_strain
+      statement: "I work full time, so I can only come on Sundays."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_strain
+      truth: t_carer_strain
+      statement: "I'm frightened you'll say she needs a home. I feel guilty I'm not here more."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: >
+        asked how she is coping herself, or what worries or frightens her (including about her
+        mother), in any wording, or a care home, respite or a stay away from home is mentioned
+    - id: c_help
+      truth: t_care_delivered
+      statement: "The carers come morning and evening. They do her tablets and help her wash, I think."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_shopping
+      truth: t_adls
+      statement: "I do a big shop on Sundays and fill her fridge."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_memory
+      truth: t_cognition
+      statement: "Her memory's worse than last year, but she's still Mum. She covers it well."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_bedtime
+      truth: t_missed_meds
+      statement: "She's always been early to bed. Half eight, nine at the latest."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_mood
+      truth: t_background
+      statement: "She's lonely since Dad died. She used to love the lunch club."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_wishes
+      truth: t_carer_strain
+      statement: "I want her to stay at home, with more help if that's what it takes."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c2_fall
+      truth: t_fall_2
+      from_visit: 2
+      statement: >
+        She fell in the night on Saturday going to the loo and was on the bathroom floor till
+        the carer came in the morning. The paramedics checked her over and left her at home.
+      accuracy: "true"
+      disclosure: volunteered
+    - id: c2_now
+      truth: t_care_delivered
+      from_visit: 2
+      statement: "She's at home. I'm ringing from work; the carers still come morning and evening."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c2_not_coping
+      truth: t_fall_2
+      from_visit: 2
+      statement: >
+        I stayed the weekend after her fall. She was up in the night not knowing where she
+        was, and she'd wet the bed. That's not like her.
+      accuracy: "true"
+      disclosure: volunteered
+    - id: c2_dosette
+      truth: t_furosemide
+      from_visit: 2
+      statement: "The morning pod's got a white one in it that says furosemide 40."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked to check or read out the tablets in the dosette
+    - id: c2_fever
+      truth: t_delirium
+      from_visit: 2
+      statement: "She felt hot on Sunday night and she's barely eating. Her wee smells strong."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about fever or feeling hot, eating and drinking, or urine
+    - id: c2_head
+      truth: t_delirium
+      from_visit: 2
+      statement: "She didn't hit her head as far as I know. Just the bruise on her arm."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c2_daytime
+      truth: t_delirium
+      from_visit: 2
+      statement: "She's better in the daytime, just a bit muddled. She's drinking her tea."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c2_alarm
+      truth: t_alarm
+      from_visit: 2
+      statement: "She wasn't wearing her alarm. She said she'd lost it; I found it down the side of the sofa."
+      accuracy: "true"
+      disclosure: if_asked
+
+  gp_record:
+    - id: g_meds
+      truth: t_furosemide
+      statement: "Furosemide 40mg tablets - one each morning - 28 tablets"
+      accuracy: outdated
+    - id: g_falls
+      truth: t_falls
+      statement: "Medication review. BP 146/82 sitting. No falls reported. Memory stable per daughter. Continue current medication."
+      accuracy: outdated
+    - id: g_bppv
+      truth: t_bppv
+      statement: "Benign paroxysmal positional vertigo - resolved after Epley manoeuvre"
+      accuracy: "true"
+    - id: g_dementia
+      truth: t_cognition
+      statement: "Alzheimer's disease (memory clinic: mild)"
+      accuracy: "true"
+    - id: g_care
+      truth: t_care_delivered
+      statement: "Letter from adult social care: package of care started, two 30-minute calls daily (morning and evening)."
+      accuracy: outdated
+
+  discharge_summary:
+    - id: d_fall
+      truth: t_falls
+      statement: "Fall at home secondary to postural hypotension."
+      accuracy: "true"
+    - id: d_furosemide
+      truth: t_furosemide
+      statement: "Furosemide 40mg OM STOPPED - no evidence of heart failure, postural drop. GP please update repeats."
+      accuracy: "true"
+    - id: d_frame
+      truth: t_mobility
+      statement: "Assessed by physiotherapy. Discharged with a walking frame; advised to use it at all times."
+      accuracy: "true"
+
+  care_agency_notes:
+    - id: a_missed
+      truth: t_missed_meds
+      statement: "Evening medicines, last 14 days: given 5, not given 9 (client asleep / declined)."
+      accuracy: "true"
+    - id: a_floor
+      truth: t_falls
+      statement: >
+        07:48-09:55 On arrival client found on hallway floor, unable to say how long she had
+        been there. Chatty, no obvious injury. 999 called, paramedics attended, client not
+        taken to hospital. Carer stayed until paramedics left. Office informed.
+      accuracy: "true"
+    - id: a_short_calls
+      truth: t_care_delivered
+      statement: "21:26-21:38 Client in bed, settled. Medication offered, declined. Door locked."
+      accuracy: "true"
+    - id: a_meals
+      truth: t_adls
+      statement: "21:14-21:29 Lunch sandwich still in fridge, client said she wasn't hungry. Supper of tea and biscuits. Client settled for bed."
+      accuracy: "true"
+    - id: a2_fall
+      truth: t_fall_2
+      from_visit: 2
+      statement: "07:55-08:40 Client found on bathroom floor, says she fell in the night. Bruise to right arm. Paramedics attended, client not taken to hospital. Daughter informed."
+      accuracy: "true"
+
+  pharmacy_record:
+    - id: r_dosette
+      truth: t_furosemide
+      statement: "Weekly blister pack dispensed. Morning: furosemide 40mg, amlodipine 10mg. Night: donepezil 10mg, atorvastatin 20mg."
+      accuracy: "true"
+    - id: r2_redispensed
+      truth: t_furosemide
+      from_visit: 2
+      statement: "Weekly blister pack dispensed, contents unchanged. Morning: furosemide 40mg, amlodipine 10mg. Night: donepezil 10mg, atorvastatin 20mg."
+      accuracy: "true"
+
+  ambulance_report:
+    - id: m_fall
+      truth: t_falls
+      statement: >
+        Unwitnessed fall. Found by care worker at the morning call lying on the hallway floor.
+        Patient unable to say when she fell or how long she was on the floor; thinks she
+        "must have slipped".
+      accuracy: "true"
+    - id: m2_fall
+      truth: t_fall_2
+      from_visit: 2
+      statement: >
+        Fall at night going to the toilet, found on the bathroom floor at the morning call;
+        likely long lie. Obs within normal limits. Bruising right forearm, no head injury.
+        Mechanical fall. Not conveyed; left with carer, GP to review.
+      accuracy: "true"
+
+# Records as they would look. [[fact_id]] marks where each fact sits; {day:N} and
+# {weekday:N} are dates N days from visit 1 (lines dated after a visit are not shown at it).
+# A {entries} line marks where the clinician's own earlier consultations appear (gp_record).
+documents:
+  gp_record: |
+    Edith MARSH   Female   Age 84   Usual GP: Dr A Okafor
+
+    PROBLEMS - ACTIVE
+      Aug 2024   [[g_dementia]]
+      Mar 2021   Chronic kidney disease stage 3a
+      Jun 2015   Primary open angle glaucoma
+      Feb 2010   Osteoarthritis of knee
+      Apr 2003   Essential hypertension
+
+    PROBLEMS - PAST / MINOR
+      Nov 2025   Low back pain
+      Jan 2023   Herpes zoster (shingles), thoracic
+      Sep 2022   Seborrhoeic keratosis
+      2020       [[g_bppv]]
+      Jul 2019   Urinary tract infection
+      Oct 2017   Osteopenia (DEXA)
+      Mar 2014   Cataract extraction, left eye
+      Nov 2012   Cataract extraction, right eye
+      May 2008   Carpal tunnel syndrome, right
+      1996       Total abdominal hysterectomy (fibroids)
+      1971       Appendicectomy
+
+    REPEAT MEDICATION (last issued {day:-14})
+      [[g_meds]]
+      Amlodipine 10mg tablets - one each morning - 28 tablets
+      Donepezil 10mg tablets - one at night - 28 tablets
+      Atorvastatin 20mg tablets - one at night - 28 tablets
+      Adcal-D3 chewable tablets - one twice a day - 56 tablets
+      Latanoprost 50micrograms/ml eye drops - one drop both eyes at night - 2.5ml
+      Paracetamol 500mg tablets - two up to four times a day when required - 100 tablets
+
+    CONSULTATIONS (most recent first)
+      {entries}
+      {day:-14}  Admin           Repeat prescription issued, all repeat items. Pharmacy to blister pack.
+      {day:-15}  Document        Hospital discharge summary received (Elderly Care). Filed, awaiting GP review.
+      {day:-24}  Document        ED attendance notification: fall at home, admitted.
+      {day:-62}  Practice nurse  Seasonal influenza vaccine given. COVID-19 booster given.
+      {day:-125}  Telephone       Daughter asking for eye drops on repeat. Already on repeat; advised.
+      {day:-201}  GP              [[g_falls]]
+      {day:-268}  Letter          Eye clinic: glaucoma stable on latanoprost. Discharged to optometrist.
+      {day:-360}  GP              Low back pain after gardening. No red flags. Paracetamol, activity advice.
+      {day:-452}  Letter          Memory clinic review: mild Alzheimer's disease, stable. Continue donepezil. Discharged to GP.
+      {day:-540}  Letter          [[g_care]]
+      {day:-575}  Results         eGFR 52, potassium 4.6, HbA1c 39, cholesterol 4.1. Stable.
+      {day:-610}  GP              Annual hypertension review. BP 138/78. Continue.
+
+  discharge_summary: |
+    DISCHARGE SUMMARY - Elderly Care, Ward 9
+    Admitted {day:-24}   Discharged {day:-17}
+    Presenting complaint: found on the floor at home by carer.
+    Diagnosis: [[d_fall]]
+    Other problems: hypertension; Alzheimer's disease (mild); CKD 3a; glaucoma.
+    Investigations: bloods unremarkable apart from eGFR 49 (baseline 52). ECG sinus rhythm,
+      normal intervals. CXR clear. No head injury; CT head not indicated.
+    Medication changes: [[d_furosemide]]
+    Medication on discharge: amlodipine 10mg OM; donepezil 10mg ON; atorvastatin 20mg ON;
+      Adcal-D3 one BD; latanoprost both eyes ON; paracetamol 1g QDS PRN.
+    Therapy: [[d_frame]]
+    Social: lives alone; package of care twice daily, restarted on discharge; daughter visits weekly.
+    GP actions: please review BP in 2 weeks.
+
+  care_agency_notes: |
+    CARE RECORD - Mrs Edith Marsh. Package: 2 calls daily (AM, PM). Medication: prompt from blister pack.
+    MAR summary: [[a_missed]]
+
+    {weekday:12} PM 21:20-21:36 Client muddled, says she wants to go home. Reassured. Medication declined.
+    {weekday:9} AM [[a2_fall]]
+    {weekday:-1} AM 08:06-08:20 Assisted with wash and dressing. Prompted medication, taken. Toast and tea. Client in good spirits.
+    {weekday:-1} PM 21:12-21:25 Client in bed, settled. Medication not given, client asleep.
+    {weekday:-2} AM 08:10-08:24 Personal care given. Medication taken. Breakfast made. Chatty this morning.
+    {weekday:-2} PM [[a_short_calls]]
+    {weekday:-3} AM 07:58-08:13 Personal care given. Medication taken. Cereal and tea. Sandwich made and left in fridge for lunch.
+    {weekday:-3} PM [[a_meals]]
+    {weekday:-4} AM 08:21-08:35 Personal care given. Medication taken. Daughter visiting today.
+    {weekday:-4} PM 20:52-21:06 Medication given. Client watching TV. All well.
+    {weekday:-5} AM 08:02-08:17 Personal care given. Medication taken. Home clean and tidy.
+    {weekday:-5} PM 21:31-21:44 Client in bed, asleep. Did not wake client. Medication not given.
+    {weekday:-6} AM 08:15-08:29 Personal care given. Medication taken. Client cheerful.
+    {weekday:-6} PM 21:05-21:18 Medication offered, client said she had already taken them. Settled.
+    {weekday:-7} AM 08:04-08:18 Personal care given. Medication taken. Porridge and tea.
+    {weekday:-7} PM 21:22-21:35 Client in bed, settled. Medication not given, client asleep.
+    {weekday:-8} AM 08:12-08:26 Personal care given. Medication taken. Client in good spirits.
+    {weekday:-8} PM 21:09-21:23 Medication offered, declined. Client tired.
+    {weekday:-9} AM [[a_floor]]
+    {weekday:-9} PM 20:48-21:03 Medication given. Client tired but in good spirits.
+
+  pharmacy_record: |
+    PATIENT MEDICATION RECORD - Edith MARSH
+    Monitored dosage system: weekly 7-day blister pack, delivered Mondays.
+    Supplied separately: Adcal-D3 chewable tablets, latanoprost eye drops, paracetamol 500mg.
+      {day:11}  [[r2_redispensed]]
+      {day:4}  Weekly blister pack dispensed, contents unchanged.
+      {day:-3}  [[r_dosette]]
+      {day:-10}  Weekly blister pack dispensed, contents unchanged.
+      {day:-14}  Repeat prescription received from GP: furosemide 40mg, amlodipine 10mg,
+                 donepezil 10mg, atorvastatin 20mg, Adcal-D3, latanoprost, paracetamol.
+      {day:-31}  Weekly blister pack dispensed. Morning: furosemide 40mg, amlodipine 10mg. Night: donepezil 10mg, atorvastatin 20mg.
+
+  ambulance_report: |
+    AMBULANCE SERVICE PATIENT REPORT (copy to GP)
+    Incident {day:-9}. Call 07:56, on scene 08:41, left scene 09:50. Caller: care worker.
+    History: [[m_fall]]
+    Past history: hypertension, Alzheimer's disease, glaucoma. Recent admission after a fall.
+    Medication: per blister pack. No anticoagulants.
+    Obs: RR 16, SpO2 96% air, HR 78 regular, BP 134/76 sitting, temp 36.5, BM 6.4.
+      GCS 15; unsure of the date, which the carer says is usual for her.
+    12-lead ECG: sinus rhythm 76, no acute changes.
+    Secondary survey: no head injury, no neck or hip pain, full range of movement all limbs.
+      Skin intact. Stood with help of one and walked to her chair with a stick.
+    Impression: mechanical fall, no injury.
+    Disposition: not conveyed. Patient declined hospital; has capacity for this decision.
+      Left in the care of the care worker. Worsening advice given. GP to consider falls referral.
+    {day:9}  Further incident: [[m2_fall]]
+
+record_traits:
+  gp_record: [contradicts_other_records, outdated_entries, long_noisy]
+  discharge_summary: [contradicts_other_records]
+  care_agency_notes: [contradicts_other_records]
+
+personas:
+  patient:
+    name: Edith Marsh
+    age: 84
+    cognition: Mild Alzheimer's disease. Forgets recent events but covers well socially.
+    health_literacy: Low. Calls furosemide "my water tablet" and doesn't know the other names.
+    agenda: Wants to stay in her own home and not be a bother. Plays down problems.
+    speech_style: Warm and chatty; wanders off topic; calls people "love" now and then.
+    interjection: sometimes
+    traits: [denies_minimises, tangents, poor_recall]
+  carer:
+    name: Janet Price
+    age: 56
+    relationship: daughter
+    cognition: Normal.
+    health_literacy: Moderate. Trusts that the hospital and pharmacy have sorted things.
+    agenda: Wants her mother to stay at home. Defensive if a care home is mentioned.
+    speech_style: Brisk and plain-spoken (no pet names), a little defensive, speaks for her mother.
+    interjection: always
+    traits: [carer_dominates, denies_minimises]
+
+conflicts:
+  - id: cf_furosemide
+    facts: [d_furosemide, g_meds, r_dosette, c_meds_sorted, p_water_tablet]
+    truth: [t_furosemide]
+    expected_behaviour: >
+      Notice that the discharge summary stopped furosemide while the GP record and dosette
+      still contain it; confirm she is taking it; stop it and get the dosette changed.
+  - id: cf_falls
+    facts: [p_no_falls, c_falls, g_falls, a_floor, d_fall, m_fall]
+    truth: [t_falls]
+    expected_behaviour: >
+      Rely on the agency notes, ambulance report and discharge summary over Edith's recall;
+      record two falls.
+  - id: cf_function
+    facts: [p_cooking, p_washing, c_managing_fine, a_meals, c_what_seen]
+    truth: [t_adls]
+    expected_behaviour: >
+      Do not accept "managing fine"; ask Janet what she has actually seen and weigh it against
+      the agency's observations.
+  - id: cf_meds_taken
+    facts: [p_tablets_fine, a_missed]
+    truth: [t_missed_meds]
+    expected_behaviour: Believe the agency record of missed evening doses.
+  - id: cf_care
+    facts: [g_care, a_short_calls]
+    truth: [t_care_delivered]
+    expected_behaviour: Recognise the care actually delivered is less than the GP record shows.
+  - id: cf_eye_drops
+    facts: [p_drops, c_drops]
+    truth: [t_eye_drops]
+    expected_behaviour: >
+      Do not assume the separately supplied eye drops are given; find out who gives them.
+
+visits:
+  - number: 1
+    day: 0
+    setting: home_visit
+    present: [patient, carer]
+    turn_budget: 40  # soft: a penalty only past it; calibrate at M1 against a human run
+    reason: >
+      The care agency phoned the practice: Edith was found on the floor last week and is
+      missing evening medicines. Janet is there for the visit.
+    records_available: [gp_record, discharge_summary, care_agency_notes, pharmacy_record, ambulance_report]
+    examination:
+      - id: x_postural_bp
+        label: Lying and standing blood pressure
+        finding: "Lying 138/76, pulse 76 regular; standing 108/64, pulse 82 at 1 minute and 112/66, pulse 80 at 3 minutes; dizzy on standing."
+      - id: x_gait
+        label: Gait and mobility
+        finding: "Rises from the chair at the second attempt, pushing up with her arms. Walks slowly with a stick, reaching for furniture; unsteady on turning. Does not use the walking frame."
+      - id: x_general
+        label: General appearance and hydration
+        finding: "Thin; her cardigan and skirt hang loose. Food marks on her clothes, hair unwashed. Alert, chatty and pleasant. Lips a little dry."
+      - id: x_home
+        label: Home hazards
+        finding: "Loose rug in the hallway; dim landing light; walking frame folded by the front door."
+      - id: x_dosette
+        label: Dosette and medicines in the home
+        finding: "Morning slots hold furosemide 40 mg and amlodipine 10 mg; night slots hold donepezil 10 mg and atorvastatin 20 mg. Five of last week's seven night slots are still full. The latanoprost bottle by her bed was opened nine weeks ago and is still nearly full."
+      - id: x_cognition
+        label: Cognition screen
+        finding: "6CIT 12 out of 28: wrong month, recalls 2 of 5 address items."
+      - id: x_dix_hallpike
+        label: Dix-Hallpike test
+        finding: "Negative on both sides."
+      - id: x_cardio
+        label: Heart, chest and ankles
+        finding: "Heart sounds normal, chest clear, no ankle oedema, JVP not raised."
+      - id: x_bruising
+        label: Skin and hips
+        finding: "Old bruising over the left hip; no bony tenderness; full range of hip movement."
+      # A set GPs ask for by name ("obs"); asking for one part gets that part alone.
+      - id: x_obs
+        label: Observations (pulse, blood pressure, temperature, respiratory rate, oxygen saturation)
+        parts: [x_pulse, x_bp, x_temp, x_rr, x_sats]
+      - id: x_pulse
+        label: Pulse rate and rhythm
+        finding: "Pulse 76 regular."
+      - id: x_bp
+        label: Blood pressure (sitting)
+        finding: "Blood pressure 130/72 sitting."
+      - id: x_temp
+        label: Temperature
+        finding: "Temperature 36.6 C."
+      - id: x_rr
+        label: Respiratory rate
+        finding: "Respiratory rate 16."
+      - id: x_sats
+        label: Oxygen saturation
+        finding: "Oxygen saturation 96% on air."
+      - id: x_glucose
+        label: Capillary blood glucose
+        finding: "Capillary glucose 6.1 mmol/L."
+      - id: x_alarm
+        label: Pendant alarm
+        finding: "Not being worn; not found in the living room or kitchen. The base unit is plugged in and working."
+      - id: x_kitchen
+        label: Kitchen, fridge and food
+        finding: "Cooker cold with dust on the hob. Fridge holds out-of-date milk and ham. Two curled sandwiches from yesterday on the side. Little sign of meals being made."
+  - number: 2
+    day: 14
+    setting: phone
+    present: [carer]
+    turn_budget: 20
+    reason: Janet asked for a call back after her mother's fall.
+    events_since_last:
+      - >
+        Edith fell at night going to the toilet 5 days ago and lay on the bathroom floor until
+        the morning call. Paramedics found bruising only and left her at home.
+      - The dosette was dispensed again 3 days ago with the same contents as before.
+      - Janet stayed with her mother for the weekend after the fall.
+    records_available: [gp_record, discharge_summary, care_agency_notes, pharmacy_record, ambulance_report]
+
+rubric:
+  # Critical items (4): medicines reconciliation, falls and function assessment, care package
+  # review, and recognising visit-2 delirium. 4 Nov: care package review swapped in as critical
+  # and asking the daughter made a weight-3 normal item (cap of 4; clinical lead's call).
+  - id: v1_reconcile_meds
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: records
+    critical: true
+    critical_type: clinical_action
+    evidence: [d_furosemide, g_meds, r_dosette, p_water_tablet, x_dosette]
+    description: >
+      Reconciles medicines across the discharge summary, GP record, dosette and what Edith
+      takes; stops furosemide with a rationale (postural hypotension, falls, no heart
+      failure) and arranges for the pharmacy to remove it from the dosette.
+  - id: v1_falls_function
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: examination
+    critical: true
+    critical_type: clinical_action
+    evidence: [x_postural_bp, x_gait, a_floor, p_no_falls, p_dizzy]
+    description: >
+      Falls and function assessment: checks lying and standing blood pressure and gait, and
+      refers to the falls service or community physiotherapy and occupational therapy.
+    requires: {examined: [x_postural_bp, x_gait]}
+  - id: v2_confusion
+    visit: 2
+    kind: red_flag
+    weight: 3
+    stage: triage
+    critical: true
+    critical_type: clinical_action
+    evidence: [c2_not_coping, c2_fever, c2_daytime]
+    description: >
+      Screens for acute illness (fever, breathlessness, chest pain, head injury, new pain,
+      urinary symptoms, eating and drinking); recognises probable delirium after a long lie
+      in someone living alone with an unreliable history; arranges a same-day face-to-face
+      assessment (home visit), with 999 if red flags appear.
+  - id: v1_care_package
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: plan
+    critical: true
+    critical_type: clinical_action
+    evidence: [a_short_calls, a_missed, c_what_seen, p_bedtime]
+    description: >
+      Reviews whether the care package still fits (short, late evening calls; missed evening
+      medicines; no lunch call) and requests a social care reassessment.
+
+  # Non-critical items.
+  - id: v1_ask_daughter
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: history
+    description: >
+      Asks Janet what she has actually seen rather than accepting "managing fine", and weighs
+      it against the agency notes.
+    requires: {spoke_to: [carer], read: [care_agency_notes]}
+  - id: v1_amlodipine
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: plan
+    description: Reviews amlodipine in light of the postural drop (reduce or stop, then recheck BP).
+  - id: v1_alarm_hazards
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: plan
+    description: Addresses the pendant alarm not being worn and the home hazards.
+  - id: v1_evening_meds
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: >
+      Plans for missed evening donepezil: moves it to the morning or asks for the call time
+      to change.
+  - id: v1_carer_assessment
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: plan
+    description: Offers Janet a carer's assessment.
+  - id: v1_open_ice
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: history
+    description: >
+      Opens with open questions and finds out what matters to Edith and Janet (ideas,
+      concerns, expectations; Edith wants to stay at home) before narrowing down.
+  - id: v1_ph_advice
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: plan
+    description: >
+      Gives conservative postural hypotension advice (stand up slowly, sit to dress, fluids)
+      alongside the medicine changes.
+  - id: v1_midodrine
+    visit: 1
+    kind: must_not_do
+    weight: 2
+    stage: plan
+    description: Starts midodrine or fludrocortisone before stopping or reducing the culprit medicines.
+  - id: v1_bppv
+    visit: 1
+    kind: must_not_do
+    weight: 2
+    stage: examination
+    description: Puts her dizziness down to the old BPPV without checking lying and standing BP.
+  - id: v1_continue_furosemide
+    visit: 1
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: Continues or restarts furosemide on the strength of the GP repeat list.
+  - id: v1_care_home
+    visit: 1
+    kind: must_not_do
+    weight: 2
+    stage: plan
+    description: Recommends a care home before a care reassessment and falls work-up.
+  - id: v2_verify_change
+    visit: 2
+    kind: must_do
+    weight: 3
+    stage: follow_up
+    description: >
+      Checks whether furosemide is still in the dosette (pharmacy record or asks Janet to read
+      the pods) instead of assuming the visit-1 change happened, and acts on it the same day.
+  - id: v2_urgent_care
+    visit: 2
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: Requests an urgent social care review or short-term increase in care.
+  - id: v2_phone_only
+    visit: 2
+    kind: must_not_do
+    weight: 3
+    stage: triage
+    description: Manages the new confusion by phone alone, with no assessment arranged.

@@ -1,0 +1,765 @@
+# Development case, ambiguity-first, built on an open case report (CC BY; provenance in
+# sources/provenance/gene_ostrander.yaml, never shown to a model), the clinical lead's lines from
+# cases/skeletons/falls-blamed-on-age.md and a fictionalised blend of a patient pattern from
+# his clinical experience. Fictional throughout. Development only.
+id: gene_ostrander
+title: Gene Ostrander - "mechanical falls", a bladder pill and a memory label nobody joined up
+country: us
+messiness: high
+notes: >
+  Normal pressure hydrocephalus behind gait, bladder and thinking changes that three services
+  labelled separately: "mechanical falls", "overactive bladder" (oxybutynin, a cascade on top
+  of donepezil) and "probable Alzheimer's" (never imaged). His prostate cancer 15 years ago
+  muddies the bladder story and puts spinal metastases in the differential. No head injury:
+  last week's fall had paramedics, a normal ECG and "mechanical fall". Visit 1 fits medicines,
+  ECG, falls and PT work; visit 2 is where a neurological cause must be considered and imaged
+  once the basic workup is negative; visit 3 brings a third fall and, if imaging was ordered,
+  the result, plus Carol's breakdown, which she only tells if asked. Built 5 Nov from
+  The clinical lead's skeleton lines.
+
+patient:
+  name: Gene Ostrander
+  age: 80
+  summary: >
+    Married, lives with his wife Carol in a two-storey house. Probable Alzheimer's disease
+    (memory clinic), overactive bladder, prostate cancer treated 15 years ago, hypertension,
+    an old TIA, osteoarthritis of the knees.
+
+hidden_truth:
+  - id: t_nph
+    category: risks
+    statement: >
+      Normal pressure hydrocephalus. Over about 18 months: a slow, wide-based gait with short
+      steps, feet that seem stuck to the floor on starting and turning, falls; urgency and wet
+      episodes, worse over a year; slowed thinking, poor attention and apathy more than memory
+      loss. His gait never recovered after a fall in last summer's heat. A CT or MRI head would
+      show ventricles enlarged out of proportion to atrophy (Evans index 0.36), crowded sulci at
+      the vertex, no subdural and no mass. Treatable: neurosurgery assessment with a tap test.
+  - id: t_meds
+    category: medicines
+    statement: >
+      Donepezil 10 mg (memory clinic, 2 years) is slowing his pulse to about 52 with a long PR
+      interval and can add urinary urgency. Urology added oxybutynin 5 mg twice daily 8 months
+      ago for urgency: an anticholinergic that worsens his thinking and constipation and
+      barely helps the bladder. Aspirin 81 mg for the old TIA.
+  - id: t_prostate
+    category: other
+    statement: >
+      Radical prostatectomy for prostate cancer 15 years ago, PSA undetectable since; leakage
+      after surgery settled over a year but was never perfect. The worsening over the last year
+      is from the hydrocephalus, not the prostate. No back pain, no leg weakness or numbness, no
+      saddle symptoms: spinal metastases are a fair differential to exclude, not the answer.
+  - id: t_falls
+    category: falls
+    statement: >
+      Three falls this year: in March tripping on the porch step; in July in the heat (two days
+      in hospital, "dehydration and mechanical fall"), after which his walking never got back
+      to normal; and 9 days before visit 1 stepping off the back step (paramedics: no head
+      injury, ECG sinus rhythm 58, "mechanical fall", not taken to hospital). No loss of
+      consciousness, no dizziness before the falls.
+  - id: t_cognition
+    category: cognition
+    statement: >
+      Memory clinic 2 years ago: MoCA 21, "probable Alzheimer's disease", no imaging (he
+      declined MRI for claustrophobia; CT was never offered). Now slower and more apathetic;
+      attention and planning are worse than memory; worse since the oxybutynin.
+  - id: t_function
+    category: adls
+    statement: >
+      Uses a cane outdoors. Needs Carol to stand by in the shower. Stopped driving in the
+      summer. Gets up two or three times a night to pass urine, sometimes not in time.
+  - id: t_carer
+    category: carer_strain
+    statement: >
+      Carol, 76, does everything: pills, meals, washing his sheets most nights. She has moved
+      to the spare room to get some sleep and is ashamed of how often he is wet, so she plays
+      it down. By visit 3 she is at breaking point and has thought about a nursing home but
+      has not said so. She needs to be asked how she is coping.
+  - id: t_mood
+    category: other
+    statement: >
+      Apathetic rather than depressed; still enjoys his woodworking magazines and his
+      granddaughter's visits.
+  - id: t_orthostatic
+    category: risks
+    statement: >
+      No postural blood pressure drop. The falls are from the gait disorder, not blackouts.
+  - id: t_background
+    category: other
+    statement: >
+      Retired high-school shop teacher. Married 54 years. A daughter two hours away. Never
+      smoked; a glass of wine with dinner now and then. Wants to stay at home with Carol.
+  - id: t_v2
+    category: falls
+    from_visit: 2
+    statement: >
+      Day 21: walking the same, still up at night and wet most nights, thinking about the same
+      (any medicine change has not changed the gait). No new falls. Carol is more tired.
+  - id: t_v3
+    category: falls
+    from_visit: 3
+    statement: >
+      Day 46: fell in the bathroom at night 3 days ago reaching for the toilet; Carol could not
+      lift him and called their neighbor. Bruised left hip, no head injury. Carol is at breaking
+      point and has started looking at nursing homes.
+
+views:
+  patient:
+    - id: p_clumsy
+      truth: t_falls
+      statement: "I trip on the rug. I've always been clumsy. Ask anyone in my shop class."
+      accuracy: wrong
+      disclosure: volunteered
+    - id: p_no_dizzy
+      truth: t_orthostatic
+      statement: "No, I don't get dizzy. I don't black out. My feet just don't go where I tell them."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_feet_stuck
+      truth: t_nph
+      statement: "Starting off is the hard part. It's like my shoes are glued to the floor, then I get going."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked to describe what happens when he walks, starts walking or turns
+    - id: p_bladder_fine
+      truth: t_prostate
+      statement: "The bladder pill's working fine. I've had a bit of trouble since the prostate operation, that's all."
+      accuracy: wrong
+      disclosure: if_asked
+    - id: p_memory
+      truth: t_cognition
+      statement: "My memory's not great. The memory doctor said it's the Alzheimer's."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_summer
+      truth: t_falls
+      statement: "I've not been right on my feet since that business in the summer, in the heat."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked when the walking problems started or whether they changed after an event
+    - id: p_back
+      truth: t_prostate
+      statement: "No back pain. No numbness down below, if that's what you mean."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_constipation
+      truth: t_meds
+      statement: "Bowels are slow. Mouth's dry as a bone some days."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_mood
+      truth: t_mood
+      statement: "I'm not sad. I just can't be bothered with much. I still read my woodworking magazines."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_alcohol
+      truth: t_background
+      statement: "A glass of wine with dinner now and then. Never smoked."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_wishes
+      truth: t_background
+      statement: "I want to stay home with Carol. I'm not going anywhere."
+      accuracy: "true"
+      disclosure: if_asked
+    # Standard history (added after the first dev run, where these were improvised).
+    - id: p_washing
+      truth: t_function
+      statement: "Carol stands by when I shower. I sit on the edge of the tub to dry off."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_dressing
+      truth: t_function
+      statement: "I dress myself. Slowly. Buttons are a fiddle."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_nights
+      truth: t_function
+      statement: "I'm up two or three times a night to go. Sometimes I'm a bit late."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_stairs
+      truth: t_function
+      statement: "Bedroom's upstairs. I go up holding the rail, one at a time, with Carol behind me."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_chair
+      truth: t_nph
+      statement: "Getting out of the armchair takes me a couple of goes."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_meals
+      truth: t_function
+      statement: "Carol does the cooking and the shopping. I make my own coffee."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_driving
+      truth: t_function
+      statement: "I gave up driving in the summer. Carol drives."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_shop
+      truth: t_background
+      statement: "Thirty years I taught shop. Never lost a finger, either."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p3_fall
+      truth: t_v3
+      from_visit: 3
+      statement: "I went down in the bathroom. Reaching for the toilet in the dark."
+      accuracy: "true"
+      disclosure: volunteered
+
+  carer:
+    - id: c_alzheimers
+      truth: t_cognition
+      statement: >
+        It's the Alzheimer's getting worse. The memory doctor said it would. Should he be on
+        something stronger?
+      accuracy: wrong
+      disclosure: volunteered
+    - id: c_scan
+      truth: t_cognition
+      statement: >
+        They scanned his head at the memory clinic. That's how they knew it was Alzheimer's: it
+        showed the shrinkage. So that's been done, there's no need to go over it again.
+      accuracy: wrong
+      disclosure: if_asked
+    - id: c_walk
+      truth: t_nph
+      statement: >
+        He shuffles now, little steps, and he stops dead in doorways like his feet are stuck.
+        Turning round takes him forever.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked what she has noticed about his walking, or to describe how he walks
+    - id: c_summer
+      truth: t_falls
+      statement: >
+        After the hospital in the summer he never walked the same. They said dehydration and the
+        heat.
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_wet
+      truth: t_function
+      statement: "He has the odd accident. It's the old prostate trouble."
+      accuracy: wrong
+      disclosure: if_asked
+    - id: c_wet_truth
+      truth: t_function
+      statement: >
+        Honestly? Most nights. I'm washing sheets every morning. I've moved into the spare room so
+        I can sleep. Please don't tell him I said that.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked specifically how often he is wet or about the nights, or how she is managing at night
+    - id: c_slower
+      truth: t_cognition
+      statement: "He's slower. He used to do the crossword in ten minutes. Now he just sits."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_pills
+      truth: t_meds
+      statement: "I do his pills: the memory one, the bladder one, his blood pressure and the aspirin."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_coping
+      truth: t_carer
+      statement: "I'm managing. You do, don't you."
+      accuracy: wrong
+      disclosure: if_asked
+    - id: c_shower
+      truth: t_function
+      statement: "I stand by when he showers now. I don't like him doing it alone."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_dressing
+      truth: t_function
+      statement: "He dresses himself if I lay his clothes out. It takes a while."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_stairs
+      truth: t_function
+      statement: "He takes the stairs one at a time, holding the rail, and I walk behind him."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_meals
+      truth: t_function
+      statement: "I do the cooking, shopping and driving."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_last_fall
+      truth: t_falls
+      statement: >
+        Last week I heard him go down on the back step. He was sitting on the path when I got
+        there. I couldn't get him up, so I called 911. He didn't hit his head.
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_daughter
+      truth: t_background
+      statement: "Our daughter comes when she can. She's two hours away with three kids."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c2_same
+      truth: t_v2
+      from_visit: 2
+      statement: "No better, no worse really. Still shuffling, still up all night."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: c2_tired
+      truth: t_carer
+      from_visit: 2
+      statement: "I'm tired, that's all. I'm 76."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c3_fall
+      truth: t_v3
+      from_visit: 3
+      statement: >
+        He fell in the bathroom Friday night. I found him on the floor and couldn't lift him; I
+        had to wake the neighbor at two in the morning. He didn't hit his head.
+      accuracy: "true"
+      disclosure: volunteered
+    - id: c3_breaking
+      truth: t_carer
+      from_visit: 3
+      statement: >
+        I can't do this anymore. I've been looking at nursing homes on the computer and I feel
+        terrible about it. I haven't slept a whole night in months.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked how she is coping, how she is, or whether she is managing, in any wording
+
+  gp_record:
+    - id: g_mechanical
+      truth: t_falls
+      statement: "Fall at home. Tripped. Osteoarthritis knees. Mechanical fall. Encouraged to use cane."
+      accuracy: wrong
+    - id: g_memory_letter
+      truth: t_cognition
+      statement: >
+        Valley Memory Clinic: MoCA 21/30, deficits in recall and executive function. Impression:
+        probable Alzheimer's disease, mild. Neuroimaging: patient declined MRI
+        (claustrophobia). Start donepezil 5 mg, increase to 10 mg.
+      accuracy: outdated
+    - id: g_urology
+      truth: t_meds
+      statement: >
+        Lakeview Urology: urgency and urge incontinence, s/p radical prostatectomy (15 years),
+        PSA undetectable. Impression: overactive bladder. Start oxybutynin 5 mg twice daily.
+      accuracy: "true"
+    - id: g_psa
+      truth: t_prostate
+      statement: "PSA <0.1 ng/mL (undetectable)."
+      accuracy: "true"
+
+  discharge_summary:
+    - id: d_summer
+      truth: t_falls
+      statement: >
+        Fall at home during heat advisory. Dehydration, AKI (creatinine 1.6, baseline 1.0),
+        resolved with IV fluids. Mechanical fall. CT not indicated (no head strike). PT:
+        ambulating with cane, safe for home.
+      accuracy: wrong
+
+  ambulance_report:
+    - id: m_fall
+      truth: t_falls
+      statement: >
+        80 y/o M, fell stepping off back step. No head strike, no LOC. Alert, oriented. 12-lead
+        ECG sinus rhythm 58, no acute changes. No injuries found. Mechanical fall. Refused
+        transport; capacity intact; wife present. PCP follow-up advised.
+      accuracy: "true"
+
+documents:
+  gp_record: |
+    RIVERSIDE FAMILY MEDICINE - PATIENT CHART
+    OSTRANDER, Eugene R.   M   80 y   PCP: Sofia Mendez, MD   Coverage: Medicare Advantage
+    Allergies: sulfa (rash)
+
+    PROBLEM LIST
+      Alzheimer's disease, probable, mild (Valley Memory Clinic)
+      Overactive bladder (Lakeview Urology)
+      Malignant neoplasm of prostate, s/p radical prostatectomy (in remission)
+      Essential (primary) hypertension
+      History of transient ischemic attack
+      Primary osteoarthritis, bilateral knees
+      Fall, recurrent
+
+    ACTIVE MEDICATIONS
+      donepezil 10 mg tablet - 1 tablet at bedtime
+      oxybutynin 5 mg tablet - 1 tablet twice daily
+      amlodipine 5 mg tablet - 1 tablet daily
+      aspirin 81 mg tablet - 1 tablet daily
+      atorvastatin 20 mg tablet - 1 tablet nightly
+      acetaminophen 500 mg - 2 tablets up to three times daily as needed
+
+    RESULTS
+      {day:-300}  [[g_psa]]
+      {day:-300}  CBC, metabolic panel, B12, TSH normal.
+
+    ENCOUNTERS (most recent first)
+      {entries}
+      {day:-9}  Outside record   Millbrook Fire & EMS report received (see EMS record).
+      {day:-110}  Outside record   Lakeview General discharge summary received (see discharge summary).
+      {day:-150}  Outside record   [[g_urology]]
+      {day:-230}  Office visit     [[g_mechanical]]
+      {day:-300}  Annual wellness  Medicare AWV. Wife present. Memory problems known. Falls screen: 1 fall. Hearing adequate.
+      {day:-720}  Outside record   [[g_memory_letter]]
+
+  discharge_summary: |
+    LAKEVIEW GENERAL HOSPITAL - DISCHARGE SUMMARY
+    OSTRANDER, Eugene R.   80 y M   Admitted {day:-112}   Discharged {day:-110}
+    Diagnosis: [[d_summer]]
+    Medications: no changes.
+    Follow-up: PCP in 1-2 weeks.
+
+  ambulance_report: |
+    MILLBROOK FIRE & EMS - PATIENT CARE REPORT
+    Incident {day:-9}. Dispatched 16:42, on scene 16:51, cleared 17:40.
+    Narrative: [[m_fall]]
+    Vitals: BP 142/80, HR 58, RR 16, SpO2 97% RA, glucose 112.
+    Meds per wife: donepezil, oxybutynin, amlodipine, aspirin, atorvastatin.
+
+record_traits:
+  gp_record: [outdated_entries, miscoded]
+  discharge_summary: [miscoded]
+
+personas:
+  patient:
+    name: Gene Ostrander
+    age: 80
+    cognition: Slowed; poor attention and planning more than memory; follows a conversation slowly.
+    health_literacy: Moderate. Calls his pills "the memory one" and "the bladder pill".
+    agenda: Wants to stay home with Carol and not be fussed over; a bit embarrassed by the bladder.
+    speech_style: Slow, gentle, self-deprecating jokes; long pauses; answers briefly.
+    interjection: sometimes
+    traits: [denies_minimises, poor_recall]
+  carer:
+    name: Carol Ostrander
+    age: 76
+    relationship: wife
+    cognition: Normal.
+    health_literacy: Moderate. Trusts the memory clinic's label, and is certain his head was scanned there (says so flatly and does not hedge).
+    agenda: >
+      Wants him on "something stronger" for the Alzheimer's; protective of his dignity, so
+      plays down the wetting; will not admit she is not coping unless asked directly.
+    speech_style: Brisk, practical, a little tense; answers for him; changes the subject when embarrassed.
+    interjection: always
+    traits: [carer_dominates, denies_minimises]
+
+conflicts:
+  - id: cf_falls
+    facts: [p_clumsy, g_mechanical, d_summer, c_walk, p_feet_stuck, m_fall]
+    truth: [t_falls, t_nph]
+    expected_behaviour: >
+      Do not accept "mechanical falls" or "clumsy": watch him walk and ask how the walking has
+      changed. A gait that never recovered after the summer, with stuck feet and shuffling, is
+      a gait disorder to explain.
+  - id: cf_bladder
+    facts: [p_bladder_fine, c_wet, c_wet_truth, g_urology]
+    truth: [t_prostate, t_function, t_meds]
+    expected_behaviour: >
+      The bladder is getting worse, not "the old prostate trouble": ask Carol directly how
+      often he is wet at night. Oxybutynin is not helping and is adding to the confusion.
+  - id: cf_memory
+    facts: [c_alzheimers, c_scan, g_memory_letter, p_memory, c_slower]
+    truth: [t_cognition]
+    expected_behaviour: >
+      Carol firmly says his head was scanned there; the clinic letter says he declined the MRI,
+      so the Alzheimer's label was never imaged. Check the letter, not her word. Slowing and apathy alongside gait and bladder
+      change need a fresh look, not "something stronger".
+  - id: cf_carer
+    facts: [c_coping, c3_breaking]
+    truth: [t_carer]
+    expected_behaviour: Ask Carol how she is coping, in her own right, and act on the answer.
+
+visits:
+  - number: 1
+    day: 0
+    setting: clinic
+    present: [patient, carer]
+    turn_budget: 30
+    reason: Follow-up after a fall 9 days ago (paramedics attended). Carol thinks he is "more muddled".
+    records_available: [gp_record, discharge_summary, ambulance_report]
+    examination:
+      - id: x_gait
+        label: Gait and balance (walking, turning, Timed Up and Go)
+        finding: >
+          Wide-based, slow, short shuffling steps; hesitates on starting and his feet seem stuck
+          in the doorway; turns in six small steps. Arm swing slightly reduced on both sides.
+          Timed Up and Go 24 seconds with his cane. No festination.
+      - id: x_orthostatic
+        label: Lying and standing blood pressure
+        finding: "Lying 138/80, pulse 52 regular; standing 134/78, pulse 56 at 1 minute and 132/78, pulse 56 at 3 minutes; no symptoms."
+      - id: x_neuro
+        label: Neurological examination (tone, power, reflexes, sensation, tremor)
+        finding: "No tremor. Tone normal; no cogwheeling. Power full. Knee reflexes brisk on both sides, plantars down. Sensation normal; no sensory level."
+      - id: x_cognition
+        label: Cognitive screen (MoCA or Mini-Cog)
+        finding: "MoCA 18/30: loses most points on attention, trails, fluency and clock; recalls 3 of 5 words with cues."
+      - id: x_spine
+        label: Back and spine
+        finding: "No spinal tenderness. Saddle sensation not tested by request; leg power and sensation normal."
+      - id: x_bladder
+        label: Abdomen and bladder
+        finding: "Soft, non-tender. Bladder not palpable."
+      - id: x_head
+        label: Head and face
+        finding: "No scalp bruising or tenderness. Old healed scar on the chin."
+      - id: x_cardio
+        label: Heart, chest and ankles
+        finding: "Slow regular rhythm, no murmur. Chest clear. No ankle swelling."
+      - id: x_mood
+        label: Depression screen (PHQ-2 or PHQ-9)
+        finding: "PHQ-2 score 1 (little interest, several days). Not low in mood."
+      - id: x_obs
+        label: Vital signs (pulse, blood pressure, temperature, respiratory rate, oxygen saturation)
+        parts: [x_pulse, x_bp, x_temp, x_rr, x_sats]
+      - id: x_pulse
+        label: Pulse rate and rhythm
+        finding: "Pulse 52 regular."
+      - id: x_bp
+        label: Blood pressure (sitting)
+        finding: "Blood pressure 136/78 sitting."
+      - id: x_temp
+        label: Temperature
+        finding: "Temperature 97.8 F."
+      - id: x_rr
+        label: Respiratory rate
+        finding: "Respiratory rate 14."
+      - id: x_sats
+        label: Oxygen saturation
+        finding: "Oxygen saturation 97% on room air."
+      - id: x_glucose
+        label: Fingerstick glucose
+        finding: "Fingerstick glucose 104 mg/dL."
+      - id: x_urine_dip
+        label: Urine dipstick
+        finding: "No leukocytes, nitrites or blood."
+    results:
+      - id: r1_ecg
+        label: ECG
+        finding: "Sinus bradycardia 52, PR interval 232 ms (first-degree AV block), otherwise normal."
+      - id: r1_ct_head
+        label: CT head or MRI brain
+        finding: "Ventricles enlarged out of proportion to sulcal atrophy (Evans index 0.36); narrowed sulci at the vertex; mild small vessel change. No subdural collection, no mass, no bleed."
+      - id: r1_psa
+        label: PSA
+        finding: "PSA <0.1 ng/mL (undetectable)."
+      - id: r1_pvr
+        label: Post-void residual bladder scan
+        finding: "Post-void residual 60 mL."
+  - number: 2
+    day: 21
+    setting: clinic
+    present: [patient, carer]
+    turn_budget: 30
+    reason: Review after the fall and the changes from last time.
+    events_since_last:
+      - No new falls since the last visit.
+    records_available: [gp_record, discharge_summary, ambulance_report]
+    examination:
+      - id: x2_gait
+        label: Gait and balance (walking, turning, Timed Up and Go)
+        finding: "Unchanged: wide-based shuffling gait, hesitation in doorways, turns in six steps. Timed Up and Go 25 seconds."
+      - id: x2_orthostatic
+        label: Lying and standing blood pressure
+        finding: "Lying 136/78, pulse 54; standing 132/76, pulse 58 at 3 minutes."
+      - id: x2_cognition
+        label: Cognitive screen (MoCA or Mini-Cog)
+        finding: "MoCA 19/30; attention and fluency still poor."
+      - id: x2_neuro
+        label: Neurological examination (tone, power, reflexes, sensation, tremor)
+        finding: "Unchanged: no tremor or rigidity, power full, brisk knee reflexes, no sensory level."
+      - id: x2_pulse
+        label: Pulse rate and rhythm
+        finding: "Pulse 54 regular."
+    results:
+      - id: r2_ecg
+        label: ECG
+        finding: "Sinus bradycardia 54, PR interval 228 ms (first-degree AV block)."
+      - id: r2_ct_head
+        label: CT head or MRI brain
+        finding: "Ventricles enlarged out of proportion to sulcal atrophy (Evans index 0.36); narrowed sulci at the vertex; mild small vessel change. No subdural collection, no mass, no bleed."
+      - id: r2_psa
+        label: PSA
+        finding: "PSA <0.1 ng/mL (undetectable)."
+      - id: r2_mri_spine
+        label: MRI spine (whole spine or lumbar)
+        finding: "Degenerative changes only. No metastases, no cord or cauda equina compression."
+  - number: 3
+    day: 46
+    setting: home_visit
+    present: [patient, carer]
+    turn_budget: 30
+    reason: Home visit requested by Carol after another fall at night.
+    events_since_last:
+      - Gene fell in the bathroom at night 3 days ago; a neighbor helped Carol get him up. No ambulance was called.
+    records_available: [gp_record, discharge_summary, ambulance_report]
+    examination:
+      - id: x3_hip
+        label: Left hip and skin
+        finding: "Bruise over the left hip; full painless range of movement; bears weight."
+      - id: x3_head
+        label: Head and face
+        finding: "No scalp bruising or tenderness."
+      - id: x3_gait
+        label: Gait and balance (walking, turning, Timed Up and Go)
+        finding: "Shuffling, hesitant gait; freezes at the bathroom doorway; needs a hand to turn."
+      - id: x3_home
+        label: Home hazards (bathroom, stairs, lighting)
+        finding: "No grab rails by the toilet or bath; no night light on the landing; bedroom upstairs, bathroom across the landing; loose bath mat."
+      - id: x3_pulse
+        label: Pulse rate and rhythm
+        finding: "Pulse 56 regular."
+
+rubric:
+  # Critical items (4): medicines and ECG (visit 1), brain imaging when the basic workup is
+  # negative (visit 2), the NPH referral or imaging now (visit 3), and Carol's breakdown (visit
+  # 3, only if elicited). The clinical lead 5 Nov: CT at visit 1 is not expected without a head injury.
+  - id: v1_meds_ecg
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: records
+    critical: true
+    critical_type: clinical_action
+    evidence: [x_pulse, x_orthostatic, p_constipation, c_pills]
+    description: >
+      Reviews the medicines against the falls and confusion: stops (or plans to taper)
+      oxybutynin, an anticholinergic added on top of donepezil, and acts on the slow pulse on
+      donepezil (ECG, and a donepezil review).
+  - id: v2_brain_imaging
+    visit: 2
+    kind: must_do
+    weight: 3
+    stage: plan
+    critical: true
+    critical_type: clinical_action
+    evidence: [x2_gait, c2_same, c_walk, p_feet_stuck]
+    description: >
+      With the gait, bladder and thinking no better after the medicine and falls work, and no
+      postural drop or blackouts, considers a neurological cause (normal pressure
+      hydrocephalus from the triad; also Parkinsonism, a subdural or a spinal cause) and
+      arranges brain imaging (CT head or MRI), rather than putting it down to worsening
+      Alzheimer's or mechanical falls. If imaging ordered at visit 1 is already back (enlarged
+      ventricles), this is met by acting on it: an urgent neurology or neurosurgery referral
+      for normal pressure hydrocephalus (an early scan is slightly much but never penalised:
+      The clinical lead, 5 Nov).
+  - id: v3_rethink_refer
+    visit: 3
+    kind: must_do
+    weight: 3
+    stage: follow_up
+    critical: true
+    critical_type: clinical_action
+    evidence: [p3_fall, c3_fall, x3_gait]
+    description: >
+      Treats the third fall as a reason to rethink, not another "mechanical fall": if brain
+      imaging is back (enlarged ventricles), refers urgently to neurology or neurosurgery for
+      normal pressure hydrocephalus assessment (tap test); if imaging was never done, arranges
+      it now and expedites the assessment.
+  - id: v3_carer
+    visit: 3
+    kind: must_do
+    weight: 3
+    stage: history
+    critical: true
+    critical_type: clinical_action
+    evidence: [c3_breaking, c_coping]
+    description: >
+      Asks Carol how she herself is coping, hears that she is at breaking point, and arranges
+      real support (home health aide or personal care, respite, a social worker or caregiver
+      support, night-time continence products), rather than only managing Gene.
+    requires: {spoke_to: [carer]}
+
+  # Non-critical items.
+  - id: v1_watch_gait
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: examination
+    description: Watches him walk and turn, and checks lying and standing blood pressure.
+    requires: {examined: [x_gait, x_orthostatic]}
+  - id: v1_ask_carol_seen
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: history
+    description: >
+      Asks Carol what she has seen of his walking, the summer change and how often he is wet,
+      rather than accepting "clumsy" and "the odd accident".
+    requires: {spoke_to: [carer]}
+  - id: v1_falls_pt
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: >
+      Arranges falls work through US routes: home health or outpatient physical and
+      occupational therapy (home safety, bathroom), and a geriatrics or falls clinic referral
+      where available.
+  - id: v1_prostate
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: history
+    description: Considers the prostate cancer history (asks about back pain and leg or saddle symptoms; PSA) before blaming the bladder on it.
+  - id: v1_more_donepezil
+    visit: 1
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: Increases donepezil or adds memantine for "worsening Alzheimer's".
+  - id: v1_more_anticholinergic
+    visit: 1
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: Increases oxybutynin or adds another bladder anticholinergic.
+  - id: v2_explain
+    visit: 2
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: Explains why the scan is being done and that some causes of this picture are treatable.
+  - id: v2_carer_check
+    visit: 2
+    kind: must_do
+    weight: 1
+    stage: history
+    description: Asks how Carol is managing at night.
+  - id: v2_alzheimers_only
+    visit: 2
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: Puts the unchanged picture down to worsening Alzheimer's and changes only dementia medicines.
+  - id: v3_treatable
+    visit: 3
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: Tells Gene and Carol that the suspected cause may be treatable, without promising a cure.
+  - id: v3_home_safety
+    visit: 3
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: >
+      Addresses the bathroom and night-time hazards (grab rails, night light, commode or
+      urinal by the bed, bath mat) through PT/OT or equipment orders.
+    requires: {examined: [x3_home]}
+  - id: v3_nursing_home
+    visit: 3
+    kind: must_not_do
+    weight: 2
+    stage: plan
+    description: Recommends a nursing home before the reversible cause is assessed and support at home is tried.
+  - id: v3_mechanical_again
+    visit: 3
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: Records another "mechanical fall" with no further assessment or referral.

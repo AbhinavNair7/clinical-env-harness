@@ -1,0 +1,30 @@
+# Internal only: never shown to a model, never published with the case.
+case_id: dot_fairbanks
+pmcid: PMC13235628
+title: >
+  Nonsteroidal Anti-inflammatory Drug (NSAID)-Induced Enteropathy Mimicking Crohn's Disease: A
+  Reversible Cause of Ileitis
+authors: Baik J, McGuire S, Hughes N, Tariq T.
+journal: Cureus
+year: "2026"
+doi: 10.7759/cureus.108296
+licence: cc by
+url: https://europepmc.org/article/PMC/PMC13235628
+changes:
+  - "Kept: chronic iron-deficiency anaemia in an older adult explained by NSAID use found on medication review, reversible when stopped."
+  - "Woman, 82, UK, at home over 3 primary care visits (source: man, 77, prior small bowel resection)."
+  - "Over-the-counter ibuprofen bought by her husband and on no record (source: prescribed meloxicam)."
+  - "GI tests clear apart from antral erosions (source: ileal ulcers suggesting Crohn's disease)."
+  - "Added a poor diet, aspirin still dispensed on top of apixaban, stopped iron tablets, and a calm visit 3; UK FIT-first workup (BSG/ACPGBI 2025) per the clinical lead, 5 Nov."
+record_patterns:
+  - Duplicate therapy from two prescribers (aspirin left on after apixaban)
+  - What is taken differs from every list (over-the-counter NSAID)
+  - Stopped medicine still on the list (iron)
+distinctive_details:
+  - apixaban
+  - ibuprofen
+  - aspirin
+theme:
+  - iron deficiency anaemia
+  - NSAID
+  - older adult

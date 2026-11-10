@@ -1,0 +1,33 @@
+# Live eval for the requested-tests matcher (checker role). Each item is one plan's orders;
+# expect lists, per order, the test ids it should match (space-separated; "" = none: an
+# unlisted test or a referral). Run: uv run python -m clinical_env.live_evals results
+case: cases/dev/edith_marsh.yaml
+visit: 1
+tests:
+  - {id: r_cbc, label: CBC (complete blood count), finding: "Hemoglobin 10.9 g/dL (low)."}
+  - id: r_bmp
+    label: Basic metabolic panel (sodium, potassium, kidney function, glucose)
+    finding: "Glucose 188 mg/dL (high); otherwise normal."
+  - id: r_lft
+    label: Liver panel (ALP, ALT, AST, bilirubin, albumin)
+    finding: "ALP 190 U/L (high)."
+  - {id: r_tsh, label: TSH, finding: "TSH 2.4 (normal)."}
+  - {id: r_hba1c, label: HbA1c, finding: "HbA1c 8.1% (high)."}
+  - {id: r_ct_abdo, label: CT abdomen and pelvis with contrast, finding: "2.4 cm mass in the head of the pancreas."}
+  - {id: r_fit, label: Fecal immunochemical test (FIT), finding: "Negative."}
+items:
+  - {orders: ["CBC, CMP, TSH"], expect: ["r_cbc r_bmp r_lft r_tsh"]}
+  - {orders: ["Full blood count and kidney function"], expect: ["r_cbc r_bmp"]}
+  - {orders: ["Routine bloods: FBC, U&Es, LFTs, glucose"], expect: ["r_cbc r_bmp r_lft"]}
+  - {orders: ["Kidney function to check eGFR"], expect: ["r_bmp"]}
+  - {orders: ["Sodium level"], expect: ["r_bmp"]}
+  - {orders: ["Liver function tests"], expect: ["r_lft"]}
+  - {orders: ["Routine bloods"], expect: [""]}
+  - {orders: ["MRI/MRCP of the pancreas"], expect: [""]}
+  - {orders: ["Hemoglobin A1c to check for new diabetes"], expect: ["r_hba1c"]}
+  - {orders: ["CT abdomen/pelvis with IV contrast to look for pancreatic or bowel malignancy"], expect: ["r_ct_abdo"]}
+  - {orders: ["Abdominal ultrasound"], expect: [""]}
+  - {orders: ["FIT test", "Refer to gastroenterology for colonoscopy"], expect: ["r_fit", ""]}
+  - {orders: ["Vitamin B12 and folate"], expect: [""]}
+  - {orders: ["Thyroid function tests", "Chest X-ray"], expect: ["r_tsh", ""]}
+  - {orders: ["Same-day BMP including sodium and potassium; serum osmolality"], expect: ["r_bmp"]}

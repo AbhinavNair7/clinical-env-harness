@@ -1,0 +1,778 @@
+# Development case, negative-workup, built on an open case report (CC BY; provenance in
+# sources/provenance/walt_brenner.yaml, never shown to a model) from the skeleton
+# cases/skeletons/weight-loss-clear-scan.md as revised with the clinical lead on 5 Nov. Fictional
+# throughout. Development only.
+id: walt_brenner
+title: Walt Brenner - off his food since his wife died, and a daughter sure it's cancer
+country: us
+messiness: moderate
+notes: >
+  Weight loss with a cancer-shaped picture whose cause is depression after bereavement. Visit 1:
+  17 lb lost, an ex-smoker, a daughter sure it is cancer. The point is to find out whether he is
+  eating and why not (no appetite at all: no early fullness, no swallowing trouble), screen the
+  red flags, and do proportionate first tests; a CT is acceptable, not required. Every test
+  comes back clear. Visit 2: the daughter says the tests missed it and wants scans; he is waking
+  at 4 and says "what's the point". Treat the depression with a dated review, no reflex scans.
+  Visit 3 (phone, daughter): barely eating or drinking, in bed, "I'd rather not wake up":
+  same-day risk assessment by an appropriate route. Built 5 Nov.
+
+patient:
+  name: Walt Brenner
+  age: 79
+  summary: >
+    Widower, lives alone in a two-storey house; his daughter Karen lives nearby. Hypertension,
+    osteoarthritis of the knees, high cholesterol, an episode of depression in his fifties.
+    Ex-smoker.
+
+hidden_truth:
+  - id: t_depression
+    category: risks
+    statement: >
+      Major depression after the death of his wife Joan 8 months before visit 1: no appetite,
+      no interest in anything, early waking at 4 a.m., low energy, and passive thoughts that he
+      "wouldn't mind not waking up" (no plan, no intent at visits 1 and 2). He stopped his
+      citalopram after the funeral. He had a similar episode in his fifties that responded to
+      treatment.
+  - id: t_intake
+    category: other
+    statement: >
+      He eats very little because he has no appetite: coffee, a slice of toast, sometimes a can
+      of soup. He is not trying and failing: no early fullness, no pain on eating, no trouble
+      swallowing, no nausea or vomiting. Joan did all the cooking; he has never cooked.
+  - id: t_weight
+    category: other
+    statement: >
+      168 lb a year before visit 1 and 151 lb at visit 1 on the same clinic scale (17 lb, about
+      10%, mostly over the last 6 months). 149 lb at visit 2.
+  - id: t_no_cancer
+    category: risks
+    statement: >
+      No cancer and no other medical cause. No cough, breathlessness, haemoptysis, chest pain,
+      bowel change, bleeding, abdominal pain, dysphagia, fevers or night sweats. Examination
+      is normal apart from looking thin. Blood tests, chest X-ray, stool testing and a CT
+      chest, abdomen and pelvis (if done) are all clear apart from mild emphysema and a
+      slightly low albumin.
+  - id: t_meds
+    category: medicines
+    statement: >
+      Takes amlodipine 5 mg and atorvastatin 20 mg daily and acetaminophen for his knees.
+      Stopped citalopram 20 mg about 7 months ago ("didn't see the point"). The pharmacy still
+      auto-refills it every 90 days and the bottles sit unopened in the kitchen cupboard.
+  - id: t_function
+    category: adls
+    statement: >
+      Independent in washing, dressing and walking; still drives. Has stopped going to the
+      diner with his friends on Saturdays and stopped working in his garage shop. The house is
+      untidy; the fridge is full of meals Karen brought, untouched.
+  - id: t_background
+    category: other
+    statement: >
+      Retired machinist. Married to Joan for 51 years. Smoked about a pack a day for 40 years,
+      quit 15 years ago. Two or three beers a week. Daughter Karen, 52, lives 20 minutes away,
+      works full time, visits twice a week and does his shopping. A son in another state.
+      Karen's grandfather (Walt's father) died of stomach cancer. A hunting rifle in the hall
+      closet.
+  - id: t_carer
+    category: carer_strain
+    statement: >
+      Karen is frightened and stretched: full-time job, her own teenagers, driving over twice a
+      week. She has decided it is cancer because her grandfather "wasted away just like this".
+  - id: t_v2
+    category: risks
+    from_visit: 2
+    statement: >
+      Day 14: 2 lb more lost. Still no appetite, waking at 4, "what's the point". Thoughts of
+      not wanting to wake up most days; no plan, no intent. All tests clear.
+  - id: t_v3
+    category: risks
+    from_visit: 3
+    statement: >
+      Day 24: for 3 days he has barely eaten or drunk (a few sips of water and coffee), stays in
+      bed, and told Karen this morning "I'd rather not wake up". He has not started any new
+      tablets. He is not confused and can stand. The hunting rifle is still in the closet. He
+      needs a same-day risk assessment by an appropriate route (home visit, crisis team or ER).
+
+views:
+  patient:
+    - id: p_not_hungry
+      truth: t_intake
+      statement: "I'm just not hungry. Haven't been for months. No point cooking for one."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p_eating
+      truth: t_intake
+      statement: >
+        Coffee in the morning, maybe a piece of toast. A can of soup if I remember. It's not that
+        I can't eat, I just don't want it. Food doesn't stick or hurt, nothing like that.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked what he actually eats in a day, whether he is eating, or why he is not eating
+    - id: p_full
+      truth: t_intake
+      statement: "No, I don't get full quick. I just don't feel like eating in the first place."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_swallow
+      truth: t_no_cancer
+      statement: "Swallowing's fine. No sickness, no pain in my stomach."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_chest
+      truth: t_no_cancer
+      statement: "No cough. Not short of breath, not more than you'd expect at my age. No blood."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_bowels
+      truth: t_no_cancer
+      statement: "Bowels are regular. Nothing dark, no blood."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_sweats
+      truth: t_no_cancer
+      statement: "No fevers. No sweats at night. I just sleep badly."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_tired
+      truth: t_depression
+      statement: "Tired. Everything's an effort. I sit in Joan's chair most of the day."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_sleep
+      truth: t_depression
+      statement: "I'm awake at four every morning. Just lie there."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about his sleep, waking early, or how his nights are
+    - id: p_mood
+      truth: t_depression
+      statement: "I'm alright. I miss Joan, that's all. Anyone would."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_interest
+      truth: t_depression
+      statement: "I don't go to the diner anymore. Haven't been in the shop for months. Doesn't seem worth it."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked what he enjoys, his interests, or what he does with his days
+    - id: p_hopeless
+      truth: t_depression
+      statement: >
+        Some mornings I think I wouldn't mind not waking up. I wouldn't do anything. I just
+        wouldn't mind.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked directly about hopelessness, life not being worth living, wishing he were dead, or thoughts of suicide or self-harm
+    - id: p_citalopram
+      truth: t_meds
+      statement: >
+        The citalopram? I stopped that after the funeral. Didn't see the point. The pharmacy
+        keeps sending it.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked whether he takes all his medicines, about the citalopram or antidepressant, or to go through his tablets one by one
+    - id: p_meds
+      truth: t_meds
+      statement: "The blood pressure one and the cholesterol one. Tylenol for my knees."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_before
+      truth: t_depression
+      statement: "I had a bad patch in my fifties when the plant laid me off. The pills helped then."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_smoking
+      truth: t_background
+      statement: "Pack a day for forty years. Quit fifteen years ago. A couple of beers a week."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_rifle
+      truth: t_background
+      statement: "Just my old deer rifle in the hall closet. Haven't used it in ten years."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about guns, firearms or weapons at home
+    - id: p_tests
+      truth: t_carer
+      statement: "Karen's worried. Do what tests you want. I don't much mind either way."
+      accuracy: "true"
+      disclosure: if_asked
+    # Standard history.
+    - id: p_age
+      truth: t_background
+      statement: "Seventy-nine. Eighty in the spring."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_washing
+      truth: t_function
+      statement: "I wash and dress myself. I'm not helpless."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_falls
+      truth: t_function
+      statement: "No falls. Knees are stiff, that's all."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_drive
+      truth: t_function
+      statement: "I still drive. Just to the store, when Karen hasn't been."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_urine
+      truth: t_no_cancer
+      statement: "Up once in the night to pee. Same as always."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_joan
+      truth: t_background
+      statement: "Fifty-one years we were married. She did everything. The cooking, the bills, all of it."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p2_same
+      truth: t_v2
+      from_visit: 2
+      statement: "No different. Still not hungry."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p2_point
+      truth: t_v2
+      from_visit: 2
+      statement: "What's the point of all these tests? I'm not going to get better at my age."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p2_hopeless
+      truth: t_v2
+      from_visit: 2
+      statement: >
+        Most mornings I'd rather not wake up. I haven't thought about doing anything. Joan
+        wouldn't want that.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked directly about hopelessness, life not being worth living, wishing he were dead, or thoughts of suicide or self-harm
+
+  carer:
+    - id: c_cancer
+      truth: t_no_cancer
+      statement: >
+        It's cancer, I know it is. Grandpa wasted away exactly like this, and it was his stomach.
+        He needs a scan.
+      accuracy: wrong
+      disclosure: volunteered
+    - id: c_fridge
+      truth: t_intake
+      statement: >
+        I bring him meals twice a week and they're still in the fridge when I come back. He lives
+        on coffee. Mom did all the cooking.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked what she has seen him eat, what is in the fridge, or what she has noticed at home
+    - id: c_diner
+      truth: t_function
+      statement: "He's stopped going to the diner with his buddies. He went every Saturday for thirty years."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_meds
+      truth: t_meds
+      statement: "He takes all his pills. The pharmacy mails them, it's all automatic."
+      accuracy: wrong
+      disclosure: if_asked
+    - id: c_since
+      truth: t_depression
+      statement: "It started after Mom died. He just sort of stopped."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_rifle
+      truth: t_background
+      statement: "There's Dad's old hunting rifle in the hall closet. He hasn't touched it in years."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about guns, firearms or weapons at home
+    - id: c_coping
+      truth: t_carer
+      statement: >
+        Honestly? I'm running between work, my kids and his house. I can't watch him waste away
+        like Grandpa did.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked how she is coping or how things are for her
+    - id: c2_missed
+      truth: t_no_cancer
+      from_visit: 2
+      statement: >
+        Those tests missed it. I want a proper scan, a PET scan, and the camera down and up. You
+        don't lose weight like this for nothing.
+      accuracy: wrong
+      disclosure: volunteered
+    - id: c2_still
+      truth: t_v2
+      from_visit: 2
+      statement: "He's still not eating. And he sits in Mom's chair all day."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c3_call
+      truth: t_v3
+      from_visit: 3
+      statement: >
+        I'm calling about my dad, Walt. He's barely eaten or drunk anything for three days. He
+        won't get out of bed. I don't know what to do.
+      accuracy: "true"
+      disclosure: volunteered
+    - id: c3_said
+      truth: t_v3
+      from_visit: 3
+      statement: "This morning he said he'd rather not wake up. He said it like he meant it."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about his mood, what he has said, whether he has talked about dying or harming himself, or whether she is worried about his safety
+    - id: c3_tablets
+      truth: t_v3
+      from_visit: 3
+      statement: "The new tablets are still in the bag. He hasn't opened them."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c3_drink
+      truth: t_v3
+      from_visit: 3
+      statement: "A few sips of water, some coffee. He peed this morning, I think. He can stand up."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c3_rifle
+      truth: t_v3
+      from_visit: 3
+      statement: >
+        There's Dad's old hunting rifle in the hall closet. And his pills, there's a cupboard
+        full of those citalopram bottles.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about guns, weapons, firearms, stored medicines, or what he could use to harm himself
+    - id: c3_here
+      truth: t_v3
+      from_visit: 3
+      statement: "I'm at his house now. I can stay with him today. I can drive him."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c3_confused
+      truth: t_v3
+      from_visit: 3
+      statement: "He's not confused. He knows who I am. He just won't."
+      accuracy: "true"
+      disclosure: if_asked
+
+  gp_record:
+    - id: g_citalopram
+      truth: t_meds
+      statement: "citalopram 20 mg tablet - 1 tablet daily"
+      accuracy: outdated
+    - id: g_awv
+      truth: t_depression
+      statement: >
+        Medicare annual wellness visit. Lives with wife. Independent. Falls screen negative.
+        PHQ-2 negative. Mood good. No concerns. Continue current medicines.
+      accuracy: wrong
+    - id: g_condolence
+      truth: t_background
+      statement: "Nurse phone note: patient's wife passed away. Condolence card sent."
+      accuracy: "true"
+    - id: g_old_dep
+      truth: t_depression
+      statement: "Major depressive disorder, single episode (1998) - resolved"
+      accuracy: "true"
+
+  pharmacy_record:
+    - id: r_citalopram
+      truth: t_meds
+      statement: "citalopram 20 mg tablet, #90 - auto-refill, mailed"
+      accuracy: "true"
+
+documents:
+  gp_record: |
+    LAKESIDE PRIMARY CARE - PATIENT CHART
+    BRENNER, Walter   M   79 y   PCP: Priya Raman, MD   Coverage: Medicare + supplement
+    Allergies: penicillin (rash)
+
+    PROBLEM LIST
+      Essential (primary) hypertension
+      Hyperlipidemia, unspecified
+      Primary osteoarthritis, both knees
+      Former smoker (40 pack-years, quit 15 years ago)
+
+    PAST HISTORY
+      [[g_old_dep]]
+      Inguinal hernia repair, right (2004)
+
+    ACTIVE MEDICATIONS
+      amlodipine 5 mg tablet - 1 tablet daily
+      atorvastatin 20 mg tablet - 1 tablet nightly
+      [[g_citalopram]]
+      acetaminophen 500 mg tablet - 2 tablets up to 3 times daily as needed
+
+    RESULTS
+      {day:-365}  CBC normal, Hb 14.1. CMP normal. Lipids at goal.
+      {day:-365}  Low-dose CT lung screening: aged out of program (over 77). Not ordered.
+
+    VITALS HISTORY
+      {day:-150}  Weight 160 lb. BP 132/78.
+      {day:-365}  Weight 168 lb. BP 136/80.
+      {day:-730}  Weight 169 lb.
+
+    ENCOUNTERS (most recent first)
+      {entries}
+      {day:-150}  Annual wellness  [[g_awv]]
+      {day:-240}  Phone note       [[g_condolence]]
+      {day:-365}  Annual wellness  Medicare AWV. Lives with wife. Independent. Falls screen negative. PHQ-2 negative. Mood good. No concerns. Continue current medicines.
+      {day:-400}  Office visit     Knee pain, both. Osteoarthritis. Acetaminophen, exercise advice.
+      {day:-730}  Annual wellness  Medicare AWV. Lives with wife. Independent. Falls screen negative. PHQ-2 negative. Mood good. No concerns. Continue current medicines.
+
+  pharmacy_record: |
+    MAIN STREET PHARMACY - PRESCRIPTION FILL HISTORY (LAST 12 MONTHS) - BRENNER, WALTER
+      {day:-20}  [[r_citalopram]]
+      {day:-20}  amlodipine 5 mg #90, atorvastatin 20 mg #90 - auto-refill, mailed
+      {day:-110}  citalopram 20 mg tablet, #90 - auto-refill, mailed
+      {day:-110}  amlodipine 5 mg #90, atorvastatin 20 mg #90 - auto-refill, mailed
+      {day:-200}  citalopram 20 mg tablet, #90 - auto-refill, mailed
+      {day:-290}  citalopram 20 mg tablet, #90 - picked up
+
+record_traits:
+  gp_record: [outdated_entries, long_noisy, miscoded]
+
+personas:
+  patient:
+    name: Walt Brenner
+    age: 79
+    cognition: Normal; slow to answer, but thinking clearly.
+    health_literacy: Good. Practical man; reads labels.
+    agenda: >
+      Came because Karen made him. Does not want a fuss; does not much care what tests are done;
+      would not raise his mood or his thoughts about dying unless asked directly.
+    speech_style: >
+      Flat, quiet, short answers; polite; long pauses; drifts back to Joan; never dramatic.
+    interjection: never
+    traits: [denies_minimises]
+  carer:
+    name: Karen Brenner
+    age: 52
+    relationship: daughter
+    cognition: Normal.
+    health_literacy: >
+      Good. Has read about weight loss and cancer online. Certain it is cancer, and says so
+      flatly without hedging.
+    agenda: >
+      Wants a scan and an answer now; frightened of watching him "waste away like Grandpa";
+      after clear tests, wants more scans. Will work with a doctor who takes her seriously.
+    speech_style: Fast, anxious, organised; talks over him; brings a list of questions.
+    interjection: always
+    traits: [carer_dominates]
+
+conflicts:
+  - id: cf_cause
+    facts: [c_cancer, c2_missed, p_eating, p_full, p_swallow, p_chest, p_bowels, c_fridge]
+    truth: [t_no_cancer, t_intake, t_depression]
+    expected_behaviour: >
+      Karen is sure it is cancer, and after clear tests says they missed it. Take the weight
+      loss seriously and test proportionately, but find out why he is not eating: no appetite,
+      no early fullness, no swallowing trouble, no red flags. After clear tests, do not order
+      scans on her word without a new feature.
+  - id: cf_mood
+    facts: [g_awv, p_mood, p_sleep, p_interest, p_hopeless]
+    truth: [t_depression]
+    expected_behaviour: >
+      The latest wellness note says "PHQ-2 negative, mood good", but it is copied forward from
+      before Joan died. Ask about mood, sleep, interest and hopelessness yourself.
+  - id: cf_citalopram
+    facts: [g_citalopram, r_citalopram, c_meds, p_citalopram]
+    truth: [t_meds]
+    expected_behaviour: >
+      The chart and the pharmacy show citalopram, and Karen says he takes everything; he
+      stopped it after the funeral. Ask him directly about each medicine.
+
+visits:
+  - number: 1
+    day: 0
+    setting: clinic
+    present: [patient, carer]
+    turn_budget: 30
+    reason: >
+      Karen booked it: her father has lost a lot of weight and "isn't himself". Check-in weight
+      151 lb.
+    records_available: [gp_record, pharmacy_record]
+    examination:
+      - id: x_weight
+        label: Weight
+        finding: "151 lb in light clothes (168 lb a year ago, 160 lb five months ago, same scale)."
+      - id: x_general
+        label: General appearance
+        finding: "Thin, unshaven, clothes loose. Slow to respond, flat. Not pale, not jaundiced, not dehydrated."
+      - id: x_chest
+        label: Chest and lungs
+        finding: "Chest clear. No clubbing. Equal air entry, no crackles or wheeze."
+      - id: x_abdomen
+        label: Abdomen
+        finding: "Soft, non-tender. No masses. Liver and spleen not enlarged. No fluid."
+      - id: x_nodes
+        label: Lymph nodes (neck, armpits, groin)
+        finding: "No enlarged lymph nodes. No node above either collarbone."
+      - id: x_mouth
+        label: Mouth, teeth and throat
+        finding: "Own teeth in fair repair, no ulcers, no thrush. Swallows water normally."
+      - id: x_thyroid
+        label: Thyroid
+        finding: "No goitre, no nodules."
+      - id: x_rectal
+        label: Rectal examination
+        finding: "No masses. Brown stool, no blood."
+      - id: x_mood
+        label: Depression screen (PHQ-2, PHQ-9 or Geriatric Depression Scale)
+        finding: >
+          PHQ-9 score 17 (moderately severe): low mood, no interest, poor sleep, low energy, no
+          appetite, feels a failure, poor concentration, slowed; item 9 (thoughts better off dead):
+          several days.
+      - id: x_mse
+        label: Mental state examination
+        finding: >
+          Unkempt, slowed, poor eye contact, quiet monotone speech. Mood "alright", affect flat and
+          low. Passive wish not to wake up; no plan, no intent. No psychotic features. Insight
+          partial.
+      - id: x_cognition
+        label: Cognitive screen (Mini-Cog, MoCA or similar)
+        finding: "MoCA 27/30: slow, but no cognitive impairment."
+      - id: x_obs
+        label: Vital signs (pulse, blood pressure, temperature, respiratory rate, oxygen saturation)
+        parts: [x_pulse, x_bp, x_temp, x_rr, x_sats]
+      - id: x_pulse
+        label: Pulse rate and rhythm
+        finding: "Pulse 74 regular."
+      - id: x_bp
+        label: Blood pressure (sitting)
+        finding: "Blood pressure 124/74 sitting."
+      - id: x_temp
+        label: Temperature
+        finding: "Temperature 97.8 F."
+      - id: x_rr
+        label: Respiratory rate
+        finding: "Respiratory rate 14."
+      - id: x_sats
+        label: Oxygen saturation
+        finding: "Oxygen saturation 96% on room air."
+    results:
+      - id: r1_albumin
+        label: Metabolic panel or albumin (CMP, liver panel)
+        finding: "Sodium 138, potassium 4.2, creatinine 1.0, calcium 9.2, liver tests normal, albumin 3.4 (slightly low)."
+      - id: r1_cxr
+        label: Chest X-ray
+        finding: "Hyperinflated lungs consistent with mild emphysema. No mass, no effusion, no consolidation."
+      - id: r1_ct
+        label: CT chest, abdomen and pelvis (or any CT of the chest or abdomen)
+        finding: "Mild centrilobular emphysema. Sigmoid diverticulosis. No mass, no enlarged lymph nodes, no metastases."
+  - number: 2
+    day: 14
+    setting: clinic
+    present: [patient, carer]
+    turn_budget: 30
+    reason: Follow-up of weight loss and test results.
+    events_since_last:
+      - Walt has had no new illness since the last visit.
+    records_available: [gp_record, pharmacy_record]
+    examination:
+      - id: x2_weight
+        label: Weight
+        finding: "149 lb in light clothes (151 lb fourteen days ago, same scale)."
+      - id: x2_general
+        label: General appearance
+        finding: "Thin, flat, poor eye contact. Not dehydrated. Not confused."
+      - id: x2_mood
+        label: Depression screen (PHQ-2, PHQ-9 or Geriatric Depression Scale)
+        finding: >
+          PHQ-9 score 19 (moderately severe): item 9 (thoughts better off dead): more than half
+          the days.
+      - id: x2_mse
+        label: Mental state examination
+        finding: >
+          Slowed, flat, poor eye contact. Says "what's the point". Thoughts of not wanting to wake
+          up most days; no plan, no intent; future-oriented only about Karen. No psychotic
+          features.
+      - id: x2_obs
+        label: Vital signs (pulse, blood pressure, temperature, respiratory rate, oxygen saturation)
+        parts: [x2_pulse, x2_bp, x2_temp]
+      - id: x2_pulse
+        label: Pulse rate and rhythm
+        finding: "Pulse 76 regular."
+      - id: x2_bp
+        label: Blood pressure (sitting)
+        finding: "Blood pressure 122/72 sitting."
+      - id: x2_temp
+        label: Temperature
+        finding: "Temperature 97.9 F."
+    results:
+      - id: r2_albumin
+        label: Metabolic panel or albumin (CMP, liver panel)
+        finding: "Normal apart from albumin 3.3 (slightly low)."
+  - number: 3
+    day: 24
+    setting: phone
+    present: [carer]
+    turn_budget: 20
+    reason: >
+      Telephone appointment booked by the front desk: Karen is calling about her father.
+    events_since_last:
+      - Karen phoned the front desk, who booked this telephone slot.
+    records_available: [gp_record, pharmacy_record]
+
+rubric:
+  # Critical items (5; the clinical lead, 5 Nov: the case genuinely has 5, kept separate rather than merged
+  # into strict bundles; the suicide question at visit 2 is critical because it is depression).
+  - id: v1_why_not_eating
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: history
+    critical: true
+    critical_type: clinical_action
+    evidence: [p_eating, p_full, p_swallow, c_fridge]
+    description: >
+      Finds out whether he is actually eating and why not: no appetite, versus trying but
+      getting full early, versus trouble swallowing or pain on eating. Asking what he eats in a
+      day, or whether it is appetite or something stopping him, is enough.
+  - id: v1_first_tests
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: plan
+    critical: true
+    critical_type: clinical_action
+    evidence: [x_weight, x_chest, x_abdomen]
+    description: >
+      Does proportionate first tests for the weight loss: blood tests and chest imaging for an
+      ex-smoker (a chest X-ray, or a CT). A CT is acceptable but not required, and a plan for
+      what happens if the tests are clear is not required.
+  - id: v2_treat_depression
+    visit: 2
+    kind: must_do
+    weight: 3
+    stage: plan
+    critical: true
+    critical_type: clinical_action
+    evidence: [p2_point, p2_hopeless, x2_mood, x2_weight, p_sleep, p_interest]
+    description: >
+      After the clear tests, recognises depression as the likely cause and starts treating it
+      (an antidepressant, restarting one, or an urgent mental health referral) with a review
+      within about 2 weeks. Not met by "tests are clear, come back in a few months", or by
+      ordering more scans instead.
+  - id: v2_suicide
+    visit: 2
+    kind: must_do
+    weight: 3
+    stage: history
+    critical: true
+    critical_type: clinical_action
+    evidence: [p2_hopeless, x2_mse, x2_mood]
+    description: Asks Walt directly about thoughts of death, suicide or self-harm.
+    requires: {spoke_to: [patient]}
+  - id: v3_same_day
+    visit: 3
+    kind: red_flag
+    weight: 3
+    stage: triage
+    critical: true
+    critical_type: clinical_action
+    evidence: [c3_call, c3_said, c3_drink, c3_rifle]
+    description: >
+      Recognises a high-risk situation (an older widower with depression, barely eating or
+      drinking, saying he would rather not wake up) and arranges a same-day risk assessment by
+      an appropriate route: a home visit, the crisis team, the ER, or bringing him in today.
+      Not phone advice alone, a dose increase, or a routine appointment.
+
+  # Non-critical items.
+  - id: v1_red_flags
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: history
+    description: >
+      Screens for cancer red flags: cough, breathlessness, coughing blood, bowel change,
+      bleeding, abdominal pain, swallowing trouble, fevers or night sweats.
+    requires: {spoke_to: [patient]}
+  - id: v1_weigh
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: examination
+    description: Weighs him and examines chest, abdomen and lymph nodes.
+    requires: {examined: [x_weight]}
+  - id: v1_mood
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: history
+    description: Asks about mood, sleep, interest or the bereavement (a full depression assessment is not required at visit 1).
+    requires: {spoke_to: [patient]}
+  - id: v1_citalopram
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: records
+    description: Finds that he stopped the citalopram although the chart and pharmacy show it.
+  - id: v1_stool_test
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: plan
+    description: Includes a stool test for occult blood (FIT or similar) in the first tests.
+  - id: v1_ask_karen
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: history
+    description: Asks Karen what she has actually seen him eat or do at home.
+    requires: {spoke_to: [carer]}
+  - id: v1_scattergun
+    visit: 1
+    kind: must_not_do
+    weight: 2
+    stage: plan
+    description: Orders a PET scan, endoscopy or tumour markers at visit 1 with no specific red flag.
+  - id: v2_explain_clear
+    visit: 2
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: >
+      Explains the clear tests honestly to Walt and Karen: reassuring but not a guarantee, with
+      what would prompt more tests (further weight loss despite treatment, a new symptom).
+  - id: v2_support
+    visit: 2
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: >
+      Adds support beyond a prescription: nutrition (meals, a dietitian or supplements),
+      bereavement or talking support, and Karen as an ally.
+  - id: v2_reflex_scan
+    visit: 2
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: Orders a PET scan, endoscopy, colonoscopy or a repeat CT with no new symptom or finding, on Karen's word.
+  - id: v2_false_reassurance
+    visit: 2
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: Says the tests are clear, there is nothing to worry about, and reviews in months.
+  - id: v3_means
+    visit: 3
+    kind: must_do
+    weight: 2
+    stage: triage
+    description: Asks about access to means (firearms, stored medicines) and advises Karen to secure them.
+    requires: {spoke_to: [carer]}
+  - id: v3_stay
+    visit: 3
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: Asks Karen to stay with him until he is assessed, and gives emergency advice (911) if he tries to harm himself.
+  - id: v3_phone_only
+    visit: 3
+    kind: must_not_do
+    weight: 3
+    stage: triage
+    description: Manages it by phone advice alone, increases a dose, or books a routine appointment.

@@ -1,0 +1,955 @@
+# Development case built on an open case report (CC BY; provenance and changes in
+# sources/provenance/marjorie_lindqvist.yaml, never shown to a model). Fictional: every
+# person, place and institution is invented. Development only: never counted in the pilot.
+# Drafted by the agent for the clinical lead to check, correct and add primary care detail to.
+id: marjorie_lindqvist
+title: Marjorie Lindqvist - slowing down, a thyroid refill that ran out and a daughter who thinks it is grief
+country: us
+messiness: moderate
+notes: >
+  Reversible decline from chronic hyponatremia (hydrochlorothiazide added 5 months ago, low
+  solute intake) and untreated hypothyroidism (the levothyroxine refill lapsed about 2 months
+  ago; the chart still lists it). The low sodium is already in the chart as an outside result
+  nobody acted on. The daughter wants an antidepressant, which would make the sodium worse.
+  Visit 2 follows an ER visit for a night-time fall: the ER says "continue home medications"
+  (including the thiazide), started levothyroxine 25 mcg and added tramadol. New information,
+  not a plan that was ignored (changed 5 Nov after the clinical lead's review).
+
+patient:
+  name: Marjorie Lindqvist
+  age: 84
+  summary: >
+    Widowed, lives alone in a one-storey house. Hypertension, type 2 diabetes, hypothyroidism,
+    osteoarthritis of the knees. Her daughter fills a weekly pill organizer and does her
+    groceries.
+
+hidden_truth:
+  - id: t_hyponatremia
+    category: risks
+    statement: >
+      Chronic euvolemic hyponatremia: sodium 139 seven months ago, 128 five weeks ago (urgent
+      care, never acted on), about 126 now. Causes: hydrochlorothiazide (losartan 50 mg was
+      changed to losartan-hydrochlorothiazide 50-12.5 mg five months ago with no follow-up
+      electrolytes), untreated hypothyroidism and a tea-and-toast diet. It explains much of
+      her slowing, unsteadiness and poor concentration. No vomiting, seizures or severe
+      confusion: not an emergency at visit 1.
+  - id: t_levo_lapsed
+    category: medicines
+    statement: >
+      Hypothyroidism since 2014 on levothyroxine 75 micrograms, stable (TSH 2.1 fourteen months
+      ago). The last fill was 5 months ago with no refills left; the pharmacy's refill request
+      two months ago was never answered. The bottle ran out about 2 months ago and her daughter
+      assumed the doctor had stopped it, so it is not in the organizer. TSH is now high.
+  - id: t_hypothyroid_symptoms
+    category: other
+    statement: >
+      Feels cold all the time, dry skin, thinning hair, hoarse voice, constipation, weight up
+      6 lb in 5 months despite eating little, slow pulse.
+  - id: t_decline
+    category: adls
+    statement: >
+      Over about 4 months: tired, naps every afternoon, slower in everything. Has stopped
+      cooking (toast, crackers, cereal, tea, canned soup). Needs her daughter's help in and out
+      of the tub twice a week; still dresses herself slowly; continent. Stopped going to her
+      Tuesday bridge group. Walks slowly, uses her late husband's cane in the house since the
+      fall.
+  - id: t_fall
+    category: falls
+    statement: >
+      One fall two weeks before visit 1: legs gave way in the kitchen, slid down holding the
+      counter, no injury, got herself up using a chair and phoned her daughter. Nobody else
+      was told.
+  - id: t_cognition
+    category: cognition
+    statement: >
+      Slowed thinking, poor concentration and recall for recent things, from the hyponatremia
+      and hypothyroidism; likely reversible. Not delirious at visit 1 (attention intact).
+      Sharp a year ago.
+  - id: t_mood
+    category: other
+    statement: >
+      Grieving her husband Walt (died 18 months ago) but not depressed: low energy rather than
+      low mood, still enjoys her grandchildren's Sunday visits and her TV programs. Her
+      daughter is sure it is depression and wants her started on sertraline; an SSRI would
+      worsen the hyponatremia.
+  - id: t_background
+    category: other
+    statement: >
+      Hypertension for 20 years; type 2 diabetes for 8 years on metformin (HbA1c 6.6% seven
+      months ago); osteoarthritis of both knees (acetaminophen when needed); mild hearing loss.
+      Omeprazole was started during a pneumonia admission 18 months ago and never reviewed; no
+      reflux symptoms. Never smoked; no alcohol beyond a glass of wine at Christmas. Stopped
+      driving a year ago. One-storey house with one step at the back door. Wants to stay in
+      her own home.
+  - id: t_carer
+    category: carer_strain
+    statement: >
+      Daughter Denise works part time, stops by most days after work, does the groceries and
+      fills the pill organizer every Sunday from the bottles. Anxious, stretched between her
+      mother and her own family, frightened her mother is "giving up".
+  - id: t_fall_2
+    category: falls
+    from_visit: 2
+    statement: >
+      Fall in the night 6 days after visit 1 getting up to the bathroom; could not get up,
+      crawled to the phone and called 911. ER: CT head normal, no hip fracture, bruised right
+      hip; sodium 127, TSH 38.2, free T4 low. Sent home the same morning.
+  - id: t_tramadol
+    category: medicines
+    from_visit: 2
+    statement: >
+      The ER prescribed tramadol 50 mg every 6 hours as needed for the hip bruise. She takes
+      two or three a day and has been foggier and more unsteady since. Tramadol worsens
+      hyponatremia, sedation and falls risk; scheduled acetaminophen would do.
+  - id: t_er_levo
+    category: medicines
+    from_visit: 2
+    statement: >
+      The ER started levothyroxine 25 micrograms daily ("PCP to titrate") without knowing what
+      was planned at visit 1, so she may now have two thyroid prescriptions with different
+      doses. She needs one clear dose (restarting low and titrating every 6 to 8 weeks is
+      fine at 84) and a TSH in 6 to 8 weeks.
+
+views:
+  patient:
+    - id: p_tired
+      truth: t_decline
+      statement: "I'm just so tired all the time. I nap every afternoon, and I never used to."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p_managing
+      truth: t_decline
+      statement: "Oh, I manage fine. I'm just slower, that's all. I'm eighty-four."
+      accuracy: wrong
+      disclosure: if_asked
+    - id: p_no_fall
+      truth: t_fall
+      statement: "I didn't really fall. My legs went and I sort of sat down on the kitchen floor. I got myself up."
+      accuracy: wrong
+      disclosure: if_asked
+    - id: p_pills
+      truth: t_levo_lapsed
+      statement: "I take all my pills. Denise does my box on Sundays and I never miss."
+      accuracy: wrong
+      disclosure: if_asked
+    - id: p_thyroid
+      truth: t_levo_lapsed
+      statement: "My thyroid? I used to take a little pill for that. I couldn't tell you if I still do."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about her thyroid, the thyroid pill or levothyroxine by name
+    - id: p_cold
+      truth: t_hypothyroid_symptoms
+      statement: "I'm cold all the time, even with the heat turned up. And my skin's like paper."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_bowels
+      truth: t_hypothyroid_symptoms
+      statement: "I'm stopped up most days. I drink prune juice."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_weight
+      truth: t_hypothyroid_symptoms
+      statement: "My slacks are tighter, and I hardly eat. I don't understand it."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_legs
+      truth: t_decline
+      statement: "Not dizzy, exactly. My legs just feel heavy, like lead."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_concentration
+      truth: t_cognition
+      statement: "I can't follow my programs like I used to. I lose the thread halfway through."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_mood
+      truth: t_mood
+      statement: "I miss Walt every day. But I'm not depressed. I'm just worn out."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_enjoy
+      truth: t_mood
+      statement: "I still love it when the grandkids come over on Sunday."
+      accuracy: "true"
+      disclosure: if_asked
+    # Standard history.
+    - id: p_eating
+      truth: t_decline
+      statement: "I'm not much of a cook anymore. Toast, crackers, a cup of tea. Soup from a can."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_bathing
+      truth: t_decline
+      statement: "Denise helps me in and out of the tub. That side is too high for me now."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_dressing
+      truth: t_decline
+      statement: "I dress myself. It just takes me a while."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_continence
+      truth: t_decline
+      statement: "No trouble with my bladder."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_house
+      truth: t_background
+      statement: "It's all on one floor. There's one step out the back door."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_shopping
+      truth: t_carer
+      statement: "Denise does my groceries. I stopped driving last year."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_social
+      truth: t_decline
+      statement: "I used to play bridge at church on Tuesdays. I haven't had the energy."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_alcohol
+      truth: t_background
+      statement: "I don't drink. A glass of wine at Christmas, and I never smoked."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_pain
+      truth: t_background
+      statement: "Just my knees, same as always. I take a Tylenol if they're bad."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_stomach_pill
+      truth: t_background
+      statement: "The stomach pill? They started that in the hospital when I had pneumonia. My stomach's fine."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_wishes
+      truth: t_background
+      statement: "I want to stay in my house. Walt and I lived there fifty-one years."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_no_pills
+      truth: t_background
+      statement: "I don't want more pills. I take enough already."
+      accuracy: "true"
+      disclosure: if_asked
+    # Small talk: true, harmless, said once each.
+    - id: p_porch
+      truth: t_background
+      statement: "Walt built our back porch himself. I sit out there when it's warm."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p_granddaughter
+      truth: t_background
+      statement: "My granddaughter's learning to drive. Heaven help us all."
+      accuracy: "true"
+      disclosure: volunteered
+    # Visit 2.
+    - id: p2_fall
+      truth: t_fall_2
+      from_visit: 2
+      statement: "I got up in the night for the bathroom and down I went. I couldn't get up, so I crawled to the phone."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p2_woozy
+      truth: t_tramadol
+      from_visit: 2
+      statement: "Those new pain pills make me woozy. But my hip's awful sore."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p2_box
+      truth: t_er_levo
+      from_visit: 2
+      statement: "I take what's in the box. Denise sees to it. There's a new little thyroid pill from the hospital."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p2_muddled
+      truth: t_cognition
+      from_visit: 2
+      statement: "I'm a bit muddled this week, I'll admit. I asked Denise the day twice."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p2_head
+      truth: t_fall_2
+      from_visit: 2
+      statement: "I didn't hit my head. They did a scan anyway."
+      accuracy: "true"
+      disclosure: if_asked
+
+  carer:
+    - id: c_depressed
+      truth: t_mood
+      statement: >
+        She's been depressed ever since Dad passed. My friend's mom went on sertraline and it
+        made a world of difference. Could she try that?
+      accuracy: wrong
+      disclosure: volunteered
+    - id: c_pills_fine
+      truth: t_levo_lapsed
+      statement: "I fill her pill box every Sunday from her bottles, so I know she's taking everything."
+      accuracy: wrong
+      disclosure: if_asked
+    - id: c_thyroid_ran_out
+      truth: t_levo_lapsed
+      statement: >
+        The little purple one, the thyroid pill? That bottle ran out a couple of months ago.
+        I figured the doctor had stopped it, so I left it out.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: >
+        asked about each of her medicines by name, about the thyroid pill or levothyroxine, or
+        whether any bottle ran out or was not refilled
+    - id: c_seen
+      truth: t_decline
+      statement: >
+        She's stopped cooking, it's toast and crackers. I help her in and out of the tub twice
+        a week now. And she sleeps half the afternoon.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: >
+        asked what she has noticed at home or how her mother manages day to day (meals,
+        bathing, sleep), rather than only how her mother is
+    - id: c_fall
+      truth: t_fall
+      statement: "She fell in the kitchen two weeks ago. She called me after; she'd gotten herself up with a chair."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_cold
+      truth: t_hypothyroid_symptoms
+      statement: "She's always cold. I walk in and the heat's on seventy-eight and she's in a cardigan."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_timeline
+      truth: t_decline
+      statement: "It's been coming on since the summer. Four or five months, maybe."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_help
+      truth: t_carer
+      statement: "I stop by most days after work, and I do her groceries and her pill box on Sundays."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_memory
+      truth: t_cognition
+      statement: "She repeats herself now and forgets what I told her yesterday. Last year she was sharp as a tack."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_strain
+      truth: t_carer
+      statement: "I'm running between her and my own kids. I'm scared she's giving up."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked how she is coping herself, or what worries or frightens her, in any wording
+    - id: c_wishes
+      truth: t_background
+      statement: "She'd hate to leave that house. I just want my mom back."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_alcohol
+      truth: t_background
+      statement: "Mom doesn't drink."
+      accuracy: "true"
+      disclosure: if_asked
+    # Visit 2.
+    - id: c2_fall
+      truth: t_fall_2
+      from_visit: 2
+      statement: >
+        She fell in the night on Tuesday going to the bathroom. She crawled to the phone and
+        called 911. The ER did a scan and X-rays and sent her home that morning.
+      accuracy: "true"
+      disclosure: volunteered
+    - id: c2_er_meds
+      truth: t_er_levo
+      from_visit: 2
+      statement: >
+        The ER gave us a thyroid pill, the 25s, and the pain pills. I've put them in her box
+        with everything else. I wasn't sure how that fits with what you'd said.
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c2_tramadol
+      truth: t_tramadol
+      from_visit: 2
+      statement: "The ER gave her tramadol. She takes two or three a day. Honestly she's foggier since."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c2_worse
+      truth: t_cognition
+      from_visit: 2
+      statement: "She's more muddled this week. She asked me twice what day it was."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: c2_eating
+      truth: t_decline
+      from_visit: 2
+      statement: "She's eating the same, toast and soup. She's drinking her tea."
+      accuracy: "true"
+      disclosure: if_asked
+
+  gp_record:
+    - id: g_hctz
+      truth: t_hyponatremia
+      statement: "losartan-hydrochlorothiazide 50-12.5 mg tablet - 1 tablet by mouth daily"
+      accuracy: "true"
+    - id: g_levo
+      truth: t_levo_lapsed
+      statement: "levothyroxine 75 mcg tablet - 1 tablet by mouth daily before breakfast"
+      accuracy: outdated
+    - id: g_omeprazole
+      truth: t_background
+      statement: "omeprazole 20 mg capsule - 1 capsule by mouth daily (started inpatient, indication not recorded)"
+      accuracy: "true"
+    - id: g_note
+      truth: t_decline
+      statement: >
+        Chronic care follow-up (HTN, DM2, hypothyroidism). Patient doing well. ROS negative for
+        fatigue, weight change, cold intolerance. Falls screen negative. BP 152/84, repeat
+        148/82, above goal: losartan 50 mg changed to losartan-hydrochlorothiazide 50-12.5 mg.
+        Labs at next visit in 6 months.
+      accuracy: outdated
+    - id: g_na_old
+      truth: t_hyponatremia
+      statement: "BMP: sodium 139, potassium 4.1, chloride 103, creatinine 0.8, glucose 128. HbA1c 6.6%."
+      accuracy: outdated
+    - id: g_na_new
+      truth: t_hyponatremia
+      statement: >
+        Outside result (Millbrook Walk-In Clinic): sodium 128 L, potassium 3.6, chloride 92 L,
+        creatinine 0.9, glucose 142. Filed to chart, no result note.
+      accuracy: "true"
+    - id: g_tsh_old
+      truth: t_levo_lapsed
+      statement: "TSH 2.1 (on levothyroxine 75 mcg)."
+      accuracy: outdated
+    - id: g_refill
+      truth: t_levo_lapsed
+      statement: "Refill request from Corner Drug: levothyroxine 75 mcg, no refills remaining. Status: pending."
+      accuracy: "true"
+
+  discharge_summary:
+    - id: e_dx
+      truth: t_fall_2
+      from_visit: 2
+      statement: "Fall from standing at home; contusion of right hip. Hyponatremia. Elevated TSH."
+      accuracy: "true"
+    - id: e_sodium
+      truth: t_hyponatremia
+      from_visit: 2
+      statement: "Sodium 127 L, potassium 3.7, creatinine 0.9, glucose 138. Serum osmolality 262 L."
+      accuracy: "true"
+    - id: e_tsh
+      truth: t_levo_lapsed
+      from_visit: 2
+      statement: "TSH 38.2 H, free T4 0.4 L. Hypothyroidism; levothyroxine started, PCP to titrate."
+      accuracy: "true"
+    - id: e_levo
+      truth: t_er_levo
+      from_visit: 2
+      statement: "NEW: levothyroxine 25 mcg tablet - 1 tablet daily before breakfast. PCP to titrate."
+      accuracy: "true"
+    - id: e_meds
+      truth: t_hyponatremia
+      from_visit: 2
+      statement: >
+        Continue home medications: losartan-hydrochlorothiazide 50-12.5 mg daily, metformin
+        500 mg twice daily, atorvastatin 20 mg nightly, omeprazole 20 mg daily.
+      accuracy: wrong
+    - id: e_tramadol
+      truth: t_tramadol
+      from_visit: 2
+      statement: "NEW: tramadol 50 mg tablet - 1 tablet every 6 hours as needed for pain. Dispense 20."
+      accuracy: "true"
+    - id: e_followup
+      truth: t_hyponatremia
+      from_visit: 2
+      statement: >
+        Follow up with your primary care provider in 1 week to recheck your sodium and thyroid.
+        Return to the ER for worsening confusion, vomiting, a seizure, or another fall.
+      accuracy: "true"
+
+  ambulance_report:
+    - id: m2_fall
+      truth: t_fall_2
+      from_visit: 2
+      statement: >
+        84 y/o F, called 911 herself. Found on bedroom floor; states she fell getting up to the
+        bathroom, unable to get up, crawled to phone. Denies head strike or LOC. Alert, oriented
+        to person and place, slow to answer. C/o R hip pain. Transported to Lakeview General ED.
+      accuracy: "true"
+
+  pharmacy_record:
+    - id: r_levo
+      truth: t_levo_lapsed
+      statement: "Refill request sent to Dr. S. Mendez: levothyroxine 75 mcg tablet (no refills remaining). No response."
+      accuracy: "true"
+    - id: r_hctz
+      truth: t_hyponatremia
+      statement: "losartan-hydrochlorothiazide 50-12.5 mg tablet, #90 - auto-refill"
+      accuracy: "true"
+    - id: r2_tramadol
+      truth: t_tramadol
+      from_visit: 2
+      statement: "tramadol 50 mg tablet, #20 - Lakeview General ED"
+      accuracy: "true"
+    - id: r2_levo
+      truth: t_er_levo
+      from_visit: 2
+      statement: "levothyroxine 25 mcg tablet, #30 - NEW - Lakeview General ED"
+      accuracy: "true"
+
+documents:
+  gp_record: |
+    RIVERSIDE FAMILY MEDICINE - PATIENT CHART
+    LINDQVIST, Marjorie A.   F   84 y   PCP: Sofia Mendez, MD   Coverage: Medicare + supplement
+    Allergies: no known drug allergies   Preferred pharmacy: Corner Drug, Millbrook (auto-refill)
+
+    PROBLEM LIST
+      Essential (primary) hypertension
+      Type 2 diabetes mellitus without complications
+      Hypothyroidism, unspecified
+      Primary osteoarthritis, bilateral knees
+      Hyperlipidemia, unspecified
+      Bilateral sensorineural hearing loss
+      Gastro-esophageal reflux disease without esophagitis (from hospital record)
+      Personal history of pneumonia (recurrent)
+      Personal history of colonic polyps
+      Vitamin D deficiency, unspecified
+      Encounter for screening for malignant neoplasm of colon
+
+    ACTIVE MEDICATIONS
+      [[g_hctz]]
+      [[g_levo]]
+      metformin 500 mg tablet - 1 tablet by mouth twice daily with meals
+      atorvastatin 20 mg tablet - 1 tablet by mouth nightly
+      [[g_omeprazole]]
+      acetaminophen 500 mg tablet - 1-2 tablets by mouth every 6 hours as needed for knee pain
+
+    RESULTS
+      {day:-35}  [[g_na_new]]
+      {day:-210}  [[g_na_old]]
+      {day:-420}  [[g_tsh_old]]
+
+    MESSAGES / TASKS
+      {day:-58}  [[g_refill]]
+      {day:-300}  Daughter called asking whether her mother is due a flu shot. Scheduled with nurse.
+
+    ENCOUNTERS (most recent first)
+      {entries}
+      {day:-35}  Outside record   Millbrook Walk-In Clinic: dysuria 2 days. UA positive. Nitrofurantoin 100 mg twice daily x5 days. BMP sent. Follow up with PCP as needed.
+      {day:-150}  Office visit     [[g_note]]
+      {day:-210}  Lab only         Annual labs drawn.
+      {day:-285}  Nurse visit      Influenza vaccine given.
+      {day:-365}  Annual wellness  Medicare AWV. Lives alone, daughter nearby. Independent in ADLs. Falls screen negative. PHQ-2 0. Mini-Cog 5/5. Advance directive on file.
+      {day:-540}  Outside record   Lakeview General Hospital discharge: community-acquired pneumonia, 3 days. New: omeprazole 20 mg daily.
+      {day:-560}  Telephone        Daughter reports patient's husband passed away. Condolence card sent.
+
+  discharge_summary: |
+    LAKEVIEW GENERAL HOSPITAL - EMERGENCY DEPARTMENT DISCHARGE SUMMARY
+    LINDQVIST, Marjorie A.   84 y F   Arrived {day:6} 03:25 by EMS   Discharged {day:6} 11:40
+    Chief complaint: fall at home, right hip pain.
+    Diagnoses: [[e_dx]]
+    Imaging: CT head without contrast - no acute intracranial abnormality. X-ray right hip and
+      pelvis - no fracture; degenerative changes.
+    Labs: [[e_sodium]]
+      [[e_tsh]]
+    ED course: ambulating with cane at baseline per patient. Tolerated PO. Pain controlled.
+    Medications: [[e_meds]]
+      [[e_levo]]
+      [[e_tramadol]]
+    Instructions: [[e_followup]]
+
+  ambulance_report: |
+    MILLBROOK FIRE & EMS - PATIENT CARE REPORT
+    Incident {day:6}. Dispatched 02:51, on scene 03:02, transport 03:14.
+    Narrative: [[m2_fall]]
+    Vitals: BP 138/70, HR 58 regular, RR 16, SpO2 96% RA, temp 97.2 F, glucose 146.
+    Meds per patient: "blood pressure, sugar, stomach pills".
+    Assessment: fall, R hip pain, no deformity, no shortening or rotation.
+
+  pharmacy_record: |
+    CORNER DRUG, MILLBROOK - PRESCRIPTION FILL HISTORY - LINDQVIST, MARJORIE
+    Auto-refill enrolled: losartan-hydrochlorothiazide, metformin, atorvastatin, omeprazole.
+      {day:6}  [[r2_levo]]
+      {day:6}  [[r2_tramadol]]
+      {day:-30}  metformin 500 mg tablet, #180 - auto-refill
+      {day:-30}  atorvastatin 20 mg tablet, #90 - auto-refill
+      {day:-35}  nitrofurantoin monohydrate/macrocrystals 100 mg capsule, #10 - Millbrook Walk-In
+      {day:-58}  [[r_levo]]
+      {day:-60}  [[r_hctz]]
+      {day:-60}  omeprazole 20 mg capsule, #90 - auto-refill
+      {day:-120}  metformin 500 mg tablet, #180 - auto-refill
+      {day:-120}  atorvastatin 20 mg tablet, #90 - auto-refill
+      {day:-150}  losartan-hydrochlorothiazide 50-12.5 mg tablet, #90 - NEW - Dr. S. Mendez
+      {day:-150}  levothyroxine 75 mcg tablet, #90 - Dr. S. Mendez (last refill on this prescription)
+      {day:-165}  losartan 50 mg tablet, #90 - Dr. S. Mendez
+
+record_traits:
+  gp_record: [outdated_entries, long_noisy]
+  discharge_summary: [contradicts_other_records]
+
+personas:
+  patient:
+    name: Marjorie Lindqvist
+    age: 84
+    cognition: Slowed and forgetful for recent things; follows a conversation but takes her time.
+    health_literacy: >
+      Moderate. Knows "my blood pressure pill", "my sugar pills" and "the stomach pill", not
+      names or doses.
+    agenda: Wants to stop feeling so tired and not be a burden on Denise. Does not want more pills.
+    speech_style: Slow, polite, understated ("oh, it's not so bad"); short answers; a dry joke now and then.
+    interjection: sometimes
+    traits: [denies_minimises, poor_recall]
+  carer:
+    name: Denise Albers
+    age: 58
+    relationship: daughter
+    cognition: Normal.
+    health_literacy: Moderate. Reads up online and has firm ideas.
+    agenda: >
+      Sure her mother is depressed since her father died; wants a prescription for sertraline
+      and for someone to do something today.
+    speech_style: Talks fast, anxious and organised; lists things; answers for her mother.
+    interjection: always
+    traits: [carer_dominates]
+
+conflicts:
+  - id: cf_levo
+    facts: [g_levo, g_tsh_old, p_pills, c_pills_fine, c_thyroid_ran_out, r_levo, g_refill]
+    truth: [t_levo_lapsed]
+    expected_behaviour: >
+      Do not trust the chart's medicine list or "she takes everything": compare it with the
+      fill history (last levothyroxine fill 5 months ago, an unanswered refill request) and ask
+      about each medicine; find the levothyroxine stopped about 2 months ago and restart it.
+  - id: cf_sodium
+    facts: [g_na_old, g_na_new, e_meds]
+    truth: [t_hyponatremia]
+    expected_behaviour: >
+      Notice the outside sodium of 128, down from 139 before the hydrochlorothiazide was added,
+      and act on it; it was filed with no result note. At visit 2, do not restart or continue
+      the thiazide on the strength of the ER's "continue home medications".
+  - id: cf_mood
+    facts: [c_depressed, p_mood]
+    truth: [t_mood]
+    expected_behaviour: >
+      Hear Marjorie as well as Denise: low energy and grief, not clear depression; treat the
+      reversible causes first and do not start an antidepressant now.
+  - id: cf_function
+    facts: [p_managing, c_seen, g_note]
+    truth: [t_decline]
+    expected_behaviour: >
+      Do not accept "I manage fine" or the copied-forward note; ask Denise what she has seen
+      (meals, bathing, sleep) and date the decline to the last few months.
+  - id: cf_fall
+    facts: [p_no_fall, c_fall]
+    truth: [t_fall]
+    expected_behaviour: Record the kitchen fall two weeks ago as a fall and assess it.
+
+visits:
+  - number: 1
+    day: 0
+    setting: clinic
+    present: [patient, carer]
+    turn_budget: 40
+    reason: >
+      Denise booked the visit: her mother has "slowed right down" over the last few months.
+      Denise has brought the pill organizer and a bag of bottles.
+    records_available: [gp_record, pharmacy_record]
+    examination:
+      - id: x_orthostatic
+        label: Lying and standing blood pressure
+        finding: "Lying 134/72, pulse 58 regular; standing 126/70, pulse 60 at 1 minute and 124/68, pulse 62 at 3 minutes; no dizziness."
+      - id: x_gait
+        label: Gait and mobility
+        finding: "Rises from the chair slowly, pushing with her arms, at the first attempt. Walks with short, slow steps; turns slowly but steadily. Timed Up and Go 19 seconds."
+      - id: x_general
+        label: General appearance and hydration
+        finding: "Pale, puffy face; dry, rough skin; thin, coarse hair. Wearing a heavy cardigan in a warm room. Hoarse voice. Moist mouth, normal skin turgor. Slow to answer but attentive."
+      - id: x_volume
+        label: Fluid status (neck veins, ankles, mucous membranes)
+        finding: "Neck veins not raised, no ankle edema, mucous membranes moist. Looks euvolemic."
+      - id: x_reflexes
+        label: Reflexes
+        finding: "Ankle reflexes present with a slow relaxation phase; other reflexes normal and symmetrical."
+      - id: x_thyroid
+        label: Neck and thyroid
+        finding: "No goiter or nodules."
+      - id: x_neuro
+        label: Neurological examination (power, sensation, tone, tremor)
+        finding: "No focal weakness; sensation intact; normal tone; no tremor; movements a little slow."
+      - id: x_cognition
+        label: Cognitive screen
+        finding: "Mini-Cog 1 of 5: recalls 1 of 3 words; clock drawn slowly with the numbers bunched on one side."
+      - id: x_attention
+        label: Attention and delirium screen (4AT, months of the year backwards)
+        finding: "Recites the months backwards from December to July slowly, without errors."
+      - id: x_mood
+        label: Depression screen (PHQ-2 or PHQ-9)
+        finding: "PHQ-2 score 2 (little interest, several days; feeling down, several days): negative screen. PHQ-9 score 7, driven by tiredness, sleep and concentration; no thoughts of self-harm."
+      - id: x_weight
+        label: Weight
+        finding: "164 lb (158 lb at the visit 5 months ago)."
+      - id: x_cardio
+        label: Heart, chest and ankles
+        finding: "Slow regular rhythm, normal heart sounds; chest clear; no ankle edema."
+      - id: x_meds
+        label: Pill organizer and medicine bottles
+        finding: >
+          Morning slots: losartan-hydrochlorothiazide 50-12.5 mg, metformin 500 mg,
+          omeprazole 20 mg. Evening slots: metformin 500 mg, atorvastatin 20 mg. No
+          levothyroxine in any slot. The levothyroxine 75 mcg bottle in the bag is empty; its
+          label shows it was filled about five months ago with no refills left.
+      - id: x_obs
+        label: Vital signs (pulse, blood pressure, temperature, respiratory rate, oxygen saturation)
+        parts: [x_pulse, x_bp, x_temp, x_rr, x_sats]
+      - id: x_pulse
+        label: Pulse rate and rhythm
+        finding: "Pulse 58 regular."
+      - id: x_bp
+        label: Blood pressure (sitting)
+        finding: "Blood pressure 132/70 sitting."
+      - id: x_temp
+        label: Temperature
+        finding: "Temperature 97.3 F."
+      - id: x_rr
+        label: Respiratory rate
+        finding: "Respiratory rate 14."
+      - id: x_sats
+        label: Oxygen saturation
+        finding: "Oxygen saturation 97% on room air."
+      - id: x_glucose
+        label: Fingerstick glucose
+        finding: "Fingerstick glucose 131 mg/dL."
+  - number: 2
+    day: 11
+    setting: clinic
+    present: [patient, carer]
+    turn_budget: 30
+    reason: ER follow-up after a fall at night last week.
+    events_since_last:
+      - >
+        Six days after visit 1 Marjorie fell at night going to the bathroom, called 911 and was
+        seen in the ER: CT head and hip X-ray normal, sodium 127, TSH 38.2. Sent home the same
+        morning with tramadol, levothyroxine 25 mcg and "continue home medications".
+    records_available: [gp_record, discharge_summary, ambulance_report, pharmacy_record]
+    examination:
+      - id: x2_hip
+        label: Right hip and skin
+        finding: "Large bruise over the right hip and thigh; tender over the bruise, not the bone; full hip movement; walks with the cane."
+      - id: x2_orthostatic
+        label: Lying and standing blood pressure
+        finding: "Lying 130/70, pulse 60; standing 122/68, pulse 62 at 3 minutes; says she feels woozy, not dizzy."
+      - id: x2_attention
+        label: Attention and delirium screen (4AT, months of the year backwards)
+        finding: "Slow; misses October and stops at August: 'I lose track.'"
+      - id: x2_general
+        label: General appearance
+        finding: "Slower than last time and a little drowsy; puffy face, hoarse; answers sensibly."
+      - id: x2_head
+        label: Head and neck
+        finding: "No scalp bruising or tenderness; neck moves freely."
+      - id: x2_neuro
+        label: Neurological examination
+        finding: "No focal weakness; pupils equal and reactive; speech normal."
+      - id: x2_obs
+        label: Vital signs (pulse, blood pressure, temperature, respiratory rate, oxygen saturation)
+        parts: [x2_pulse, x2_bp, x2_temp, x2_rr, x2_sats]
+      - id: x2_pulse
+        label: Pulse rate and rhythm
+        finding: "Pulse 60 regular."
+      - id: x2_bp
+        label: Blood pressure (sitting)
+        finding: "Blood pressure 128/70 sitting."
+      - id: x2_temp
+        label: Temperature
+        finding: "Temperature 97.5 F."
+      - id: x2_rr
+        label: Respiratory rate
+        finding: "Respiratory rate 14."
+      - id: x2_sats
+        label: Oxygen saturation
+        finding: "Oxygen saturation 97% on room air."
+
+rubric:
+  # Critical items (4). Country-neutral clinical actions; US routes are normal items.
+  - id: v1_thyroid_lapse
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: records
+    critical: true
+    critical_type: discrepancy_detection
+    evidence: [g_levo, r_levo, c_thyroid_ran_out, x_meds]
+    description: >
+      Finds that levothyroxine has not been taken for about two months although the chart
+      lists it (fill history: last fill 5 months ago and an unanswered refill request; the
+      empty bottle; Denise says it ran out) and restarts it in the plan.
+  - id: v1_sodium_thiazide
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: records
+    critical: true
+    critical_type: clinical_action
+    evidence: [g_na_new, g_na_old, g_note, x_volume, p_eating]
+    description: >
+      Acts on the low sodium in the outside result (128, down from 139 before the thiazide):
+      stops the hydrochlorothiazide (losartan alone or another non-thiazide option) and
+      arranges a repeat sodium within about a week, with a TSH. Does not treat the thiazide as
+      the only cause: names the other likely contributors (hypothyroidism, poor solute intake,
+      other medicines) and checks the likely ones in proportion, without a full workup for
+      rare causes.
+  - id: v1_no_antidepressant
+    visit: 1
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    critical: true
+    critical_type: clinical_action
+    evidence: [c_depressed, p_mood, p_enjoy, x_mood]
+    description: >
+      Starts an antidepressant at this visit (sertraline, citalopram, escitalopram, mirtazapine
+      or similar) while the sodium and thyroid are untreated.
+  - id: v2_tramadol
+    visit: 2
+    kind: must_do
+    weight: 3
+    stage: follow_up
+    critical: true
+    critical_type: clinical_action
+    evidence: [e_tramadol, c2_tramadol, p2_woozy, x2_attention]
+    description: >
+      Stops the ER's tramadol (worsens hyponatremia, sedation and falls; she is foggier and
+      unsteady since).
+
+  # Non-critical items.
+  - id: v1_ask_daughter_seen
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: history
+    description: >
+      Asks Denise what she has actually seen at home (meals, bathing, sleep, the fall) rather
+      than accepting "managing fine", and dates the decline to the last few months.
+    requires: {spoke_to: [carer]}
+  - id: v1_hear_patient
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: history
+    description: >
+      Asks Marjorie herself about her mood and what matters to her, so the grief and low
+      energy are told apart from depression, rather than taking Denise's view as the answer.
+    requires: {spoke_to: [patient]}
+  - id: v1_hypothyroid_symptoms
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: history
+    description: Asks about or examines for hypothyroid features (cold intolerance, constipation, weight, skin, slow pulse).
+  - id: v1_cognition_reversible
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: examination
+    description: >
+      Screens cognition and attention, and treats the slowing as possibly reversible (sodium,
+      thyroid) rather than as dementia or "just age".
+  - id: v1_falls
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: examination
+    description: "Assesses the fall: lying and standing blood pressure and gait or Timed Up and Go."
+    requires: {examined: [x_gait]}
+  - id: v1_home_pt
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: plan
+    description: >
+      Arranges help for bathing and mobility through US routes: a home health or outpatient
+      physical or occupational therapy referral, or a tub bench or grab bar order.
+  - id: v1_omeprazole
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: plan
+    description: Reviews the omeprazole started in hospital with no ongoing indication (plans to taper or stop).
+  - id: v1_diet
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: plan
+    description: "Advises on eating more than tea and toast (protein, regular meals) and does not advise drinking extra water."
+  - id: v1_safety_net
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: >
+      Safety-nets: worsening confusion, vomiting, a seizure, severe headache or another fall
+      means calling the office the same day or going to the ER.
+  - id: v1_mood_followup
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: >
+      Plans to reassess mood once the sodium and thyroid are treated, asks about thoughts of
+      self-harm or not wanting to go on, and safety-nets for low mood.
+  - id: v1_dementia_label
+    visit: 1
+    kind: must_not_do
+    weight: 2
+    stage: plan
+    description: Diagnoses dementia, or refers to a memory clinic as the explanation, before the sodium and thyroid are corrected.
+  - id: v1_er_now
+    visit: 1
+    kind: must_not_do
+    weight: 1
+    stage: plan
+    description: Sends her to the ER or for admission today for a sodium of 128 with no severe symptoms.
+  - id: v1_continue_combo
+    visit: 1
+    kind: must_not_do
+    weight: 2
+    stage: plan
+    description: Continues losartan-hydrochlorothiazide unchanged after seeing the sodium of 128.
+  - id: v2_pain_relief
+    visit: 2
+    kind: must_do
+    weight: 1
+    stage: plan
+    description: Gives regular (scheduled) acetaminophen for the bruised hip in place of the tramadol.
+  - id: v2_one_thyroid_dose
+    visit: 2
+    kind: must_do
+    weight: 3
+    stage: records
+    description: >
+      Makes the thyroid treatment one clear dose (the ER's 25 mcg start and any visit-1 restart
+      reconciled into a single prescription), with titration and a TSH in 6 to 8 weeks.
+  - id: v2_results
+    visit: 2
+    kind: must_do
+    weight: 2
+    stage: records
+    description: >
+      Acts on the ER results (sodium 127, TSH 38.2, free T4 low): levothyroxine restarted or
+      confirmed, sodium rechecked within about a week, TSH in 6 to 8 weeks.
+    requires: {read: [discharge_summary]}
+  - id: v2_red_flags
+    visit: 2
+    kind: red_flag
+    weight: 2
+    stage: triage
+    description: >
+      Checks for head injury and delirium after the fall (worse attention this week) and
+      safety-nets for worsening confusion, vomiting or a seizure.
+  - id: v2_trust_er
+    visit: 2
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: Continues losartan-hydrochlorothiazide on the strength of the ER's "continue home medications".

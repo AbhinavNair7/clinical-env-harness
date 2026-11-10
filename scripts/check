@@ -1,0 +1,199 @@
+#!/usr/bin/python3
+"""Project verification only: no installs or source-formatting; fails closed on missing checks."""
+
+from __future__ import annotations
+
+import json
+import os
+import re
+import shlex
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+STACK = "llm-app"
+IGNORED = {".git", ".venv", "node_modules", ".next", "dist", "build", "coverage", "__pycache__"}
+PUSH_SKIPS = ("build", "test:e2e")
+NODE_TEST = re.compile(r"\.(test|spec)\.[cm]?[jt]sx?$")
+
+
+class CheckError(Exception):
+    """A required check cannot run."""
+
+
+def test_files(root: Path, language: str) -> bool:
+    for directory, subdirs, files in os.walk(root):
+        subdirs[:] = [part for part in subdirs if part not in IGNORED]
+        for filename in files:
+            if language == "python":
+                if filename.endswith(".py") and (
+                    filename.startswith("test_") or filename.endswith("_test.py")
+                ):
+                    return True
+            elif NODE_TEST.search(filename) or (
+                "__tests__" in Path(directory).parts and re.search(r"\.[cm]?[jt]sx?$", filename)
+            ):
+                return True
+    return False
+
+
+def require_file(path: Path) -> None:
+    if not path.is_file():
+        raise CheckError(f"missing {path}")
+
+
+def require_tool(name: str) -> None:
+    if shutil.which(name) is None:
+        raise CheckError(
+            f"missing {name}; install the project's toolchain before running this gate"
+        )
+
+
+def node_commands(root: Path) -> list[tuple[Path, list[str]]]:
+    require_file(root / "package.json")
+    require_file(root / "tsconfig.json")
+    package = json.loads((root / "package.json").read_text())
+    if not isinstance(package, dict) or not isinstance(package.get("scripts"), dict):
+        raise CheckError(
+            f"{root}/package.json needs lint, typecheck, test, build and test:e2e scripts"
+        )
+    scripts = package["scripts"]
+    required = ["lint", "typecheck", "test", "build", "test:e2e"]
+    if "format:check" in scripts:
+        required.insert(0, "format:check")
+    for name in required:
+        if not isinstance(scripts.get(name), str) or not scripts[name].strip():
+            raise CheckError(f"missing package script: {root}/package.json scripts.{name}")
+        if re.search(r"--(fix|write|passWithNoTests|pass-with-no-tests)\b", scripts[name]):
+            raise CheckError(
+                f"scripts.{name} must check without modifying source or allowing missing tests"
+            )
+    locks = {"pnpm": "pnpm-lock.yaml", "npm": "package-lock.json"}
+    found = [manager for manager, lock in locks.items() if (root / lock).is_file()]
+    if len(found) != 1:
+        raise CheckError(f"{root}: expected exactly one pnpm-lock.yaml or package-lock.json")
+    manager = found[0]
+    declared = package.get("packageManager")
+    if declared is not None:
+        if not isinstance(declared, str) or not re.fullmatch(
+            r"(?:pnpm|npm)@\d+\.\d+\.\d+(?:[-+][\w.+-]+)?", declared
+        ):
+            raise CheckError("packageManager must pin npm or pnpm to an exact version")
+        if declared.split("@", 1)[0] != manager:
+            raise CheckError("packageManager disagrees with the existing lockfile")
+    elif manager == "pnpm":
+        raise CheckError(
+            "pin packageManager to pnpm@<installed exact version> in package.json for local/CI parity"
+        )
+    require_tool(manager)
+    if not (root / "node_modules").is_dir():
+        raise CheckError(
+            f"{root}: dependencies missing; run {'pnpm install --frozen-lockfile' if manager == 'pnpm' else 'npm ci'}"
+        )
+    if not test_files(root, "node"):
+        raise CheckError(
+            f"{root}: missing tests; add tests for real behavior (no placeholder assertions)"
+        )
+    # pnpm 11 can otherwise install dependencies implicitly before `run`. The CLI
+    # override also works on versions that ignore string-valued environment config.
+    prefix = [manager]
+    if manager == "pnpm":
+        prefix.append("--config.verify-deps-before-run=error")
+    if os.environ.get("CHECK_SCOPE") == "push":
+        # The pre-push hook's fast scope: the production build and browser tests run once, in CI.
+        required = [name for name in required if name not in PUSH_SKIPS]
+    return [(root, prefix + ["run", name]) for name in required]
+
+
+def python_commands(root: Path) -> list[tuple[Path, list[str]]]:
+    require_file(root / "pyproject.toml")
+    require_file(root / "uv.lock")
+    require_tool("uv")
+    for name in ("python", "ruff", "mypy", "pytest"):
+        if not os.access(root / ".venv" / "bin" / name, os.X_OK):
+            raise CheckError(
+                f"{root}: missing installed {name}; add dev tools with uv and run uv sync --locked"
+            )
+    if not test_files(root, "python"):
+        raise CheckError(
+            f"{root}: missing tests; add tests for real behavior (no placeholder assertions)"
+        )
+    prefix = [
+        "uv",
+        "run",
+        "--locked",
+        "--no-sync",
+        "--offline",
+        "--no-python-downloads",
+        "--no-env-file",
+    ]
+    # --no-sync implies --frozen, so the run commands cannot detect a stale
+    # lockfile or environment. Check both without installing before running tools.
+    return [
+        (
+            root,
+            ["uv", "sync", "--check", "--locked", "--offline", "--no-python-downloads"],
+        ),
+    ] + [
+        (root, prefix + command)
+        for command in (
+            ["ruff", "format", "--check", "."],
+            ["ruff", "check", "."],
+            ["mypy", "--strict", "."],
+            ["pytest"],
+        )
+    ]
+
+
+def main() -> int:
+    root = Path(__file__).resolve().parent.parent
+    try:
+        if len(sys.argv) != 1:
+            raise CheckError("usage: ./scripts/check (format separately before verification)")
+        if STACK == "nextjs":
+            commands = node_commands(root)
+        elif STACK == "fullstack":
+            commands = node_commands(root / "web") + python_commands(root / "api")
+        elif STACK in ("python", "mcp-server", "llm-app"):
+            commands = python_commands(root)
+        else:
+            raise CheckError("unconfigured check template: render llm-app with new-project.sh")
+        # Preserve CI from the caller: pnpm uses it to select dependency layout,
+        # so forcing it locally can invalidate an otherwise current installation.
+        environment = dict(os.environ)
+        environment.update(
+            {
+                "PYTHONDONTWRITEBYTECODE": "1",
+                "UV_PYTHON_DOWNLOADS": "never",
+                "pnpm_config_verify_deps_before_run": "error",
+            }
+        )
+        for directory, command in commands:
+            print(f"[{directory.relative_to(root)}] {shlex.join(command)}", flush=True)
+            result = subprocess.run(command, cwd=directory, env=environment, check=False)
+            if result.returncode:
+                print(f"FAIL: {shlex.join(command)} (exit {result.returncode})", file=sys.stderr)
+                return result.returncode if result.returncode > 0 else 1
+    except (OSError, ValueError, CheckError) as exc:
+        print(f"CHECK BLOCKED: {exc}", file=sys.stderr)
+        return 1
+    missing = []
+    if STACK in ("nextjs", "fullstack"):
+        web = root / "web" if STACK == "fullstack" else root
+        if "format:check" not in json.loads((web / "package.json").read_text())["scripts"]:
+            missing.append("format:check (optional; not configured)")
+    if os.environ.get("CHECK_SCOPE") == "push" and STACK in ("nextjs", "fullstack"):
+        missing.append("build and test:e2e (push scope; CI runs the full gate)")
+    print(
+        "PASS: required automated checks passed."
+        + (" Not run: " + ", ".join(missing) + "." if missing else "")
+    )
+    print(
+        "Agent: complete applicable real-interface verification and code/security review before delivery."
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,1159 @@
+{
+ "case_id": "edith_marsh",
+ "memory": "notes",
+ "visits": [
+  {
+   "case_id": "edith_marsh",
+   "visit": 1,
+   "setting": "home_visit",
+   "present": [
+    "patient",
+    "carer"
+   ],
+   "turn_budget": 40,
+   "hard_cap": 80,
+   "clinician_system": "You are a UK general practitioner. You are seeing an older adult with a carer or relative, and the records available to you may not agree with each other or with what people tell you.\n\nWork only through your tools:\n- say(to, message): speak to the patient or the carer. Ask one thing at a time.\n- read_record(name): read one record.\n- examine(what): examine the patient or their surroundings, e.g. \"lying and standing blood pressure\". Not possible on a telephone consultation.\n- submit_plan(...): submit your management plan. This ends the visit.\n\nEach tool call takes one turn. You have about 40 turns for this visit. Manage the patient as you would in practice and submit a plan before you run out of time.",
+   "briefing": "Visit 1: home visit, Thursday 5 November 2026.\nPatient: Edith Marsh, 84. Lives alone in a two-storey terraced house. Mild Alzheimer's disease, hypertension. Admitted in October after a fall with a postural drop in blood pressure. Care agency visits twice daily; her daughter visits on Sundays.\nPresent: Edith Marsh (patient), Janet Price (daughter).\nReason for this visit: The care agency phoned the practice: Edith was found on the floor last week and is missing evening medicines. Janet is there for the visit.\nRecords you can read: GP record (gp_record), Hospital discharge summary (discharge_summary), Care agency notes (care_agency_notes), Pharmacy record (pharmacy_record), Ambulance service patient report (ambulance_report).",
+   "events": [
+    {
+     "turn": 1,
+     "kind": "say",
+     "actor": "clinician",
+     "to": "patient",
+     "request": null,
+     "text": "Hello Edith, I'm your GP. Is it all right if Janet stays while we talk, and could you tell me what has been troubling you recently?",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 1,
+     "kind": "reply",
+     "actor": "patient",
+     "to": null,
+     "request": null,
+     "text": "Oh, yes, Janet can stay, love. I\u2019m not sure there\u2019s much troubling me, really. I\u2019m getting on all right at home. My eyes aren\u2019t what they were, though\u2014I\u2019ve got drops for them. I like my quiz shows in the afternoon; I\u2019m not bad at them, you know.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 1,
+     "kind": "interjection",
+     "actor": "carer",
+     "to": null,
+     "request": null,
+     "text": null,
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 2,
+     "kind": "read_record",
+     "actor": "clinician",
+     "to": null,
+     "request": "gp_record",
+     "text": "GP record:\nEdith MARSH   Female   Age 84   Usual GP: Dr A Okafor\n\nPROBLEMS - ACTIVE\n  Aug 2024   Alzheimer's disease (memory clinic: mild)\n  Mar 2021   Chronic kidney disease stage 3a\n  Jun 2015   Primary open angle glaucoma\n  Feb 2010   Osteoarthritis of knee\n  Apr 2003   Essential hypertension\n\nPROBLEMS - PAST / MINOR\n  Nov 2025   Low back pain\n  Jan 2023   Herpes zoster (shingles), thoracic\n  Sep 2022   Seborrhoeic keratosis\n  2020       Benign paroxysmal positional vertigo - resolved after Epley manoeuvre\n  Jul 2019   Urinary tract infection\n  Oct 2017   Osteopenia (DEXA)\n  Mar 2014   Cataract extraction, left eye\n  Nov 2012   Cataract extraction, right eye\n  May 2008   Carpal tunnel syndrome, right\n  1996       Total abdominal hysterectomy (fibroids)\n  1971       Appendicectomy\n\nREPEAT MEDICATION (last issued 22 Oct 2026)\n  Furosemide 40mg tablets - one each morning - 28 tablets\n  Amlodipine 10mg tablets - one each morning - 28 tablets\n  Donepezil 10mg tablets - one at night - 28 tablets\n  Atorvastatin 20mg tablets - one at night - 28 tablets\n  Adcal-D3 chewable tablets - one twice a day - 56 tablets\n  Latanoprost 50micrograms/ml eye drops - one drop both eyes at night - 2.5ml\n  Paracetamol 500mg tablets - two up to four times a day when required - 100 tablets\n\nCONSULTATIONS (most recent first)\n  22 Oct 2026  Admin           Repeat prescription issued, all repeat items. Pharmacy to blister pack.\n  21 Oct 2026  Document        Hospital discharge summary received (Elderly Care). Filed, awaiting GP review.\n  12 Oct 2026  Document        ED attendance notification: fall at home, admitted.\n  04 Sep 2026  Practice nurse  Seasonal influenza vaccine given. COVID-19 booster given.\n  03 Jul 2026  Telephone       Daughter asking for eye drops on repeat. Already on repeat; advised.\n  18 Apr 2026  GP              Medication review. BP 146/82 sitting. No falls reported. Memory stable per daughter. Continue current medication.\n  10 Feb 2026  Letter          Eye clinic: glaucoma stable on latanoprost. Discharged to optometrist.\n  10 Nov 2025  GP              Low back pain after gardening. No red flags. Paracetamol, activity advice.\n  10 Aug 2025  Letter          Memory clinic review: mild Alzheimer's disease, stable. Continue donepezil. Discharged to GP.\n  14 May 2025  Letter          Letter from adult social care: package of care started, two 30-minute calls daily (morning and evening).\n  09 Apr 2025  Results         eGFR 52, potassium 4.6, HbA1c 39, cholesterol 4.1. Stable.\n  05 Mar 2025  GP              Annual hypertension review. BP 138/78. Continue.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 3,
+     "kind": "read_record",
+     "actor": "clinician",
+     "to": null,
+     "request": "discharge_summary",
+     "text": "Hospital discharge summary:\nDISCHARGE SUMMARY - Elderly Care, Ward 9\nAdmitted 12 Oct 2026   Discharged 19 Oct 2026\nPresenting complaint: found on the floor at home by carer.\nDiagnosis: Fall at home secondary to postural hypotension.\nOther problems: hypertension; Alzheimer's disease (mild); CKD 3a; glaucoma.\nInvestigations: bloods unremarkable apart from eGFR 49 (baseline 52). ECG sinus rhythm,\n  normal intervals. CXR clear. No head injury; CT head not indicated.\nMedication changes: Furosemide 40mg OM STOPPED - no evidence of heart failure, postural drop. GP please update repeats.\nMedication on discharge: amlodipine 10mg OM; donepezil 10mg ON; atorvastatin 20mg ON;\n  Adcal-D3 one BD; latanoprost both eyes ON; paracetamol 1g QDS PRN.\nTherapy: Assessed by physiotherapy. Discharged with a walking frame; advised to use it at all times.\nSocial: lives alone; package of care twice daily, restarted on discharge; daughter visits weekly.\nGP actions: please review BP in 2 weeks.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 4,
+     "kind": "read_record",
+     "actor": "clinician",
+     "to": null,
+     "request": "care_agency_notes",
+     "text": "Care agency notes:\nCARE RECORD - Mrs Edith Marsh. Package: 2 calls daily (AM, PM). Medication: prompt from blister pack.\nMAR summary: Evening medicines, last 14 days: given 5, not given 9 (client asleep / declined).\n\nWed 04 Nov AM 08:06-08:20 Assisted with wash and dressing. Prompted medication, taken. Toast and tea. Client in good spirits.\nWed 04 Nov PM 21:12-21:25 Client in bed, settled. Medication not given, client asleep.\nTue 03 Nov AM 08:10-08:24 Personal care given. Medication taken. Breakfast made. Chatty this morning.\nTue 03 Nov PM 21:26-21:38 Client in bed, settled. Medication offered, declined. Door locked.\nMon 02 Nov AM 07:58-08:13 Personal care given. Medication taken. Cereal and tea. Sandwich made and left in fridge for lunch.\nMon 02 Nov PM 21:14-21:29 Lunch sandwich still in fridge, client said she wasn't hungry. Supper of tea and biscuits. Client settled for bed.\nSun 01 Nov AM 08:21-08:35 Personal care given. Medication taken. Daughter visiting today.\nSun 01 Nov PM 20:52-21:06 Medication given. Client watching TV. All well.\nSat 31 Oct AM 08:02-08:17 Personal care given. Medication taken. Home clean and tidy.\nSat 31 Oct PM 21:31-21:44 Client in bed, asleep. Did not wake client. Medication not given.\nFri 30 Oct AM 08:15-08:29 Personal care given. Medication taken. Client cheerful.\nFri 30 Oct PM 21:05-21:18 Medication offered, client said she had already taken them. Settled.\nThu 29 Oct AM 08:04-08:18 Personal care given. Medication taken. Porridge and tea.\nThu 29 Oct PM 21:22-21:35 Client in bed, settled. Medication not given, client asleep.\nWed 28 Oct AM 08:12-08:26 Personal care given. Medication taken. Client in good spirits.\nWed 28 Oct PM 21:09-21:23 Medication offered, declined. Client tired.\nTue 27 Oct AM 07:48-09:55 On arrival client found on hallway floor, unable to say how long she had been there. Chatty, no obvious injury. 999 called, paramedics attended, client not taken to hospital. Carer stayed until paramedics left. Office informed.\nTue 27 Oct PM 20:48-21:03 Medication given. Client tired but in good spirits.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 5,
+     "kind": "read_record",
+     "actor": "clinician",
+     "to": null,
+     "request": "pharmacy_record",
+     "text": "Pharmacy record:\nPATIENT MEDICATION RECORD - Edith MARSH\nMonitored dosage system: weekly 7-day blister pack, delivered Mondays.\nSupplied separately: Adcal-D3 chewable tablets, latanoprost eye drops, paracetamol 500mg.\n  02 Nov 2026  Weekly blister pack dispensed. Morning: furosemide 40mg, amlodipine 10mg. Night: donepezil 10mg, atorvastatin 20mg.\n  26 Oct 2026  Weekly blister pack dispensed, contents unchanged.\n  22 Oct 2026  Repeat prescription received from GP: furosemide 40mg, amlodipine 10mg,\n             donepezil 10mg, atorvastatin 20mg, Adcal-D3, latanoprost, paracetamol.\n  05 Oct 2026  Weekly blister pack dispensed. Morning: furosemide 40mg, amlodipine 10mg. Night: donepezil 10mg, atorvastatin 20mg.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 6,
+     "kind": "read_record",
+     "actor": "clinician",
+     "to": null,
+     "request": "ambulance_report",
+     "text": "Ambulance service patient report:\nAMBULANCE SERVICE PATIENT REPORT (copy to GP)\nIncident 27 Oct 2026. Call 07:56, on scene 08:41, left scene 09:50. Caller: care worker.\nHistory: Unwitnessed fall. Found by care worker at the morning call lying on the hallway floor. Patient unable to say when she fell or how long she was on the floor; thinks she \"must have slipped\".\nPast history: hypertension, Alzheimer's disease, glaucoma. Recent admission after a fall.\nMedication: per blister pack. No anticoagulants.\nObs: RR 16, SpO2 96% air, HR 78 regular, BP 134/76 sitting, temp 36.5, BM 6.4.\n  GCS 15; unsure of the date, which the carer says is usual for her.\n12-lead ECG: sinus rhythm 76, no acute changes.\nSecondary survey: no head injury, no neck or hip pain, full range of movement all limbs.\n  Skin intact. Stood with help of one and walked to her chair with a stick.\nImpression: mechanical fall, no injury.\nDisposition: not conveyed. Patient declined hospital; has capacity for this decision.\n  Left in the care of the care worker. Worsening advice given. GP to consider falls referral.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 7,
+     "kind": "say",
+     "actor": "clinician",
+     "to": "patient",
+     "request": null,
+     "text": "The carers found you on the floor last week. Can you tell me what you remember happening?",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 7,
+     "kind": "reply",
+     "actor": "patient",
+     "to": null,
+     "request": null,
+     "text": "Oh, I don\u2019t remember much about that, love. I haven\u2019t had any falls\u2014well, only the one before the hospital.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 7,
+     "kind": "interjection",
+     "actor": "carer",
+     "to": null,
+     "request": null,
+     "text": "Another fall? Nobody told me. Why didn\u2019t the agency ring me? Is she all right\u2014did she hurt herself?",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 8,
+     "kind": "say",
+     "actor": "clinician",
+     "to": "patient",
+     "request": null,
+     "text": "The ambulance crew checked you on 27 October and found no injury, but I will check you again today. Have you had any dizziness, blackouts, pain or other new symptoms since coming home?",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 8,
+     "kind": "reply",
+     "actor": "patient",
+     "to": null,
+     "request": null,
+     "text": "I do get a bit giddy when I stand up, mostly in the mornings, but it passes if I sit down again. I haven\u2019t blacked out, no.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 8,
+     "kind": "interjection",
+     "actor": "carer",
+     "to": null,
+     "request": null,
+     "text": null,
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 9,
+     "kind": "examine",
+     "actor": "clinician",
+     "to": null,
+     "request": "General appearance, hydration, temperature, pulse/rhythm, oxygen saturation, lying and standing blood pressure at 1 and 3 minutes, with assistance and symptom monitoring",
+     "text": "Please name one specific examination.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 10,
+     "kind": "examine",
+     "actor": "clinician",
+     "to": null,
+     "request": "Lying and standing blood pressure with symptoms",
+     "text": "Lying 138/76, pulse 76 regular; standing 108/64, pulse 82 at 1 minute and 112/66, pulse 80 at 3 minutes; dizzy on standing.",
+     "finding_ids": [
+      "x_postural_bp"
+     ],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 11,
+     "kind": "say",
+     "actor": "clinician",
+     "to": "carer",
+     "request": null,
+     "text": "Edith's blood pressure drops on standing. The hospital stopped furosemide, but it appears to have been supplied again in her packs; I will correct that today. What changes have you noticed in her day-to-day abilities since discharge?",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 11,
+     "kind": "reply",
+     "actor": "carer",
+     "to": null,
+     "request": null,
+     "text": "Mum\u2019s managing fine. She\u2019s always tidy and cheerful when I come round. I haven\u2019t noticed much change, really.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 11,
+     "kind": "interjection",
+     "actor": "patient",
+     "to": null,
+     "request": null,
+     "text": "I still have my water tablet every morning, love. I\u2019m up and down to the toilet after.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 12,
+     "kind": "examine",
+     "actor": "clinician",
+     "to": null,
+     "request": "Inspect current blister packs and separately supplied medicines in the home, including remaining doses and eye drops",
+     "text": "Morning slots hold furosemide 40 mg and amlodipine 10 mg; night slots hold donepezil 10 mg and atorvastatin 20 mg. Five of last week's seven night slots are still full. The latanoprost bottle by her bed was opened nine weeks ago and is still nearly full.",
+     "finding_ids": [
+      "x_dosette"
+     ],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 13,
+     "kind": "say",
+     "actor": "clinician",
+     "to": "patient",
+     "request": null,
+     "text": "How do you manage your evening tablets and eye drops?",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 13,
+     "kind": "reply",
+     "actor": "patient",
+     "to": null,
+     "request": null,
+     "text": "The girls see to my tablets, love. I do my eye drops myself at bedtime, though. I\u2019m usually in bed quite early.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 13,
+     "kind": "interjection",
+     "actor": "carer",
+     "to": null,
+     "request": null,
+     "text": "I\u2019d assumed the carers did her eye drops along with her tablets.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 14,
+     "kind": "say",
+     "actor": "clinician",
+     "to": "patient",
+     "request": null,
+     "text": "Would you show me how you normally put your eye drops in, without using this old bottle?",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 14,
+     "kind": "reply",
+     "actor": "patient",
+     "to": null,
+     "request": null,
+     "text": "Oh, I just tilt my head back and put a drop in each eye, love. I manage well enough.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 14,
+     "kind": "interjection",
+     "actor": "carer",
+     "to": null,
+     "request": null,
+     "text": null,
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 15,
+     "kind": "examine",
+     "actor": "clinician",
+     "to": null,
+     "request": "Observe Edith demonstrating ability to administer eye drops safely using a demonstration bottle",
+     "text": "Unremarkable.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 16,
+     "kind": "say",
+     "actor": "clinician",
+     "to": "patient",
+     "request": null,
+     "text": "What time do you usually go to bed, compared with when the evening carers arrive?",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 16,
+     "kind": "reply",
+     "actor": "patient",
+     "to": null,
+     "request": null,
+     "text": "I\u2019m usually in bed by half eight, love. I\u2019m often asleep by the time the night girl comes.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 16,
+     "kind": "interjection",
+     "actor": "carer",
+     "to": null,
+     "request": null,
+     "text": "She\u2019s always been an early-to-bed sort\u2014half eight, nine at the latest.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 17,
+     "kind": "say",
+     "actor": "clinician",
+     "to": "patient",
+     "request": null,
+     "text": "Could you talk me through how you manage getting washed and dressed, using the toilet and getting up and down the stairs?",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 17,
+     "kind": "reply",
+     "actor": "patient",
+     "to": null,
+     "request": null,
+     "text": "I see to my own washing and dressing, love. I go up and down the stairs slowly, holding the rail. My bedroom and the toilet are upstairs. I manage as best I can.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 17,
+     "kind": "interjection",
+     "actor": "carer",
+     "to": null,
+     "request": null,
+     "text": null,
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 18,
+     "kind": "examine",
+     "actor": "clinician",
+     "to": null,
+     "request": "Observe transfers and walking with her usual walking aid",
+     "text": "Rises from the chair at the second attempt, pushing up with her arms. Walks slowly with a stick, reaching for furniture; unsteady on turning. Does not use the walking frame.",
+     "finding_ids": [
+      "x_gait"
+     ],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 19,
+     "kind": "say",
+     "actor": "clinician",
+     "to": "patient",
+     "request": null,
+     "text": "The hospital provided a walking frame. What makes it difficult to use at home?",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 19,
+     "kind": "reply",
+     "actor": "patient",
+     "to": null,
+     "request": null,
+     "text": "Oh, I only use the frame when I\u2019m poorly, love. I manage with my stick most of the time.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 19,
+     "kind": "interjection",
+     "actor": "carer",
+     "to": null,
+     "request": null,
+     "text": null,
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 20,
+     "kind": "examine",
+     "actor": "clinician",
+     "to": null,
+     "request": "Home falls hazards and access to stairs, toilet, walking frame and emergency call system",
+     "text": "Please name one specific examination.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 21,
+     "kind": "examine",
+     "actor": "clinician",
+     "to": null,
+     "request": "Home environmental falls hazards",
+     "text": "Loose rug in the hallway; dim landing light; walking frame folded by the front door.",
+     "finding_ids": [
+      "x_home"
+     ],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 22,
+     "kind": "say",
+     "actor": "clinician",
+     "to": "patient",
+     "request": null,
+     "text": "What have you had to eat and drink so far today, and who helps with meals?",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 22,
+     "kind": "reply",
+     "actor": "patient",
+     "to": null,
+     "request": null,
+     "text": "I do all my own meals, I always have. Janet does a big shop for me on a Sunday, you see.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 22,
+     "kind": "interjection",
+     "actor": "carer",
+     "to": null,
+     "request": null,
+     "text": "I do a big shop on Sundays and fill her fridge.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 23,
+     "kind": "examine",
+     "actor": "clinician",
+     "to": null,
+     "request": "Food availability and signs of meals being eaten in the kitchen and fridge",
+     "text": "Cooker cold with dust on the hob. Fridge holds out-of-date milk and ham. Two curled sandwiches from yesterday on the side. Little sign of meals being made.",
+     "finding_ids": [
+      "x_kitchen"
+     ],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 24,
+     "kind": "say",
+     "actor": "clinician",
+     "to": "carer",
+     "request": null,
+     "text": "The notes show carers help with washing and dressing, meals are sometimes uneaten, and evening visits usually come after Edith is asleep. The fridge also has expired food. Are you able to help more temporarily, or is that difficult for you?",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 24,
+     "kind": "reply",
+     "actor": "carer",
+     "to": null,
+     "request": null,
+     "text": "I work full time, so I can only come round on Sundays. I can\u2019t take on much more during the week.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 24,
+     "kind": "interjection",
+     "actor": "patient",
+     "to": null,
+     "request": null,
+     "text": "I don\u2019t want to be a bother to Janet, doctor. I\u2019d like to stay in my own home. The girls are very good, though they\u2019re always rushing.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 25,
+     "kind": "examine",
+     "actor": "clinician",
+     "to": null,
+     "request": "Hydration and nutritional status including weight",
+     "text": "Not available during this home visit. If you need it, request it in your plan.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 26,
+     "kind": "say",
+     "actor": "clinician",
+     "to": "patient",
+     "request": null,
+     "text": "I want to help you stay safely at home. Your water tablet is still being given even though hospital stopped it, your blood pressure drops, and you need more help with meals and medicines. Would you accept earlier, longer carer visits and an extra lunchtime visit?",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 26,
+     "kind": "reply",
+     "actor": "patient",
+     "to": null,
+     "request": null,
+     "text": "Oh, if that would help me manage at home, I suppose so, love. I don\u2019t want to make a fuss, though. The girls do seem to be in a hurry.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 26,
+     "kind": "interjection",
+     "actor": "carer",
+     "to": null,
+     "request": null,
+     "text": null,
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 27,
+     "kind": "say",
+     "actor": "clinician",
+     "to": "patient",
+     "request": null,
+     "text": "So I can check I've explained it clearly, could you tell me what might happen if the current arrangements stayed the same, and how extra help would make things safer?",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 27,
+     "kind": "reply",
+     "actor": "patient",
+     "to": null,
+     "request": null,
+     "text": "Well, I might get giddy and end up on the floor again, I suppose. And I can\u2019t always manage the meals. If the girls came for a bit longer and at lunchtime, they could see I\u2019d eaten and help me with things. I do want to stay in my own home, love.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 27,
+     "kind": "interjection",
+     "actor": "carer",
+     "to": null,
+     "request": null,
+     "text": null,
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 28,
+     "kind": "examine",
+     "actor": "clinician",
+     "to": null,
+     "request": "Focused examination for injury following fall",
+     "text": "Old bruising over the left hip; no bony tenderness; full range of hip movement.",
+     "finding_ids": [
+      "x_bruising"
+     ],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 29,
+     "kind": "say",
+     "actor": "clinician",
+     "to": "patient",
+     "request": null,
+     "text": "If you fell again and could not get up, how would you call for help?",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 29,
+     "kind": "reply",
+     "actor": "patient",
+     "to": null,
+     "request": null,
+     "text": "I\u2019ve got one of those buttons somewhere, love, but I can\u2019t think where I\u2019ve put it. I\u2019d have to hope someone came by.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 29,
+     "kind": "interjection",
+     "actor": "carer",
+     "to": null,
+     "request": null,
+     "text": null,
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 30,
+     "kind": "examine",
+     "actor": "clinician",
+     "to": null,
+     "request": "Cardiovascular examination",
+     "text": "Heart sounds normal, chest clear, no ankle oedema, JVP not raised.",
+     "finding_ids": [
+      "x_cardio"
+     ],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 31,
+     "kind": "say",
+     "actor": "clinician",
+     "to": "carer",
+     "request": null,
+     "text": "I will arrange urgent care support today rather than assume you can cover weekdays. Can you stay until today's safe arrangements and corrected medicines are confirmed?",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 31,
+     "kind": "reply",
+     "actor": "carer",
+     "to": null,
+     "request": null,
+     "text": "Yes, I can stay until that\u2019s sorted. There\u2019s a key safe by the front door; the carers and I have the number.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 31,
+     "kind": "interjection",
+     "actor": "patient",
+     "to": null,
+     "request": null,
+     "text": null,
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 32,
+     "kind": "say",
+     "actor": "clinician",
+     "to": "patient",
+     "request": null,
+     "text": "We will stop the water tablet today and have the pharmacy replace the packs safely. Please use your frame, stand up slowly and sit down if dizzy. I will arrange earlier, longer visits with lunchtime food and drink support, help with all medicines including fresh eye drops, and a falls and home-safety assessment. We will find or replace your alarm so you can wear it. Janet will stay while we arrange this, and I will check on you tomorrow. If we cannot arrange enough help today, we will discuss temporary supported care rather than leave you unsafe.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 32,
+     "kind": "reply",
+     "actor": "patient",
+     "to": null,
+     "request": null,
+     "text": "Oh, thank you, love. I do want to stay here, so I\u2019ll try to use the frame and sit down if I feel giddy. It\u2019s kind of Janet to stay while you sort it all out.",
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 32,
+     "kind": "interjection",
+     "actor": "carer",
+     "to": null,
+     "request": null,
+     "text": null,
+     "finding_ids": [],
+     "attempts": [],
+     "plan": null,
+     "rejected_plan": null,
+     "error": null
+    },
+    {
+     "turn": 33,
+     "kind": "plan",
+     "actor": "clinician",
+     "to": null,
+     "request": null,
+     "text": null,
+     "finding_ids": [],
+     "attempts": [],
+     "plan": {
+      "problems": [
+       "Recurrent unwitnessed falls, including 27 October with unknown time on floor; no current evidence of significant injury, but cause not established by a normal ambulance sitting BP or ECG.",
+       "Symptomatic postural hypotension: lying BP 138/76, standing 108/64 at one minute and 112/66 at three minutes.",
+       "Medication reconciliation failure: furosemide restarted through unreconciled GP repeat and pharmacy packs despite explicit hospital discontinuation; no clinical evidence of heart failure.",
+       "Unreliable evening medication administration and glaucoma-drop use; latanoprost bottle open nine weeks.",
+       "Unmet personal-care and nutrition needs, with poorly timed and shortened care calls; possible service neglect requiring review.",
+       "Mild Alzheimer's disease with impaired recall and overestimation of independence, but demonstrated understanding of proposed additional support and expressed wish to remain home.",
+       "Unsafe mobility with stick, non-use of frame, stairs to bedroom/toilet, environmental hazards and inaccessible pendant alarm.",
+       "CKD stage 3a, hypertension, glaucoma and osteopenia; daughter cannot provide additional regular weekday care."
+      ],
+      "function_summary": "Lives alone with two nominal 30-minute daily care calls, actually often about 12\u201315 minutes. Patient reports independence but care notes confirm help with washing, dressing, medicines and breakfast. Shopping supplied by daughter does not translate into meals eaten; expired food and uneaten sandwiches observed. Rises on second attempt, furniture-walks with stick and is unsteady turning. Frame remains folded by door. Bedroom and toilet upstairs; urgency after diuretic adds risk. Evening calls usually after her 20:30 bedtime, with nine of fourteen evening administrations missed. Daughter visits Sundays and works full time.",
+      "risks": [
+       "Further postural falls, fracture, head injury and prolonged undiscovered lie.",
+       "Dehydration, malnutrition, renal impairment and electrolyte disturbance from poor intake and inappropriate diuretic.",
+       "Medication omissions, repeat prescribing error and glaucoma progression from unreliable drops.",
+       "Falls on stairs, particularly during toileting; loose hall rug and dim landing light.",
+       "Self-neglect/unmet care needs and possible organisational neglect; patient cannot reliably summon help.",
+       "Unsafe assumption that daughter can compensate for inadequate commissioned care."
+      ],
+      "actions": [
+       {
+        "type": "medication_change",
+        "detail": "Stop furosemide 40 mg immediately, remove it from active repeats and document hospital discontinuation. Contact community pharmacist today to collect/reconcile all old packs and supply corrected packs without furosemide; no further doses from erroneous packs. Do not ask Edith or Janet to identify/remove tablets themselves. Inform agency and update MAR and all medication lists, confirming receipt and implementation.",
+        "rationale": "Directly documented prescribing/dispensing discrepancy with persistent symptomatic postural hypotension and no heart failure indication.",
+        "urgency": "same_day"
+       },
+       {
+        "type": "medication_change",
+        "detail": "Review amlodipine today and reduce from 10 mg to 5 mg daily initially, with pharmacy-managed replacement packs and BP review within 48\u201372 hours; titrate against standing BP, symptoms and individualised targets. Review all medicines for falls burden, including donepezil if dizziness persists.",
+        "rationale": "Standing systolic BP 108 with symptoms and recurrent falls warrants de-intensification rather than pursuing low seated BP.",
+        "urgency": "same_day"
+       },
+       {
+        "type": "medication_change",
+        "detail": "Reconcile all medicines including separately supplied Adcal-D3, PRN paracetamol and drops. Agree a pharmacist-supported schedule moving donepezil and atorvastatin to the reliably attended morning round where appropriate, avoiding duplicate or catch-up doses. Arrange direct supported administration and MAR recording rather than unsupported prompts; assess ongoing statin benefit with Edith at subsequent review.",
+        "rationale": "Full night compartments and agency MAR corroborate frequent omissions; simplifying timing should improve reliability.",
+        "urgency": "same_day"
+       },
+       {
+        "type": "medication_change",
+        "detail": "Discard the nine-week-open latanoprost bottle and supply a fresh bottle today, label opening/discard dates per product instructions, and assign administration and recording to trained carers at an agreed early-evening visit. Include all separately supplied medicines in the written care plan.",
+        "rationale": "Old nearly full bottle and conflicting assumptions about responsibility indicate unreliable glaucoma treatment despite an unremarkable demonstration.",
+        "urgency": "same_day"
+       },
+       {
+        "type": "investigation",
+        "detail": "Arrange FBC, U&E, creatinine/eGFR, glucose and calcium within 24\u201348 hours, sooner if clinical deterioration; assess hydration, weight/BMI, weight trajectory and MUST score. Obtain repeat ECG if recurrent unexplained events or ongoing symptoms; assess pulse and other syncope causes rather than label all falls mechanical.",
+        "rationale": "CKD, diuretic exposure, poor intake and recurrent falls warrant metabolic and nutritional assessment; previous normal ECG does not exclude intermittent causes.",
+        "urgency": "within_days"
+       },
+       {
+        "type": "care_package_change",
+        "detail": "Contact agency manager and adult social care urgently today for an interim increased package: full commissioned morning time for personal care/breakfast/fluids/medicines, an added lunchtime visit for an observed meal and fluids, and an earlier evening visit before 20:30 for supper, medicines and safe settling. Specify monitoring of intake, refusals and escalation; confirm exact start times and contingency before leaving.",
+        "rationale": "Current visit timing and duration do not meet demonstrated needs; food left in the fridge is not evidence of eating.",
+        "urgency": "same_day"
+       },
+       {
+        "type": "other",
+        "detail": "Janet has agreed to stay until a safe handover is confirmed. Arrange food and drinks now and removal of spoiled food with consent. If enhanced care cannot start promptly, seek urgent social-care crisis/intermediate-care support or temporary supported placement, discussed with Edith; hospital assessment if acutely unwell or no safe clinical alternative. Do not rely on Janet for ongoing weekday coverage.",
+        "rationale": "There must be a workable same-day bridge, not just a routine referral, given falls and unmet nutrition and medication needs.",
+        "urgency": "same_day"
+       },
+       {
+        "type": "referral",
+        "detail": "Urgent multidisciplinary falls/community frailty and physiotherapy assessment for strength, balance, transfers, frame use and multifactorial falls/syncope review; occupational therapy home assessment including stairs, toileting and personal-care needs.",
+        "rationale": "Observed unsteady gait and recurrent falls despite recent discharge therapy suggest that current aids and arrangements are inadequate.",
+        "urgency": "within_days"
+       },
+       {
+        "type": "equipment",
+        "detail": "Unfold and place frame within reach, check fit and safe use with assistance. With consent remove loose rug and improve landing lighting today. Retrieve/test or urgently replace pendant alarm and ensure it is worn with a working response service and key-safe access. OT to consider rails, suitable toilet equipment/commode and safe downstairs arrangements rather than unsupported stair use.",
+        "rationale": "Immediate modifiable hazards and inability to summon assistance increase risk of another prolonged lie.",
+        "urgency": "same_day"
+       },
+       {
+        "type": "safeguarding",
+        "detail": "With Edith's involvement raise an adult social-care safeguarding concern about unmet care needs/possible organisational neglect: repeated shortened calls, missed medication without effective escalation, nutrition concerns and communication after fall. Seek agency incident review and reliable notification to GP and agreed family contact. Record medication error as a patient-safety incident, explain and apologise for the error, and review discharge-reconciliation processes.",
+        "rationale": "An adult with care and support needs is exposed to repeated avoidable harm; cheerful appearance does not establish safety. Investigate without assuming malicious intent.",
+        "urgency": "same_day"
+       },
+       {
+        "type": "carer_support",
+        "detail": "Record Janet's actual availability and offer a carer's assessment and support information. With Edith's consent agree who receives fall/medication alerts and share the updated written plan with Janet and the agency.",
+        "rationale": "Daughter was unaware of the recurrent fall and cannot provide additional routine care.",
+        "urgency": "within_days"
+       },
+       {
+        "type": "referral",
+        "detail": "Arrange optometry/glaucoma review of vision and adherence; expedite ophthalmology advice for deterioration. Review fracture risk and suitability for osteoporosis treatment with renal function and prior DEXA information.",
+        "rationale": "Visual impairment, glaucoma treatment uncertainty, osteopenia and recurrent falls compound injury risk.",
+        "urgency": "within_days"
+       },
+       {
+        "type": "advice",
+        "detail": "Explain postural precautions: sit before standing, rise slowly with support, sit or lie down promptly if dizzy, keep drinks accessible and encourage regular fluids unless a contraindication emerges. Avoid walking unsupported or rushing to the toilet; use frame and assistance. Discuss safe footwear and supervised activity rather than immobility.",
+        "rationale": "Reduces immediate falls risk while medication and care arrangements are corrected.",
+        "urgency": "same_day"
+       },
+       {
+        "type": "follow_up",
+        "detail": "Document decision-specific capacity: Edith can explain fall/nutrition risks and how extra care helps, accepts changes and wishes to stay home. Respect this preference with supported decisions; reassess if cognition changes. Complete medication reconciliation and confirm actual care delivery rather than relying on referrals alone.",
+        "rationale": "Alzheimer's diagnosis and limited recall do not automatically remove capacity or justify overriding her wishes.",
+        "urgency": "same_day"
+       }
+      ],
+      "discrepancies": [
+       {
+        "description": "Hospital stopped furosemide, but GP repeats, pharmacy packs and Edith's account indicate continued use.",
+        "resolution": "Discharge instruction plus actual pack inspection establish an unintentional restart. Stop and correct all prescribing, supply and administration records today."
+       },
+       {
+        "description": "Edith denies a further fall and Janet had not been told, whereas agency and ambulance record a floor episode on 27 October.",
+        "resolution": "Treat dated agency and ambulance observations as evidence of a recurrent unwitnessed fall; limited recall is not evidence it did not happen. Explain findings and improve notifications."
+       },
+       {
+        "description": "Ambulance described a mechanical fall with normal sitting BP, while Edith reports morning giddiness and today's standing BP drops substantially.",
+        "resolution": "Mechanical cause remains unproven. Current symptomatic orthostatic hypotension and medication error are major modifiable contributors; maintain multifactorial/syncope assessment."
+       },
+       {
+        "description": "Edith reports independent washing, dressing and cooking; Janet sees a tidy, cheerful home and assumes adequate function.",
+        "resolution": "Care notes document personal-care support; direct gait observation and kitchen findings show unmet needs. Assess function using observed performance and longitudinal evidence rather than Sunday appearance or recall alone."
+       },
+       {
+        "description": "Care package is two 30-minute visits, yet recorded visits are usually about 12\u201315 minutes and evening doses are frequently omitted.",
+        "resolution": "Actual timings and MAR establish an ineffective package. Escalate to manager/social care, lengthen visits and bring evening support before bedtime."
+       },
+       {
+        "description": "Edith says she manages eye drops and Janet assumes carers administer them.",
+        "resolution": "No reliable assigned responsibility; nine-week-old nearly full bottle strongly suggests inadequate use. Demonstration alone does not prove daily adherence; assign carer administration and MAR recording."
+       },
+       {
+        "description": "Hospital advised frame use at all times, but ambulance saw stick use and frame is folded away.",
+        "resolution": "Observed furniture-walking and unstable turns support consistent frame use and urgent therapy review."
+       }
+      ],
+      "follow_up": "Before leaving today confirm pharmacy correction, agency/social-care response, interim meals and supervision, and Janet-to-care-service handover. GP/team contact next day to verify new packs, actual visits, oral intake, dizziness and falls. Review blood results promptly and repeat lying/standing BP and renal function as indicated within 48\u201372 hours, with further review in one week of mobility, medication administration/MAR, nutrition and safeguarding response. Ensure named GP/team owns referrals and outstanding actions.",
+      "safety_netting": "Call 999 for collapse, chest pain, severe breathlessness, new focal neurological symptoms, serious injury, inability to rise after a fall, or head injury with concerning symptoms. Do not attempt an unsafe lift; use pendant/telephone and keep warm while waiting. Seek same-day GP assessment, or NHS 111 out of hours, for recurrent falls or worsening dizziness, new confusion, poor intake, markedly reduced urine, pain or inability to mobilise. Sudden painful red eye or sudden vision loss needs urgent same-day eye/emergency assessment. Carers should escalate missed medicines, missed visits, refusal of essential support or food and drink not being taken, rather than record and leave without a plan."
+     },
+     "rejected_plan": null,
+     "error": null
+    }
+   ],
+   "plan": {
+    "problems": [
+     "Recurrent unwitnessed falls, including 27 October with unknown time on floor; no current evidence of significant injury, but cause not established by a normal ambulance sitting BP or ECG.",
+     "Symptomatic postural hypotension: lying BP 138/76, standing 108/64 at one minute and 112/66 at three minutes.",
+     "Medication reconciliation failure: furosemide restarted through unreconciled GP repeat and pharmacy packs despite explicit hospital discontinuation; no clinical evidence of heart failure.",
+     "Unreliable evening medication administration and glaucoma-drop use; latanoprost bottle open nine weeks.",
+     "Unmet personal-care and nutrition needs, with poorly timed and shortened care calls; possible service neglect requiring review.",
+     "Mild Alzheimer's disease with impaired recall and overestimation of independence, but demonstrated understanding of proposed additional support and expressed wish to remain home.",
+     "Unsafe mobility with stick, non-use of frame, stairs to bedroom/toilet, environmental hazards and inaccessible pendant alarm.",
+     "CKD stage 3a, hypertension, glaucoma and osteopenia; daughter cannot provide additional regular weekday care."
+    ],
+    "function_summary": "Lives alone with two nominal 30-minute daily care calls, actually often about 12\u201315 minutes. Patient reports independence but care notes confirm help with washing, dressing, medicines and breakfast. Shopping supplied by daughter does not translate into meals eaten; expired food and uneaten sandwiches observed. Rises on second attempt, furniture-walks with stick and is unsteady turning. Frame remains folded by door. Bedroom and toilet upstairs; urgency after diuretic adds risk. Evening calls usually after her 20:30 bedtime, with nine of fourteen evening administrations missed. Daughter visits Sundays and works full time.",
+    "risks": [
+     "Further postural falls, fracture, head injury and prolonged undiscovered lie.",
+     "Dehydration, malnutrition, renal impairment and electrolyte disturbance from poor intake and inappropriate diuretic.",
+     "Medication omissions, repeat prescribing error and glaucoma progression from unreliable drops.",
+     "Falls on stairs, particularly during toileting; loose hall rug and dim landing light.",
+     "Self-neglect/unmet care needs and possible organisational neglect; patient cannot reliably summon help.",
+     "Unsafe assumption that daughter can compensate for inadequate commissioned care."
+    ],
+    "actions": [
+     {
+      "type": "medication_change",
+      "detail": "Stop furosemide 40 mg immediately, remove it from active repeats and document hospital discontinuation. Contact community pharmacist today to collect/reconcile all old packs and supply corrected packs without furosemide; no further doses from erroneous packs. Do not ask Edith or Janet to identify/remove tablets themselves. Inform agency and update MAR and all medication lists, confirming receipt and implementation.",
+      "rationale": "Directly documented prescribing/dispensing discrepancy with persistent symptomatic postural hypotension and no heart failure indication.",
+      "urgency": "same_day"
+     },
+     {
+      "type": "medication_change",
+      "detail": "Review amlodipine today and reduce from 10 mg to 5 mg daily initially, with pharmacy-managed replacement packs and BP review within 48\u201372 hours; titrate against standing BP, symptoms and individualised targets. Review all medicines for falls burden, including donepezil if dizziness persists.",
+      "rationale": "Standing systolic BP 108 with symptoms and recurrent falls warrants de-intensification rather than pursuing low seated BP.",
+      "urgency": "same_day"
+     },
+     {
+      "type": "medication_change",
+      "detail": "Reconcile all medicines including separately supplied Adcal-D3, PRN paracetamol and drops. Agree a pharmacist-supported schedule moving donepezil and atorvastatin to the reliably attended morning round where appropriate, avoiding duplicate or catch-up doses. Arrange direct supported administration and MAR recording rather than unsupported prompts; assess ongoing statin benefit with Edith at subsequent review.",
+      "rationale": "Full night compartments and agency MAR corroborate frequent omissions; simplifying timing should improve reliability.",
+      "urgency": "same_day"
+     },
+     {
+      "type": "medication_change",
+      "detail": "Discard the nine-week-open latanoprost bottle and supply a fresh bottle today, label opening/discard dates per product instructions, and assign administration and recording to trained carers at an agreed early-evening visit. Include all separately supplied medicines in the written care plan.",
+      "rationale": "Old nearly full bottle and conflicting assumptions about responsibility indicate unreliable glaucoma treatment despite an unremarkable demonstration.",
+      "urgency": "same_day"
+     },
+     {
+      "type": "investigation",
+      "detail": "Arrange FBC, U&E, creatinine/eGFR, glucose and calcium within 24\u201348 hours, sooner if clinical deterioration; assess hydration, weight/BMI, weight trajectory and MUST score. Obtain repeat ECG if recurrent unexplained events or ongoing symptoms; assess pulse and other syncope causes rather than label all falls mechanical.",
+      "rationale": "CKD, diuretic exposure, poor intake and recurrent falls warrant metabolic and nutritional assessment; previous normal ECG does not exclude intermittent causes.",
+      "urgency": "within_days"
+     },
+     {
+      "type": "care_package_change",
+      "detail": "Contact agency manager and adult social care urgently today for an interim increased package: full commissioned morning time for personal care/breakfast/fluids/medicines, an added lunchtime visit for an observed meal and fluids, and an earlier evening visit before 20:30 for supper, medicines and safe settling. Specify monitoring of intake, refusals and escalation; confirm exact start times and contingency before leaving.",
+      "rationale": "Current visit timing and duration do not meet demonstrated needs; food left in the fridge is not evidence of eating.",
+      "urgency": "same_day"
+     },
+     {
+      "type": "other",
+      "detail": "Janet has agreed to stay until a safe handover is confirmed. Arrange food and drinks now and removal of spoiled food with consent. If enhanced care cannot start promptly, seek urgent social-care crisis/intermediate-care support or temporary supported placement, discussed with Edith; hospital assessment if acutely unwell or no safe clinical alternative. Do not rely on Janet for ongoing weekday coverage.",
+      "rationale": "There must be a workable same-day bridge, not just a routine referral, given falls and unmet nutrition and medication needs.",
+      "urgency": "same_day"
+     },
+     {
+      "type": "referral",
+      "detail": "Urgent multidisciplinary falls/community frailty and physiotherapy assessment for strength, balance, transfers, frame use and multifactorial falls/syncope review; occupational therapy home assessment including stairs, toileting and personal-care needs.",
+      "rationale": "Observed unsteady gait and recurrent falls despite recent discharge therapy suggest that current aids and arrangements are inadequate.",
+      "urgency": "within_days"
+     },
+     {
+      "type": "equipment",
+      "detail": "Unfold and place frame within reach, check fit and safe use with assistance. With consent remove loose rug and improve landing lighting today. Retrieve/test or urgently replace pendant alarm and ensure it is worn with a working response service and key-safe access. OT to consider rails, suitable toilet equipment/commode and safe downstairs arrangements rather than unsupported stair use.",
+      "rationale": "Immediate modifiable hazards and inability to summon assistance increase risk of another prolonged lie.",
+      "urgency": "same_day"
+     },
+     {
+      "type": "safeguarding",
+      "detail": "With Edith's involvement raise an adult social-care safeguarding concern about unmet care needs/possible organisational neglect: repeated shortened calls, missed medication without effective escalation, nutrition concerns and communication after fall. Seek agency incident review and reliable notification to GP and agreed family contact. Record medication error as a patient-safety incident, explain and apologise for the error, and review discharge-reconciliation processes.",
+      "rationale": "An adult with care and support needs is exposed to repeated avoidable harm; cheerful appearance does not establish safety. Investigate without assuming malicious intent.",
+      "urgency": "same_day"
+     },
+     {
+      "type": "carer_support",
+      "detail": "Record Janet's actual availability and offer a carer's assessment and support information. With Edith's consent agree who receives fall/medication alerts and share the updated written plan with Janet and the agency.",
+      "rationale": "Daughter was unaware of the recurrent fall and cannot provide additional routine care.",
+      "urgency": "within_days"
+     },
+     {
+      "type": "referral",
+      "detail": "Arrange optometry/glaucoma review of vision and adherence; expedite ophthalmology advice for deterioration. Review fracture risk and suitability for osteoporosis treatment with renal function and prior DEXA information.",
+      "rationale": "Visual impairment, glaucoma treatment uncertainty, osteopenia and recurrent falls compound injury risk.",
+      "urgency": "within_days"
+     },
+     {
+      "type": "advice",
+      "detail": "Explain postural precautions: sit before standing, rise slowly with support, sit or lie down promptly if dizzy, keep drinks accessible and encourage regular fluids unless a contraindication emerges. Avoid walking unsupported or rushing to the toilet; use frame and assistance. Discuss safe footwear and supervised activity rather than immobility.",
+      "rationale": "Reduces immediate falls risk while medication and care arrangements are corrected.",
+      "urgency": "same_day"
+     },
+     {
+      "type": "follow_up",
+      "detail": "Document decision-specific capacity: Edith can explain fall/nutrition risks and how extra care helps, accepts changes and wishes to stay home. Respect this preference with supported decisions; reassess if cognition changes. Complete medication reconciliation and confirm actual care delivery rather than relying on referrals alone.",
+      "rationale": "Alzheimer's diagnosis and limited recall do not automatically remove capacity or justify overriding her wishes.",
+      "urgency": "same_day"
+     }
+    ],
+    "discrepancies": [
+     {
+      "description": "Hospital stopped furosemide, but GP repeats, pharmacy packs and Edith's account indicate continued use.",
+      "resolution": "Discharge instruction plus actual pack inspection establish an unintentional restart. Stop and correct all prescribing, supply and administration records today."
+     },
+     {
+      "description": "Edith denies a further fall and Janet had not been told, whereas agency and ambulance record a floor episode on 27 October.",
+      "resolution": "Treat dated agency and ambulance observations as evidence of a recurrent unwitnessed fall; limited recall is not evidence it did not happen. Explain findings and improve notifications."
+     },
+     {
+      "description": "Ambulance described a mechanical fall with normal sitting BP, while Edith reports morning giddiness and today's standing BP drops substantially.",
+      "resolution": "Mechanical cause remains unproven. Current symptomatic orthostatic hypotension and medication error are major modifiable contributors; maintain multifactorial/syncope assessment."
+     },
+     {
+      "description": "Edith reports independent washing, dressing and cooking; Janet sees a tidy, cheerful home and assumes adequate function.",
+      "resolution": "Care notes document personal-care support; direct gait observation and kitchen findings show unmet needs. Assess function using observed performance and longitudinal evidence rather than Sunday appearance or recall alone."
+     },
+     {
+      "description": "Care package is two 30-minute visits, yet recorded visits are usually about 12\u201315 minutes and evening doses are frequently omitted.",
+      "resolution": "Actual timings and MAR establish an ineffective package. Escalate to manager/social care, lengthen visits and bring evening support before bedtime."
+     },
+     {
+      "description": "Edith says she manages eye drops and Janet assumes carers administer them.",
+      "resolution": "No reliable assigned responsibility; nine-week-old nearly full bottle strongly suggests inadequate use. Demonstration alone does not prove daily adherence; assign carer administration and MAR recording."
+     },
+     {
+      "description": "Hospital advised frame use at all times, but ambulance saw stick use and frame is folded away.",
+      "resolution": "Observed furniture-walking and unstable turns support consistent frame use and urgent therapy review."
+     }
+    ],
+    "follow_up": "Before leaving today confirm pharmacy correction, agency/social-care response, interim meals and supervision, and Janet-to-care-service handover. GP/team contact next day to verify new packs, actual visits, oral intake, dizziness and falls. Review blood results promptly and repeat lying/standing BP and renal function as indicated within 48\u201372 hours, with further review in one week of mobility, medication administration/MAR, nutrition and safeguarding response. Ensure named GP/team owns referrals and outstanding actions.",
+    "safety_netting": "Call 999 for collapse, chest pain, severe breathlessness, new focal neurological symptoms, serious injury, inability to rise after a fall, or head injury with concerning symptoms. Do not attempt an unsafe lift; use pendant/telephone and keep warm while waiting. Seek same-day GP assessment, or NHS 111 out of hours, for recurrent falls or worsening dizziness, new confusion, poor intake, markedly reduced urine, pain or inability to mobilise. Sudden painful red eye or sudden vision loss needs urgent same-day eye/emergency assessment. Carers should escalate missed medicines, missed visits, refusal of essential support or food and drink not being taken, rather than record and leave without a plan."
+   },
+   "turns_used": 33,
+   "ended": "plan"
+  }
+ ]
+}

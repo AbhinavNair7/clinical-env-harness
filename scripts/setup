@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+# Restore locked dependencies so ./scripts/check can run on a fresh clone; safe to rerun.
+# The Claude Code SessionStart hook calls it with --session-start, which acts only in a cloud
+# session (CLAUDE_CODE_REMOTE=true) so local sessions keep their own environment. There it
+# never exits non-zero (the agent would not see the output): failures are reported on stdout.
+# Output is short because the hook feeds it to the agent; tool output goes to a log file.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+SESSION_START=""
+if [ "${1:-}" = "--session-start" ]; then
+  [ "${CLAUDE_CODE_REMOTE:-}" = "true" ] || exit 0
+  SESSION_START=1
+fi
+LOG="${TMPDIR:-/tmp}/setup-$(basename "$PWD").log"
+: > "$LOG"
+FAILURES=""
+
+fail() {
+  echo "setup: $* FAILED; see $LOG" >&2
+  [ -n "$SESSION_START" ] || exit 1
+  FAILURES="${FAILURES:+$FAILURES; }$*"
+}
+
+run() {
+  # run DIR COMMAND...: one line of status; the log holds the tool output.
+  local dir="$1"
+  shift
+  if (cd "$dir" && "$@") >> "$LOG" 2>&1; then
+    echo "setup: $dir: $* ok"
+  else
+    fail "$dir: $*"
+  fi
+}
+
+for dir in . web; do
+  if [ -f "$dir/package.json" ]; then
+    if [ -f "$dir/pnpm-lock.yaml" ] && [ ! -f "$dir/package-lock.json" ]; then
+      run "$dir" pnpm install --frozen-lockfile
+    elif [ -f "$dir/package-lock.json" ] && [ ! -f "$dir/pnpm-lock.yaml" ]; then
+      run "$dir" npm ci
+    else
+      fail "$dir needs exactly one of pnpm-lock.yaml or package-lock.json"
+    fi
+  fi
+done
+for dir in . api; do
+  if [ -f "$dir/pyproject.toml" ]; then
+    run "$dir" uv sync --locked
+  fi
+done
+
+# A fresh clone has no Git hooks. Where the shared workflow is present (this checkout, or the
+# cloud environment's setup script put it in its usual place), install the pre-push gate.
+if [ "${CLAUDE_CODE_REMOTE:-}" = "true" ]; then
+  installed=""
+  for installer in "$PWD/workflow/install.py" "$HOME/Documents/_templates/workflow/install.py"; do
+    if [ -f "$installer" ]; then
+      run . python3 "$installer" --repo "$PWD" --apply
+      installed="$installer"
+      break
+    fi
+  done
+  if [ -z "$installed" ]; then
+    echo "setup: shared workflow absent in this environment, so no pre-push gate or guard runs here. Before pushing, run CHECK_SCOPE=push ./scripts/check and a secret scan yourself and say so in the PR."
+  fi
+  if [ ! -f .env ] && [ -f .env.example ]; then
+    echo "setup: no .env in this clone; .env.example lists the variable names. Values come from the cloud environment or the owner, never invented."
+  fi
+fi
+if [ -n "$FAILURES" ]; then
+  echo "setup: FAILED: $FAILURES (log: $LOG). Dependencies or the pre-push gate may be missing; fix or report it before claiming checks pass."
+fi

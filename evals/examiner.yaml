@@ -1,0 +1,43 @@
+# Live eval for the examine matcher (checker role). Requests are worded as clinician models
+# actually wrote them in M1 and M2 transcripts. expect: a finding id (several, space-separated,
+# for parts of one set), "none" (Unremarkable), "too_broad" or "investigation". Run: uv run python -m clinical_env.live_evals examiner
+case: cases/dev/edith_marsh.yaml
+visit: 1
+items:
+  - {request: "lying and standing blood pressure", expect: x_postural_bp}
+  - {request: "Check her blood pressure lying and then after standing for 1 and 3 minutes", expect: x_postural_bp}
+  - {request: "gait, transfers and walking aid use", expect: x_gait}
+  - {request: "Observe Edith getting out of her chair, walking and turning with her usual aid; assess balance and transfers.", expect: x_gait}
+  - {request: "Observe transfers and walking with her prescribed frame", expect: x_gait}
+  - {request: "Inspect current dosette and all medicines in the home against discharge changes, including remaining evening doses.", expect: x_dosette}
+  - {request: "Check medication boxes and dosette contents in the home", expect: x_dosette}
+  - {request: "Home falls hazards and location of the walking frame", expect: x_home}
+  - {request: "Check the fridge and kitchen for food and signs of meals", expect: x_kitchen}
+  - {request: "home environment including walking frame location, stairs, trip hazards and bathroom access", expect: x_home}
+  - {request: "Check for injuries from the fall, including head injury and hip tenderness", expect: x_bruising}
+  - {request: "Cognition screen", expect: x_cognition}
+  - {request: "assessment for delirium using 4AT", expect: x_cognition}
+  - {request: "heart sounds, chest and ankles for heart failure", expect: x_cardio}
+  - {request: "Dix-Hallpike test", expect: x_dix_hallpike}
+  - {request: "Locate personal alarm and check it works and Edith can use it", expect: x_alarm}
+  - {request: "Check personal alarm location and whether patient can use it", expect: x_alarm}
+  - {request: "Pulse rate and rhythm", expect: x_pulse}
+  - {request: "pulse", expect: x_pulse}
+  - {request: "temperature and oxygen saturation", expect: x_temp x_sats}
+  - {request: "Set of observations", expect: x_obs}
+  - {request: "Vital signs: pulse, BP, temperature, respiratory rate and sats", expect: x_obs}
+  - {request: "capillary blood glucose", expect: x_glucose}
+  - {request: "Pulse and rhythm, lying blood pressure after 5 minutes and supported standing blood pressure at 1 and 3 minutes with symptoms", expect: x_postural_bp}
+  - {request: "medication supplies in the home including blister packs and separate eye drops", expect: x_dosette}
+  - {request: "12-lead ECG", expect: investigation}
+  - {request: "Bloods: FBC, U&E, CRP", expect: investigation}
+  - {request: "Hydration status", expect: x_general}
+  - {request: "General appearance, clothing and self-care", expect: x_general}
+  - {request: "Timed up and go test", expect: x_gait}
+  - {request: "Weight", expect: investigation}
+  - {request: "Weigh her on bathroom scales if available", expect: investigation}
+  - {request: "Examine her feet", expect: none}
+  - {request: "fundoscopy", expect: none}
+  - {request: "full examination", expect: too_broad}
+  - {request: "General condition, alertness, temperature, pulse and rhythm, respiratory rate, oxygen saturation, hydration, and lying then standing blood pressure", expect: too_broad}
+  - {request: "Examine everything relevant to falls", expect: too_broad}

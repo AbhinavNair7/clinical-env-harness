@@ -1,0 +1,627 @@
+# Development case, negative-workup, built on an open case report (CC BY; provenance in
+# sources/provenance/dot_fairbanks.yaml, never shown to a model) from the skeleton
+# cases/skeletons/anaemia-clear-scopes.md as revised with the clinical lead on 5 Nov. UK case: marked
+# against UK guidance (BSG/ACPGBI 2025: FIT and coeliac serology in primary care before
+# referral). Fictional throughout. Development only.
+id: dot_fairbanks
+title: Dot Fairbanks - iron-deficient, the bowel tests are clear, and "she only takes what the doctor gives her"
+country: uk
+messiness: moderate
+notes: >
+  Iron-deficiency anaemia in an 82-year-old whose causes are common and outside the bowel's
+  reach: a tea-and-toast diet since her knees stopped her cooking, over-the-counter ibuprofen
+  her husband buys (on no record), aspirin still dispensed on top of apixaban, and iron tablets
+  she stopped. Visit 1: screen the bowel and upper-GI cancer symptoms and start the UK workup
+  (FIT and coeliac serology, referral by the result). Visit 2: FIT negative, coeliac negative
+  (scopes clear if requested), Hb barely moved: act on the common causes with a recheck, no
+  "all clear, stop the iron", no reflex capsule or CT. Visit 3 (phone): Hb rising; reassure,
+  continue iron with a recheck, no more tests. Built 5 Nov.
+
+patient:
+  name: Dorothy Fairbanks
+  age: 82
+  summary: >
+    Married, lives with her husband Frank in a terraced house. Atrial fibrillation on
+    apixaban, a TIA in the past, osteoarthritis of both knees, hypertension.
+
+hidden_truth:
+  - id: t_ida
+    category: risks
+    statement: >
+      Iron-deficiency anaemia from three common causes together: a poor diet for about 9
+      months (little meat or iron-rich food), slow blood loss from the stomach caused by
+      ibuprofen on top of apixaban and aspirin (small antral erosions, no ulcer), and iron
+      tablets she stopped after a week. No cancer, no coeliac disease. Hb 121 g/L eight months
+      before visit 1, 94 g/L at visit 1, 96 at visit 2, 109 by visit 3 as she restarts iron and
+      eats better.
+  - id: t_diet
+    category: adls
+    statement: >
+      Since her knees got worse she cannot stand long enough to cook. She lives on tea and
+      toast, cereal, soup and biscuits; meat about once a week. Frank cannot cook.
+  - id: t_nsaid
+    category: medicines
+    statement: >
+      Takes ibuprofen 200 mg, two tablets most days, for her knees. Frank buys several packs
+      of Nurofen at the supermarket each week. It is on no record. Paracetamol never helped
+      her, she says, because she only took one at a time.
+  - id: t_antithrombotics
+    category: medicines
+    statement: >
+      Apixaban 5 mg twice daily (cardiology, 14 months ago, for atrial fibrillation; weight 66
+      kg, creatinine normal, so the full dose is right). Cardiology's letter said to stop
+      aspirin when apixaban started, but the GP repeat list was never updated and the pharmacy
+      still puts aspirin 75 mg in her weekly blister pack.
+  - id: t_iron
+    category: medicines
+    statement: >
+      The GP started ferrous sulfate 200 mg daily three weeks ago on a routine blood result. She
+      stopped after a week because it constipated her ("bunged me up"). She has not told
+      anyone.
+  - id: t_no_cancer
+    category: risks
+    statement: >
+      No bowel cancer, no stomach cancer. No change in bowel habit, no rectal bleeding, no black
+      stools, no weight loss, no trouble swallowing, no vomiting, no abdominal mass. Some
+      heartburn after meals for 2 months (from the ibuprofen). FIT 6 µg Hb/g. If scoped: a few
+      small antral erosions, H. pylori negative; colonoscopy shows diverticulosis only.
+  - id: t_function
+    category: mobility
+    statement: >
+      Walks with a stick, slowly because of her knees. Washes and dresses herself. Breathless
+      on the stairs over the last 3 months. Frank does the shopping and the pill box.
+  - id: t_background
+    category: other
+    statement: >
+      Retired school secretary. Married to Frank 60 years. Her sister died of bowel cancer at
+      70. Never smoked; a sherry at Christmas. A granddaughter, Emma, lives nearby.
+  - id: t_v2
+    category: risks
+    from_visit: 2
+    statement: >
+      Day 35: still tired. FIT and coeliac serology negative (scopes clear if requested). Hb 96,
+      barely changed: she is still not taking iron, still on ibuprofen and aspirin, still eating
+      poorly.
+  - id: t_v3
+    category: risks
+    from_visit: 3
+    statement: >
+      Day 63: Hb 109 and ferritin 24 on the practice nurse's recheck, and she feels better.
+      She restarted iron on alternate days after the pharmacist suggested it and Emma brings
+      meals twice a week. Her knees ache and Frank thinks the Nurofen is fine. She is
+      responding to treatment: no more tests are needed now.
+
+views:
+  patient:
+    - id: p_tired
+      truth: t_function
+      statement: "I'm just so tired, doctor. And the stairs, I have to stop halfway. I put it down to my age."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p_bowels
+      truth: t_no_cancer
+      statement: "My bowels are the same as ever. No blood, nothing black."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_weight
+      truth: t_no_cancer
+      statement: "No, my weight's about the same. My skirts still fit."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_tummy
+      truth: t_no_cancer
+      statement: "No tummy pain. No trouble swallowing, I'm not sick."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_heartburn
+      truth: t_no_cancer
+      statement: "A bit of heartburn after meals lately. A couple of months. I have a Rennie."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about indigestion, heartburn, reflux, or pain in the upper tummy or chest after eating
+    - id: p_diet
+      truth: t_diet
+      statement: >
+        I can't stand at the cooker with these knees. It's tea and toast mostly, a bowl of
+        cereal, soup. Meat maybe once a week. Frank can't boil an egg.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked what she eats in a typical day, about her diet, or about meat, vegetables or cooking
+    - id: p_nurofen
+      truth: t_nsaid
+      statement: >
+        Oh, the Nurofen. Two most days for my knees. That's not a medicine, is it? You get it in
+        the supermarket. Frank buys it.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked specifically about painkillers, anything for her knees, or anything bought over the counter or from a shop
+    - id: p_iron
+      truth: t_iron
+      statement: "I stopped those iron tablets after a week. They bunged me right up. I didn't like to say."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked whether she is taking the iron tablets or how she got on with them
+    - id: p_paracetamol
+      truth: t_nsaid
+      statement: "Paracetamol does nothing for me. I take one and it doesn't touch it."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_pills
+      truth: t_antithrombotics
+      statement: "Frank does my pill pack. I take what's in it. The blood thinner, the blood pressure one."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_sister
+      truth: t_background
+      statement: "My sister had bowel cancer. She was seventy. That's what Frank's worried about."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_stairs
+      truth: t_function
+      statement: "Breathless on the stairs, not at rest. No chest pain. Ankles are fine."
+      accuracy: "true"
+      disclosure: if_asked
+    # Standard history.
+    - id: p_age
+      truth: t_background
+      statement: "I'm eighty-two."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_washing
+      truth: t_function
+      statement: "I wash and dress myself. Slowly, but I manage."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_falls
+      truth: t_function
+      statement: "No falls. I have my stick."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_smoke
+      truth: t_background
+      statement: "Never smoked. A sherry at Christmas."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_school
+      truth: t_background
+      statement: "Thirty years I was the secretary at St Anne's. I knew every child's name."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p2_tired
+      truth: t_v2
+      from_visit: 2
+      statement: "Still tired. No better, no worse."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p3_better
+      truth: t_v3
+      from_visit: 3
+      statement: "I'm better, actually. I can get up the stairs without stopping. Emma's been bringing me dinners."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p3_iron
+      truth: t_v3
+      from_visit: 3
+      statement: "I'm taking the iron every other day now. The chemist said it's kinder on the tummy."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p3_knees
+      truth: t_v3
+      from_visit: 3
+      statement: "My knees are bad, though. Can I have my Nurofen back?"
+      accuracy: "true"
+      disclosure: if_asked
+
+  carer:
+    - id: c_only_doctor
+      truth: t_nsaid
+      statement: >
+        She only takes what the doctor gives her. It's all in the pill pack, I check it every
+        Monday.
+      accuracy: wrong
+      disclosure: volunteered
+    - id: c_cancer_worry
+      truth: t_background
+      statement: "Her sister had bowel cancer. Is that what this is?"
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c_shopping
+      truth: t_nsaid
+      statement: "I do the shopping. Bread, milk, her Nurofen. The usual."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked what he buys at the shops, or whether she takes anything bought over the counter
+    - id: c_cooking
+      truth: t_diet
+      statement: "She doesn't cook much now. We have a lot of toast. I'm no good in the kitchen."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: c2_stop_iron
+      truth: t_v2
+      from_visit: 2
+      statement: "So the tests are clear? It's nothing, then. Can she stop the iron?"
+      accuracy: "true"
+      disclosure: volunteered
+    - id: c3_nurofen_fine
+      truth: t_nsaid
+      from_visit: 3
+      statement: "The Nurofen's fine, it's from the supermarket. It can't hurt."
+      accuracy: wrong
+      disclosure: volunteered
+
+  gp_record:
+    - id: g_aspirin
+      truth: t_antithrombotics
+      statement: "Aspirin 75mg dispersible tablets - one each morning - 28 tablets"
+      accuracy: outdated
+    - id: g_cardio_letter
+      truth: t_antithrombotics
+      statement: >
+        Cardiology clinic: persistent atrial fibrillation, CHA2DS2-VASc 6. Started apixaban 5mg
+        twice daily. Please stop aspirin. Rate controlled on bisoprolol.
+      accuracy: "true"
+    - id: g_bloods
+      truth: t_ida
+      statement: >
+        Hb 94 g/L (121 eight months ago), MCV 74, ferritin 9 µg/L. Iron deficiency anaemia.
+        Ferrous sulfate 200mg one daily started. GP to review.
+      accuracy: "true"
+    - id: g_ferrous
+      truth: t_iron
+      statement: "Ferrous sulfate 200mg tablets - one daily - 28 tablets"
+      accuracy: outdated
+    - id: g_nurse_recheck
+      truth: t_v3
+      from_visit: 3
+      statement: "Practice nurse: anaemia recheck. Hb 109 g/L, ferritin 24 µg/L. For GP telephone review."
+      accuracy: "true"
+
+  pharmacy_record:
+    - id: r_blister
+      truth: t_antithrombotics
+      statement: >
+        Weekly blister pack dispensed. Morning: aspirin 75mg, apixaban 5mg, bisoprolol 2.5mg,
+        ramipril 5mg. Evening: apixaban 5mg.
+      accuracy: "true"
+
+documents:
+  gp_record: |
+    Dorothy FAIRBANKS   Female   Age 82   Usual GP: Dr S Patel
+
+    PROBLEMS - ACTIVE
+      Persistent atrial fibrillation
+      Essential hypertension
+      Osteoarthritis of knee, both
+      Transient ischaemic attack (2016)
+
+    PROBLEMS - PAST / MINOR
+      Cataract extraction, both eyes (2019)
+      Colles fracture, left wrist (2011)
+      Hysterectomy (1984)
+
+    REPEAT MEDICATION (last issued {day:-7})
+      Apixaban 5mg tablets - one twice a day - 56 tablets
+      Bisoprolol 2.5mg tablets - one each morning - 28 tablets
+      Ramipril 5mg capsules - one each morning - 28 capsules
+      [[g_aspirin]]
+      [[g_ferrous]]
+      Paracetamol 500mg tablets - two up to four times a day when required - 100 tablets
+
+    CONSULTATIONS (most recent first)
+      {day:60}  Nurse           [[g_nurse_recheck]]
+      {entries}
+      {day:-7}  Admin           Repeat prescription issued, all repeat items. Pharmacy to blister pack.
+      {day:-21}  Results         [[g_bloods]]
+      {day:-24}  Nurse           Annual hypertension and AF review bloods taken. BP 134/76. Pulse 72 irregular.
+      {day:-120}  GP              Knee pain, both. Osteoarthritis. Paracetamol regularly, weight-bearing exercise.
+      {day:-425}  Letter          [[g_cardio_letter]]
+      {day:-450}  Results         Hb 121 g/L, MCV 88, eGFR 68.
+      {day:-540}  GP              Palpitations. ECG: atrial fibrillation. Referred to cardiology.
+
+  pharmacy_record: |
+    PATIENT MEDICATION RECORD - Dorothy FAIRBANKS
+    Monitored dosage system: weekly 7-day blister pack, collected Mondays by husband.
+    Supplied separately: paracetamol 500mg, ferrous sulfate 200mg.
+      {day:-1}  [[r_blister]]
+      {day:-8}  Weekly blister pack dispensed, contents unchanged.
+      {day:-15}  Weekly blister pack dispensed, contents unchanged.
+      {day:-21}  Ferrous sulfate 200mg tablets x28 dispensed.
+      {day:-22}  Weekly blister pack dispensed, contents unchanged.
+
+record_traits:
+  gp_record: [outdated_entries, contradicts_other_records]
+  pharmacy_record: [contradicts_other_records]
+
+personas:
+  patient:
+    name: Dot Fairbanks
+    age: 82
+    cognition: Normal.
+    health_literacy: >
+      Moderate. Thinks of medicines as what the doctor prescribes; shop-bought tablets do not
+      count.
+    agenda: >
+      Wants to feel less tired; does not want a fuss; quietly worried about her sister's bowel
+      cancer; would like her knees to hurt less.
+    speech_style: Warm, chatty, polite; tells stories about the school; apologises for bothering the doctor.
+    interjection: sometimes
+    traits: [tangents, denies_minimises]
+  carer:
+    name: Frank Fairbanks
+    age: 84
+    relationship: husband
+    cognition: Normal.
+    health_literacy: >
+      Moderate. Sure she takes only what is in the pill pack (he says so flatly and does not
+      hedge); does not count the Nurofen he buys.
+    agenda: Wants to know it is not cancer; would like her off "all these tablets".
+    speech_style: Gruff, brief, protective; answers for her about her medicines.
+    interjection: sometimes
+    traits: [carer_dominates]
+
+conflicts:
+  - id: cf_meds
+    facts: [c_only_doctor, c3_nurofen_fine, p_nurofen, c_shopping, p_paracetamol]
+    truth: [t_nsaid]
+    expected_behaviour: >
+      Frank says she takes only what is in the pill pack; she takes ibuprofen most days, bought
+      at the supermarket. Ask Dot directly about painkillers and anything bought over the
+      counter.
+  - id: cf_aspirin
+    facts: [g_aspirin, g_cardio_letter, r_blister]
+    truth: [t_antithrombotics]
+    expected_behaviour: >
+      Cardiology asked for aspirin to stop when apixaban started; it is still on repeat and in
+      the blister pack. Stop it (with cardiology if unsure).
+  - id: cf_iron
+    facts: [g_ferrous, p_iron]
+    truth: [t_iron]
+    expected_behaviour: >
+      Iron is on repeat, but she stopped it after a week for constipation. Ask how she is getting
+      on with it; offer alternate days or another preparation.
+
+visits:
+  - number: 1
+    day: 0
+    setting: clinic
+    present: [patient, carer]
+    turn_budget: 30
+    reason: >
+      GP review of anaemia found on routine bloods three weeks ago (Hb 94 g/L, ferritin 9). Dot
+      has come with Frank.
+    records_available: [gp_record, pharmacy_record]
+    examination:
+      - id: x_general
+        label: General appearance
+        finding: "Pale. Comfortable at rest. Not jaundiced. Walks in slowly with a stick."
+      - id: x_abdomen
+        label: Abdomen
+        finding: "Soft. Mild tenderness in the upper middle abdomen. No masses. Liver and spleen not enlarged."
+      - id: x_rectal
+        label: Rectal examination
+        finding: "No masses. Brown stool on the glove, no blood, not black."
+      - id: x_cardio
+        label: Heart, chest and ankles
+        finding: "Irregularly irregular pulse. Soft flow murmur. Chest clear. No ankle swelling."
+      - id: x_mouth
+        label: Mouth and tongue
+        finding: "Mild angular cheilitis. Smooth tongue. Own teeth and a partial plate."
+      - id: x_weight
+        label: Weight
+        finding: "66 kg (67 kg eight months ago)."
+      - id: x_obs
+        label: Observations (pulse, blood pressure, temperature, respiratory rate, oxygen saturation)
+        parts: [x_pulse, x_bp, x_temp, x_rr, x_sats]
+      - id: x_pulse
+        label: Pulse rate and rhythm
+        finding: "Pulse 78 irregularly irregular."
+      - id: x_bp
+        label: Blood pressure (sitting)
+        finding: "Blood pressure 128/72 sitting."
+      - id: x_temp
+        label: Temperature
+        finding: "Temperature 36.6 C."
+      - id: x_rr
+        label: Respiratory rate
+        finding: "Respiratory rate 16."
+      - id: x_sats
+        label: Oxygen saturation
+        finding: "Oxygen saturation 97% on air."
+    results:
+      - id: r1_fit
+        label: Faecal immunochemical test (FIT)
+        finding: "FIT 6 µg Hb/g faeces (below the 10 µg/g threshold)."
+      - id: r1_fbc
+        label: Full blood count or haemoglobin
+        finding: "Hb 96 g/L, MCV 74, platelets 410 (mildly high)."
+      - id: r1_ferritin
+        label: Ferritin or iron studies
+        finding: "Ferritin 10 µg/L."
+      - id: r1_ogd
+        label: Gastroscopy (OGD)
+        finding: "A few small erosions in the gastric antrum. No ulcer, no tumour. Duodenal biopsies normal. H. pylori negative."
+      - id: r1_colonoscopy
+        label: Colonoscopy or CT colonography
+        finding: "Completed to the caecum. Sigmoid diverticulosis. No polyps or tumour."
+  - number: 2
+    day: 35
+    setting: clinic
+    present: [patient, carer]
+    turn_budget: 30
+    reason: Follow-up of anaemia and test results.
+    events_since_last:
+      - Dot has had no new illness since the last visit.
+    records_available: [gp_record, pharmacy_record]
+    examination:
+      - id: x2_general
+        label: General appearance
+        finding: "Still pale. Comfortable."
+      - id: x2_abdomen
+        label: Abdomen
+        finding: "Soft, mild upper abdominal tenderness. No masses."
+      - id: x2_obs
+        label: Observations (pulse, blood pressure, temperature)
+        parts: [x2_pulse, x2_bp]
+      - id: x2_pulse
+        label: Pulse rate and rhythm
+        finding: "Pulse 76 irregularly irregular."
+      - id: x2_bp
+        label: Blood pressure (sitting)
+        finding: "Blood pressure 126/70 sitting."
+    results:
+      - id: r2_fbc
+        label: Full blood count or haemoglobin
+        finding: "Hb 109 g/L, MCV 79."
+      - id: r2_ferritin
+        label: Ferritin or iron studies
+        finding: "Ferritin 24 µg/L."
+  - number: 3
+    day: 63
+    setting: phone
+    present: [patient, carer]
+    turn_budget: 20
+    reason: >
+      Telephone review of the practice nurse's anaemia recheck. Dot is on speakerphone with
+      Frank.
+    events_since_last:
+      - The practice nurse rechecked Dot's blood count (see the GP record).
+    records_available: [gp_record, pharmacy_record]
+
+rubric:
+  # Critical items (4). The clinical lead, 5 Nov: FIT first (UK); screening the bowel and upper-GI cancer
+  # symptoms is critical; diet counts as a common cause; visit 3 is calm and must not overdo it.
+  - id: v1_symptom_screen
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: history
+    critical: true
+    critical_type: clinical_action
+    evidence: [p_bowels, p_weight, p_tummy, p_heartburn]
+    description: >
+      Screens for the symptoms that would make it bowel or upper-GI cancer: change in bowel
+      habit, rectal bleeding or black stools, weight loss, abdominal pain, and swallowing
+      trouble, reflux or vomiting. Most of these asked is enough; not every one needs naming.
+  - id: v1_gi_workup
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: plan
+    critical: true
+    critical_type: clinical_action
+    evidence: [x_general, x_abdomen]
+    description: >
+      Starts investigating the iron deficiency for a gastrointestinal cause by the UK route:
+      a FIT and coeliac serology in primary care, with referral guided by the result
+      (suspected cancer pathway if FIT 10 or more, otherwise an urgent non-cancer referral).
+      Direct referral for gastroscopy and colonoscopy is also acceptable.
+  - id: v2_common_causes
+    visit: 2
+    kind: must_do
+    weight: 3
+    stage: plan
+    critical: true
+    critical_type: clinical_action
+    evidence: [p_diet, p_nurofen, p_iron, c2_stop_iron, g_aspirin]
+    description: >
+      After the negative tests, acts on at least one common cause of her iron deficiency (her
+      diet, the ibuprofen, aspirin on top of apixaban, or the iron she stopped), keeps iron
+      going, and rechecks the blood count in about 4 weeks. Diet alone is acceptable. Not met by
+      "all clear, stop the iron".
+  - id: v3_calm
+    visit: 3
+    kind: must_do
+    weight: 3
+    stage: follow_up
+    critical: true
+    critical_type: clinical_action
+    evidence: [g_nurse_recheck, p3_better, p3_iron]
+    description: >
+      With Hb rising, reassures, continues iron (about 3 months after the Hb is normal) with a
+      further recheck, and does not order new investigations beyond the first-line GI
+      assessment (capsule, CT, or repeat endoscopy) while she is responding. Chasing or
+      completing the GI referral or scopes already arranged is fine: guidelines still advise
+      them whatever the FIT, and a response to iron does not rule out a GI cause (the clinical lead, 5
+      Nov, after the flagship runs).
+
+  # Non-critical items.
+  - id: v1_diet
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: history
+    description: Asks what she eats.
+    requires: {spoke_to: [patient]}
+  - id: v1_otc
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: history
+    description: Asks Dot directly about painkillers or anything bought over the counter, and finds the ibuprofen (visit 1 or 2).
+    requires: {spoke_to: [patient]}
+  - id: v1_aspirin
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: records
+    description: Notices aspirin is still dispensed on top of apixaban despite cardiology's letter, and stops it or asks cardiology.
+  - id: v1_iron_tolerance
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: history
+    description: Asks how she is getting on with the iron tablets.
+  - id: v1_reflux
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: plan
+    description: Treats the reflux or protects the stomach (a PPI) given the heartburn on ibuprofen and anticoagulation.
+  - id: v1_examine
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: examination
+    description: Examines the abdomen (and offers a rectal examination).
+    requires: {examined: [x_abdomen]}
+  - id: v1_stop_apixaban
+    visit: 1
+    kind: must_not_do
+    weight: 2
+    stage: plan
+    description: Stops apixaban long term without cardiology input.
+  - id: v2_explain
+    visit: 2
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: >
+      Explains "clear" honestly: no cancer found, but the iron deficiency still has a cause
+      that needs fixing.
+  - id: v2_reflex_test
+    visit: 2
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: Orders capsule endoscopy, CT or repeat endoscopy before the diet, medicines and iron are sorted.
+  - id: v2_stop_iron
+    visit: 2
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: Agrees the tests are clear and stops the iron.
+  - id: v3_no_nsaid
+    visit: 3
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: Advises against restarting ibuprofen, with a safer plan for her knees (regular paracetamol, topical NSAID, physiotherapy).
+  - id: v3_overinvestigate
+    visit: 3
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: >
+      Orders new investigations beyond the first-line GI assessment (capsule endoscopy, CT,
+      repeat scopes) while the Hb is rising. Chasing or completing the GI referral already
+      arranged does not count.

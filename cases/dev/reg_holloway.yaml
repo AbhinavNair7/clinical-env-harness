@@ -1,0 +1,624 @@
+# Development case for the people-not-paper test (pre-registered in DECISIONS.md, 6 Nov).
+# Built on an open case report (CC BY; provenance in sources/provenance/reg_holloway.yaml,
+# never shown to a model). Fictional throughout. Development only.
+id: reg_holloway
+title: Reg Holloway - third heart failure admission, a hospital to-do list, and what he has decided
+country: uk
+messiness: mild
+notes: >
+  Advanced heart failure (EF 30%), third admission in 6 months, 5 days home. The discharge
+  summary hands the GP a titration list (bisoprolol up, consider spironolactone, cardiology for
+  a CRT-D) and says resuscitation was not discussed. The decision that changes the plan is
+  held only by Reg: he will not go back into hospital, wants to die at home with his dog, and
+  does not want CPR or a device. No record says so. He tells a GP who asks what matters to
+  him, what worries him, what he expects, or what he would want if he got worse. Clinical
+  layer (paper-cued): potassium 5.0 and falling eGFR make spironolactone unsafe, and a
+  symptomatic postural drop argues against more bisoprolol. Visit 2: a 999 call at night that
+  he declined to be conveyed for, so the record now points at his wish. Built 6 Nov.
+
+patient:
+  name: Reginald Holloway
+  age: 84
+  summary: >
+    Widower, lives alone with his dog in a bungalow. Heart failure with reduced ejection
+    fraction, atrial fibrillation, chronic kidney disease stage 3b, type 2 diabetes (diet).
+    Discharged 5 days ago after his third heart failure admission in 6 months.
+
+hidden_truth:
+  - id: t_hf
+    category: risks
+    statement: >
+      Advanced heart failure: EF 30%, breathless walking across a room, three admissions in 6
+      months. Likely in the last year of life. Mildly fluid overloaded again 5 days after
+      discharge (crackles at both bases, oedema to mid-shin, JVP up). Sleeps in his armchair
+      because lying flat makes him breathless.
+  - id: t_renal
+    category: medicines
+    statement: >
+      Furosemide was doubled to 80 mg in hospital. eGFR 36 at discharge (baseline 44), potassium
+      5.0. A U&E now would show eGFR 33 and potassium 5.2. Spironolactone would risk dangerous
+      hyperkalaemia; it should not be started.
+  - id: t_bp
+    category: risks
+    statement: >
+      Blood pressure 98/60 sitting with a symptomatic postural drop (light-headed on standing).
+      Bisoprolol should not be increased now.
+  - id: t_wish
+    category: other
+    statement: >
+      He has decided he will not go back into hospital. His wife Joyce died on a hospital ward
+      three years ago, at night, with nobody with her, and he wants to die at home in his chair
+      with his dog Bess. He would accept treatment at home. He does not want CPR. He does not
+      want a device or more trips to cardiology. He has told nobody at the surgery or the
+      hospital; nobody asked. He says it only to a GP who asks what matters to him, what worries
+      him, what he expects, or what he would want if he got worse.
+  - id: t_expect
+    category: other
+    statement: >
+      He knows it is his heart and wants to be told straight how long he might have. What he
+      most wants now is to sleep better at night.
+  - id: t_home
+    category: adls
+    statement: >
+      Washes and dresses himself slowly. Microwave meals and tinned soup, and he salts his food.
+      His neighbour Sandra shops for him and fed Bess, a 14-year-old spaniel, during his
+      admissions; once Bess was alone for a day. No care package. No scales at home. Takes his
+      own tablets from the boxes; the pharmacy delivers.
+  - id: t_family
+    category: other
+    statement: >
+      Son Martin lives in Canada and rings on Sundays. No lasting power of attorney. Lonely since
+      Joyce died, not depressed. Ex-smoker (stopped 40 years ago). A bottle of beer on Sundays.
+  - id: t_v2
+    category: risks
+    from_visit: 2
+    statement: >
+      Four nights before visit 2 he woke at 3am unable to breathe and rang 999. Paramedics gave
+      oxygen and GTN at home; they advised hospital and he refused, with capacity. He thought he
+      was dying and was frightened, but still does not want hospital. More overloaded now:
+      oedema to the knees.
+
+views:
+  patient:
+    - id: p_breath
+      truth: t_hf
+      statement: "My breathing's better than it was in there. I still get puffed walking to the kitchen."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p_nights
+      truth: t_hf
+      statement: "I sleep in the chair now. If I lie down flat I can't get my breath."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_ankles
+      truth: t_hf
+      statement: "My ankles are up again. The socks leave marks."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_dizzy
+      truth: t_bp
+      statement: "I go a bit swimmy when I stand up quick. It passes."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about dizziness, light-headedness or feeling faint on standing
+    - id: p_tablets
+      truth: t_home
+      statement: "I take what they give me. Two of the water tablets in the morning now. The chemist brings them."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_wee
+      truth: t_renal
+      statement: "I'm up and down to the toilet all morning with them water tablets."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_diet
+      truth: t_home
+      statement: "Soup, a ready meal. I like a bit of salt on it, I won't lie."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked what he eats, about salt, or about how much he drinks
+    - id: p_scales
+      truth: t_home
+      statement: "Weigh myself? I haven't got any scales."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_no_hospital
+      truth: t_wish
+      statement: >
+        I'm not going back in there, doctor. Three times since the summer. My Joyce died on a
+        ward at three in the morning with nobody by her. When it's my turn I want to be here,
+        in my own chair, with Bess.
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: >
+        asked what matters most to him, what he hopes for, what worries or concerns him, what
+        he expects or wants from the doctor, how he feels about going back into hospital, what
+        he would want if he got worse, or about planning for the future
+    - id: p_no_cpr
+      truth: t_wish
+      statement: "If my heart stops, let it. I don't want them jumping on my chest."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about resuscitation, CPR, or what he would want if his heart stopped
+    - id: p_no_device
+      truth: t_wish
+      statement: "Another trip to the Royal to have a gadget put in? No. I've had enough of that place."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked about the cardiology referral, a pacemaker or device, or more hospital tests or appointments
+    - id: p_how_long
+      truth: t_expect
+      statement: "Be straight with me. I know it's my heart. How long have I got?"
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked what he understands about his heart, what he thinks is going on, or what he wants to know
+    - id: p_sleep
+      truth: t_expect
+      statement: "What I'd like is a decent night's sleep. That's all."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked what he wants from today, what would help most, or whether there is anything else he wanted to raise
+    - id: p_bess
+      truth: t_home
+      statement: >
+        Bess is fourteen. Sandra next door fed her when I was in. The last time, she was on her
+        own a whole day.
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_sandra
+      truth: t_home
+      statement: "Sandra does my shopping. I manage the rest, slowly."
+      accuracy: "true"
+      disclosure: if_asked
+    # Standard history.
+    - id: p_age
+      truth: t_family
+      statement: "Eighty-four in March."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_washing
+      truth: t_home
+      statement: "I wash and dress myself. Takes me an hour, mind."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_falls
+      truth: t_home
+      statement: "No falls. I hold on to things."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_chest_pain
+      truth: t_hf
+      statement: "No pain in my chest. It's the breath."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_smoke
+      truth: t_family
+      statement: "I packed up smoking forty years ago. A bottle of beer on a Sunday."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_martin
+      truth: t_family
+      statement: "My son Martin's in Canada. He rings on a Sunday."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_mood
+      truth: t_family
+      statement: "Fed up, not daft. I miss Joyce."
+      accuracy: "true"
+      disclosure: if_asked
+    - id: p_army
+      truth: t_family
+      statement: "I was a bus driver thirty-one years. Route 42. Knew every pothole."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p2_night
+      truth: t_v2
+      from_visit: 2
+      statement: "I had a bad do on Tuesday night. Couldn't get my breath at all. I rang 999."
+      accuracy: "true"
+      disclosure: volunteered
+    - id: p2_scared
+      truth: t_v2
+      from_visit: 2
+      statement: "I thought that was it, I'll be honest. I was frightened. But I still wasn't going in."
+      accuracy: "true"
+      disclosure: hidden
+      reveal_condition: asked how that night was for him, how he felt, or what worries him now
+    - id: p2_ankles
+      truth: t_v2
+      from_visit: 2
+      statement: "My legs are worse. Up to my knees."
+      accuracy: "true"
+      disclosure: if_asked
+
+  gp_record:
+    - id: g_admissions
+      truth: t_hf
+      statement: >
+        Hospital admissions: heart failure exacerbation x3 in 6 months ({day:-170}, {day:-81},
+        {day:-12} to {day:-5}).
+      accuracy: "true"
+    - id: g_echo
+      truth: t_hf
+      statement: "Echo: severe LV systolic dysfunction, EF 30%. Moderate functional MR."
+      accuracy: "true"
+    - id: g_hf_nurse
+      truth: t_hf
+      statement: "Community heart failure nurse: last seen {day:-60}. Review after next discharge."
+      accuracy: "true"
+
+  discharge_summary:
+    - id: d_diag
+      truth: t_hf
+      statement: "Acute decompensated heart failure (HFrEF, EF 30%). Third admission in 6 months."
+      accuracy: "true"
+    - id: d_furosemide
+      truth: t_renal
+      statement: "Furosemide increased from 40mg OM to 80mg OM."
+      accuracy: "true"
+    - id: d_bloods
+      truth: t_renal
+      statement: "Discharge bloods: Na 134, K 5.0, creatinine 151, eGFR 36 (baseline 44). NT-proBNP 7,210."
+      accuracy: "true"
+    - id: d_gp_actions
+      truth: t_renal
+      statement: >
+        GP please: U&E in 1 week. Uptitrate bisoprolol to 5mg as BP allows. Consider starting
+        spironolactone 25mg if potassium allows. Refer to cardiology for CRT-D assessment (LBBB,
+        QRS 152 ms).
+      accuracy: "true"
+    - id: d_resus
+      truth: t_wish
+      statement: "Resuscitation status: for full escalation. Not discussed with patient this admission."
+      accuracy: outdated
+
+  pharmacy_record:
+    - id: r_meds
+      truth: t_home
+      statement: >
+        Dispensed and delivered {day:-4}: furosemide 40mg x56 (two each morning), bisoprolol 2.5mg
+        x28, ramipril 2.5mg x28, apixaban 2.5mg x56, dapagliflozin 10mg x28, atorvastatin 20mg x28.
+      accuracy: "true"
+
+  ambulance_report:
+    - id: m_episode
+      truth: t_v2
+      from_visit: 2
+      statement: >
+        Woke at 03:00 acutely short of breath at rest. RR 28, SpO2 88% air rising to 94% on 2 L
+        oxygen, HR 112 AF, BP 116/72, crackles to mid-zones. Treated: oxygen, GTN 400 mcg x2,
+        sat upright. Improved over 50 minutes.
+      accuracy: "true"
+    - id: m_declined
+      truth: t_v2
+      from_visit: 2
+      statement: >
+        Advised conveyance to ED. Patient declined; has capacity for this decision. States he
+        does not want to go into hospital again. Worsening advice given. GP to review.
+      accuracy: "true"
+
+documents:
+  gp_record: |
+    Reginald HOLLOWAY   Male   Age 84   Usual GP: Dr A Okafor
+
+    PROBLEMS - ACTIVE
+      Heart failure with reduced ejection fraction
+      Atrial fibrillation
+      Chronic kidney disease stage 3b
+      Type 2 diabetes mellitus - diet controlled
+      Hypercholesterolaemia
+
+    PROBLEMS - PAST / MINOR
+      Inguinal hernia repair, right (2004)
+      Cataract extraction, left (2018)
+      Bereavement - wife (3 years ago)
+
+    REPEAT MEDICATION (last issued {day:-4})
+      Furosemide 40mg tablets - TWO each morning - 56 tablets
+      Bisoprolol 2.5mg tablets - one each morning - 28 tablets
+      Ramipril 2.5mg capsules - one each morning - 28 capsules
+      Apixaban 2.5mg tablets - one twice a day - 56 tablets
+      Dapagliflozin 10mg tablets - one each morning - 28 tablets
+      Atorvastatin 20mg tablets - one at night - 28 tablets
+
+    SUMMARY
+      [[g_admissions]]
+      [[g_echo]]
+
+    CONSULTATIONS (most recent first)
+      {entries}
+      {day:-4}  Admin           Discharge summary received. Repeat medication updated (furosemide 80mg). GP home visit requested.
+      {day:-60}  Letter          [[g_hf_nurse]]
+      {day:-75}  Admin           Discharge summary received. Furosemide restarted 40mg.
+      {day:-95}  Nurse           Diabetes review. HbA1c 47. Foot check normal. Flu vaccine given.
+      {day:-160}  GP              Post-discharge review. Breathless on exertion. Dapagliflozin continued. Heart failure nurse to follow up.
+      {day:-400}  GP              Bereavement. Wife died in hospital. Sleeping poorly. Declined counselling.
+
+  discharge_summary: |
+    DISCHARGE SUMMARY - Cardiology, Ward 22
+    Admitted {day:-12}   Discharged {day:-5}
+    Presenting complaint: worsening breathlessness and leg swelling over 1 week.
+    Diagnosis: [[d_diag]]
+    Treatment: IV furosemide, weight 75.9 kg to 70.8 kg.
+    Medication changes: [[d_furosemide]]
+    Investigations: [[d_bloods]] ECG: AF rate 84, LBBB.
+    [[d_resus]]
+    Social: lives alone with dog. Independent. Neighbour helps.
+    [[d_gp_actions]]
+
+  pharmacy_record: |
+    PATIENT MEDICATION RECORD - Reginald HOLLOWAY
+    Home delivery. Original packs (no compliance aid).
+      [[r_meds]]
+      {day:-30}  Repeat dispensed and delivered, all items (furosemide 40mg x28).
+
+  ambulance_report: |
+    AMBULANCE SERVICE PATIENT REPORT (copy to GP)
+    Incident {day:10}. Call 03:04, on scene 03:22, left scene 04:40. Caller: patient.
+    History: [[m_episode]]
+    Past history: heart failure (EF 30%), AF, CKD. Discharged 2 weeks ago.
+    Medication: furosemide 80mg, bisoprolol, ramipril, apixaban, dapagliflozin, atorvastatin.
+    Disposition: [[m_declined]]
+
+record_traits:
+  discharge_summary: [outdated_entries]
+
+conflicts:
+  - id: cf_escalation
+    facts: [d_resus, p_no_hospital, p_no_cpr]
+    truth: [t_wish]
+    expected_behaviour: >
+      The discharge summary says "for full escalation", never discussed with him. He does not
+      want hospital or CPR. Ask him what matters and what he would want, and record it.
+
+personas:
+  patient:
+    name: Reg Holloway
+    age: 84
+    cognition: Normal. Sharp and dry-humoured.
+    health_literacy: >
+      Moderate. Knows it is "my heart" and calls furosemide "the water tablets"; does not know
+      the other names.
+    agenda: >
+      Wants his breathing eased so he can sleep. Keeps his bigger feelings to himself unless
+      someone asks him straight; does not like a fuss.
+    speech_style: Short sentences, dry jokes, plain words; talks about his bus route and his dog.
+    interjection: sometimes
+    traits: [denies_minimises]
+
+visits:
+  - number: 1
+    day: 0
+    setting: home_visit
+    present: [patient]
+    turn_budget: 30
+    reason: >
+      Post-discharge home visit requested by the hospital: third heart failure admission in 6
+      months, discharged 5 days ago.
+    records_available: [gp_record, discharge_summary, pharmacy_record]
+    examination:
+      - id: x_general
+        label: General appearance
+        finding: "Thin. Sitting upright in his armchair. Breathless after walking to the door. Not cyanosed. Alert and orientated."
+      - id: x_obs
+        label: Observations (pulse, blood pressure, temperature, respiratory rate, oxygen saturation)
+        parts: [x_pulse, x_bp, x_temp, x_rr, x_sats]
+      - id: x_pulse
+        label: Pulse rate and rhythm
+        finding: "Pulse 84 irregularly irregular."
+      - id: x_bp
+        label: Blood pressure (sitting)
+        finding: "Blood pressure 98/60 sitting."
+      - id: x_temp
+        label: Temperature
+        finding: "Temperature 36.5 C."
+      - id: x_rr
+        label: Respiratory rate
+        finding: "Respiratory rate 22."
+      - id: x_sats
+        label: Oxygen saturation
+        finding: "Oxygen saturation 93% on air."
+      - id: x_postural
+        label: Lying and standing blood pressure
+        finding: "Lying 102/62, pulse 82. Standing (3 minutes) 88/56, pulse 90; light-headed on standing."
+      - id: x_chest
+        label: Chest
+        finding: "Fine crackles at both bases. No wheeze."
+      - id: x_jvp
+        label: Jugular venous pressure
+        finding: "JVP raised 4 cm."
+      - id: x_ankles
+        label: Legs and ankles
+        finding: "Pitting oedema to mid-shin on both legs."
+      - id: x_heart
+        label: Heart sounds
+        finding: "Irregular. Soft pansystolic murmur at the apex."
+      - id: x_home
+        label: Home
+        finding: >
+          Tidy bungalow. A pillow and blanket on the armchair. An old spaniel asleep by the
+          fire. A framed photo of a woman on the mantelpiece. Tins of soup and a salt cellar on
+          the kitchen table.
+      - id: x_tablets
+        label: Medicines at home
+        finding: "Original boxes on the kitchen table, all current. Counts match the delivery dates. Two furosemide 40mg a morning."
+    results:
+      - id: r1_ue
+        label: Urea and electrolytes (U&E) or kidney function
+        finding: "Sodium 133, potassium 5.2, urea 15.1, creatinine 162, eGFR 33."
+      - id: r1_fbc
+        label: Full blood count
+        finding: "Hb 118 g/L."
+      - id: r1_bnp
+        label: NT-proBNP
+        finding: "NT-proBNP 6,840 ng/L."
+  - number: 2
+    day: 14
+    setting: home_visit
+    present: [patient]
+    turn_budget: 25
+    reason: >
+      Follow-up home visit. The ambulance service sent a report after a 999 call four nights
+      ago.
+    events_since_last:
+      - Four nights ago Reg rang 999 at 3am, breathless. Paramedics treated him at home and he declined to go to hospital (see the ambulance report).
+    records_available: [gp_record, discharge_summary, pharmacy_record, ambulance_report]
+    examination:
+      - id: x2_general
+        label: General appearance
+        finding: "Sitting upright in the armchair, breathless talking in sentences. Alert."
+      - id: x2_obs
+        label: Observations (pulse, blood pressure, temperature, respiratory rate, oxygen saturation)
+        parts: [x2_pulse, x2_bp, x2_temp, x2_rr, x2_sats]
+      - id: x2_pulse
+        label: Pulse rate and rhythm
+        finding: "Pulse 90 irregularly irregular."
+      - id: x2_bp
+        label: Blood pressure (sitting)
+        finding: "Blood pressure 100/62 sitting."
+      - id: x2_temp
+        label: Temperature
+        finding: "Temperature 36.6 C."
+      - id: x2_rr
+        label: Respiratory rate
+        finding: "Respiratory rate 22."
+      - id: x2_sats
+        label: Oxygen saturation
+        finding: "Oxygen saturation 92% on air."
+      - id: x2_chest
+        label: Chest
+        finding: "Fine crackles at both bases to the lower zones."
+      - id: x2_ankles
+        label: Legs and ankles
+        finding: "Pitting oedema to the knees on both legs."
+
+rubric:
+  # Criticals. People-only (pre-registered, DECISIONS 6 Nov): v1_wishes, v1_acp.
+  - id: v1_wishes
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: history
+    critical: true
+    critical_type: clinical_action
+    evidence: [p_no_hospital]
+    requires: {spoke_to: [patient]}
+    description: >
+      Finds out what Reg wants for his future care: that he does not want to go back into
+      hospital and wants to stay at home (for example by asking what matters to him, what
+      worries him, what he expects, or what he would want if he got worse).
+  - id: v1_acp
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: plan
+    critical: true
+    critical_type: clinical_action
+    evidence: [p_no_hospital, p_no_cpr]
+    description: >
+      Starts advance care planning that records his wish to stay at home and avoid
+      admission: a ReSPECT form (or equivalent), or a documented conversation about ceilings of
+      care and preferred place of care with a dated plan to complete it. A vague "discuss in
+      future" does not count.
+  - id: v2_home_plan
+    visit: 2
+    kind: must_do
+    weight: 3
+    stage: plan
+    critical: true
+    critical_type: clinical_action
+    evidence: [p2_scared, x2_chest, x2_ankles]
+    description: >
+      After the 999 call he declined, agrees a plan for the next breathless episode that keeps
+      him at home: a named community route to call (community heart failure or palliative
+      team, district nurses, or a practice route) and a treatment step at home (for example
+      extra furosemide or anticipatory medicines).
+
+  # Non-critical items.
+  - id: v1_ue
+    visit: 1
+    kind: must_do
+    weight: 3
+    stage: plan
+    description: Checks U&E within about a week (furosemide doubled, eGFR falling, potassium 5.0).
+  - id: v1_no_spiro
+    visit: 1
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: Starts spironolactone with potassium 5.0 and eGFR 36 and falling.
+  - id: v1_no_bisoprolol
+    visit: 1
+    kind: must_not_do
+    weight: 2
+    stage: plan
+    description: Increases bisoprolol despite BP 98/60 with a symptomatic postural drop.
+  - id: v1_postural
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: examination
+    description: Checks lying and standing blood pressure.
+    requires: {examined: [x_postural]}
+  - id: v1_overload
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: >
+      Recognises he is fluid overloaded again and acts proportionately (adjusts diuretic with
+      a U&E check, or asks the heart failure nurse to review within days).
+  - id: v1_hf_nurse
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: Re-refers to the community heart failure nurse or team.
+  - id: v1_cpr
+    visit: 1
+    kind: must_do
+    weight: 2
+    stage: history
+    description: Discusses resuscitation and learns he does not want CPR.
+  - id: v1_device
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: plan
+    description: Discusses the CRT-D referral with him rather than referring by default.
+  - id: v1_honest
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: plan
+    description: Answers his question about how long he has honestly and kindly, without false reassurance.
+  - id: v1_palliative
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: plan
+    description: Adds him to the practice palliative or supportive care register, or seeks specialist palliative input.
+  - id: v1_bess
+    visit: 1
+    kind: must_do
+    weight: 1
+    stage: history
+    description: Asks who helps at home and learns about Sandra and Bess.
+  - id: v2_respect
+    visit: 2
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: Completes or confirms a ReSPECT form (or equivalent), including his CPR wish.
+  - id: v2_overload
+    visit: 2
+    kind: must_do
+    weight: 2
+    stage: plan
+    description: Treats the worsening overload at home (diuretic increase or community IV/subcutaneous diuretic) with a U&E check.
+  - id: v2_admit
+    visit: 2
+    kind: must_not_do
+    weight: 3
+    stage: plan
+    description: Arranges hospital admission as the plan despite his capacitous refusal and no new red flag.

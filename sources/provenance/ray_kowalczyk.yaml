@@ -1,0 +1,30 @@
+# Internal only: never shown to a model, never published with the case.
+case_id: ray_kowalczyk
+pmcid: PMC13600037
+title: >
+  Rapid Deterioration of Glycaemic Control Revealing Interval Metastatic Pancreatic Cancer
+  Despite a Recent Normal CT Scan
+authors: Alam F, Amin S, Omer E, Nasser N, Alam MA.
+journal: Cureus
+year: "2026"
+doi: 10.7759/cureus.115088
+licence: cc by
+url: https://europepmc.org/article/PMC/PMC13600037
+changes:
+  - "Kept: worsening control of long-standing diabetes as an early marker of pancreatic cancer in an older adult."
+  - "No normal CT: an old ultrasound that could not see the pancreas (the clinical lead: a recent normal CT is case-report rare and would stop most clinicians)."
+  - "Man, 85, US, on glipizide (source: woman, 81, UK, on gliclazide), with a steroid confounder, a loose denture and a depression label on mirtazapine."
+  - "No home sugar log and no reliable weight at visit 1; past control up and down, so the rise is ambiguous (the clinical lead's lines)."
+  - "Three primary care visits, not one hospital admission; visit 3 is a telephone slot with dark urine, itching and a swollen calf."
+record_patterns:
+  - Wrong diagnosis carried forward (depression explaining weight loss)
+  - Outdated weight from another clinic's scale
+  - Outdated HbA1c read as good control
+  - Imaging that did not see the organ in question, reported as unremarkable elsewhere
+distinctive_details:
+  - glipizide
+  - mirtazapine
+  - prednisone
+theme:
+  - pancreatic cancer
+  - worsening diabetes

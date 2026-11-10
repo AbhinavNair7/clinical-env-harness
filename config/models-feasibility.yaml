@@ -1,0 +1,21 @@
+# Model per role (Inspect model ids, provider/name). Swap models here, not in code.
+# Feasibility profile (agreed 4 Nov): OpenAI flagship clinician at high effort; dev simulators and grader.
+# Cheap models simulate and check; a stronger one plays clinician and grades during development.
+# The pilot uses its own frozen config with flagship clinicians and a second-lab judge.
+# IDs checked against the OpenAI model list on 2026-11-05.
+roles:
+  clinician:
+    model: openai/gpt-6-astra
+    reasoning_effort: high
+  patient:
+    model: openai/gpt-6-luna
+    reasoning_effort: low
+  carer:
+    model: openai/gpt-6-luna
+    reasoning_effort: low
+  checker:  # also maps examine requests to findings; medium: low missed matches at M1
+    model: openai/gpt-6-luna
+    reasoning_effort: medium
+  grader:
+    model: openai/gpt-6.1-sol
+    reasoning_effort: high
